@@ -2,6 +2,7 @@
 
 ```mermaid
 flowchart TD
+    subgraph "<strong><div style='font-size: 1.5em; min-width: 800px;'>Part 1: Upstream Digital Pipeline (Data to Blueprint)</div></strong>"
     %% Phase 1
     NodeIn1[/"<strong style='font-size: 1.1em;'>Tumor biopsy & Normal blood (healthy baseline)</strong>"/] --> Phase1["<strong style='font-size: 1.2em; color: red;'>Phase 1: Reading the Blueprint (Digitizing the Cells)</strong><br><span style='color: black;'>The machine reads extracted DNA/RNA, turning biological chemistry into digital text.</span><br><span style='color: black;'><b>Hardware:</b> Next-Generation Sequencer (e.g., Illumina NovaSeq)</span>"]
     Phase1 --> NodeIn2[/"<strong style='font-size: 1.1em;'>Billions of genetic reads (.fastq)</strong><br><i>@Machine_Read_ID_001<br>GATTTGG...</i>"/]
@@ -19,7 +20,9 @@ flowchart TD
     %% Phase 4
     NodeIn4 --> Phase4["<strong style='font-size: 1.2em; color: red;'>Phase 4: Writing the New Code (Sequence Assembly)</strong><br><span style='color: black;'>Strings targets together, adds structural instructions (5' Cap, Poly-A tail), and optimizes codons for folding stability.</span><br><span style='color: black;'><b>Software:</b> pVACvector + LinearDesign</span>"]
     Phase4 --> NodeIn5[/"<strong style='font-size: 1.1em;'>Master digital vaccine sequence (.fasta)</strong><br><i>>Patient_001_Construct...<br>AUGGGCUACU...</i>"/]
+    end
     
+    subgraph "<strong><div style='font-size: 1.5em; min-width: 800px;'>Part 2: Downstream Physical Pipeline (Blueprint to Vial)</div></strong>"
     %% Phase 5
     NodeIn5 --> Phase5["<strong style='font-size: 1.2em; color: red;'>Phase 5: Printing the Master Copy (DNA Synthesis)</strong><br><span style='color: black;'>Automated Gibson Assembly stitches synthetic oligonucleotides into a complete DNA plasmid, which is then linearized with restriction enzymes.</span><br><span style='color: black;'><b>Hardware:</b> Benchtop DNA Synthesizer (e.g., Telesis Bio BioXp 4400)</span>"]
     Phase5 --> NodeIn6[/"<strong style='font-size: 1.1em;'>Purified linear DNA template</strong>"/]
@@ -37,6 +40,7 @@ flowchart TD
     %% Phase 8
     NodeIn8 --> Phase8["<strong style='font-size: 1.2em; color: red;'>Phase 8: Quality Check & Bottling (QC & Finalization)</strong><br><span style='color: black;'>Dynamic Light Scattering verifies particles are exactly 60-100nm and Tangential Flow Filtration washes out the toxic ethanol used during mixing.</span><br><span style='color: black;'><b>Hardware:</b> Unchained Labs Stunner & TFF System</span>"]
     Phase8 --> NodeEnd[/"<strong style='font-size: 1.1em;'>Final Vaccine Vial</strong>"/]
+    end
 
     classDef process fill:#f9f9f9,stroke:#333,stroke-width:2px,text-align:left;
     class Phase1,Phase2,Phase3,Phase4,Phase5,Phase6,Phase7,Phase8 process;
