@@ -61,7 +61,7 @@ If you don't want to buy and maintain a ~$300,000 sequencer, you can send physic
 | **Run Cost** | ~$1,000 / pt | ~$2,000 - $3,000 / pt |
 | **Turnaround** | 24 - 48 hours | 2 - 4 weeks |
 | **Complexity** | High (Requires specialized tech) | Low (Ship and wait) |
-| **Typical Labs** | N/A | Novogene, Azenta, Genewiz, Eurofins |
+| **Typical Labs** | N/A | [Novogene](https://www.novogene.com/), [Azenta](https://www.azenta.com/), [Genewiz](https://www.genewiz.com/), [Eurofins](https://www.eurofinsgenomics.com/) |
 
 ### Phase 2: Spotting the Typos (Finding the Mutations)
 **Goal:** Compare the healthy code against the tumor code to isolate specific cancer-causing errors.
@@ -134,7 +134,7 @@ Ordering a synthetic gene is the industry standard for most research labs. Howev
 | **Run Cost** | ~$600 / rxn | ~$200 - $900 / gene |
 | **Turnaround** | 12 - 24 hours | 5 - 10 business days |
 | **Complexity** | Moderate (Automated Benchtop) | Low (Upload sequence and wait) |
-| **Typical Providers** | N/A | Twist Bioscience, IDT, GenScript, Azenta |
+| **Typical Providers** | N/A | [Twist Bioscience](https://www.twistbioscience.com/), [IDT](https://www.idtdna.com/), [GenScript](https://www.genscript.com/), [Azenta](https://www.azenta.com/) |
 
 ### Phase 6: Mass Production (Automated mRNA Synthesis)
 **Goal:** Execute the code by transcribing the DNA into functional, immune-cloaked mRNA.
@@ -160,7 +160,7 @@ In-house synthesis is ideal for rapid prototyping and total control over the cap
 | **Run Cost** | ~$2,000 / rxn | ~$1,000 - $3,000 / mg |
 | **Turnaround** | < 24 hours | 1 - 3 weeks |
 | **Complexity** | High (Requires IVT expertise) | Low (Upload sequence and wait) |
-| **Typical Providers** | N/A | TriLink, GenScript, BiCell Scientific |
+| **Typical Providers** | N/A | [TriLink](https://www.trilinkbiotech.com/), [GenScript](https://www.genscript.com/), [BiCell Scientific](https://bicellscientific.com/) |
 
 ### Phase 7: Packaging for Delivery (LNP Formulation)
 **Goal:** Wrap the fragile mRNA in a protective lipid nanoparticle to allow human cell entry.
@@ -183,7 +183,7 @@ Packaging mRNA into stable LNPs is one of the most technically challenging steps
 | **Run Cost** | ~$500 / rxn | ~$2,000 - $5,000 / batch |
 | **Turnaround** | < 24 hours | 2 - 4 weeks |
 | **Complexity** | High (Microfluidics optimization) | Low (Send mRNA and wait) |
-| **Typical Providers** | N/A | VectorBuilder, Creative Biogene, Lonza, Vernal |
+| **Typical Providers** | N/A | [VectorBuilder](https://www.vectorbuilder.com/), [Creative Biogene](https://www.creative-biogene.com/), [Lonza](https://www.lonza.com/), [Vernal](https://www.vernal.bio/) |
 
 ### Phase 8: Quality Check & Bottling (QC & Finalization)
 **Goal:** Validate structural integrity, size, and concentration before finalizing for injection.
@@ -208,7 +208,7 @@ Final validation is critical for safety and efficacy. While benchtop tools like 
 | **Run Cost** | ~$100 / rxn | ~$1,000 - $3,000 / batch |
 | **Turnaround** | < 12 hours | 1 - 3 weeks |
 | **Complexity** | Moderate (Requires precise assay prep) | Low (Send sample and wait) |
-| **Typical Providers** | N/A | CordenPharma, PreciGenome, uBriGene, RIBOPRO |
+| **Typical Providers** | N/A | [CordenPharma](https://www.cordenpharma.com/), [PreciGenome](https://www.precigenome.com/), [uBriGene](https://www.ubrigene.com/), [RIBOPRO](https://ribopro.eu/) |
 
 ---
 
@@ -216,11 +216,11 @@ Final validation is critical for safety and efficacy. While benchtop tools like 
 
 | Phase | Subsystem | In-House Hardware | HW Cost | Outsourced Alt | Est. Run Cost (In-House vs. Out) | Est. Time (In-House vs. Out) |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Sequencing | [NextSeq 2000](https://www.illumina.com/systems/sequencing-platforms/nextseq-1000-2000.html) | ~$300k | Novogene, Azenta | ~$1,000 vs. ~$2,500 / pt | 1-2 Days vs. 2-4 Weeks |
-| 5 | DNA Prep | [BioXp System](https://telesisbio.com/products/bioxp-system/) | ~$100k | Twist, IDT, GenScript | ~$600 vs. ~$200-$900 / gene | 1 Day vs. 1-2 Weeks |
-| 6 | mRNA Synth | [NTxscribe](https://www.ntxbio.com/ntxscribe/) | ~$250k | TriLink, GenScript | ~$2,000 vs. ~$1k-$3k / mg | 1 Day vs. 1-3 Weeks |
-| 7 | LNP Mix | [Sunshine](https://www.unchainedlabs.com/sunshine/) | ~$150k | VectorBuilder, Lonza | ~$500 vs. ~$2k-$5k / batch | 1 Day vs. 2-4 Weeks |
-| 8 | Validation | [Stunner](https://www.unchainedlabs.com/stunner/) | ~$80k | CordenPharma, uBriGene | ~$100 vs. ~$1k-$3k / batch | <12 Hours vs. 1-3 Weeks |
+| 1 | Sequencing | [NextSeq 2000](https://www.illumina.com/systems/sequencing-platforms/nextseq-1000-2000.html) | ~$300k | [Novogene](https://www.novogene.com/), [Azenta](https://www.azenta.com/) | ~$1,000 vs. ~$2,500 / pt | 1-2 Days vs. 2-4 Weeks |
+| 5 | DNA Prep | [BioXp System](https://telesisbio.com/products/bioxp-system/) | ~$100k | [Twist](https://www.twistbioscience.com/), [IDT](https://www.idtdna.com/), [GenScript](https://www.genscript.com/) | ~$600 vs. ~$200-$900 / gene | 1 Day vs. 1-2 Weeks |
+| 6 | mRNA Synth | [NTxscribe](https://www.ntxbio.com/ntxscribe/) | ~$250k | [TriLink](https://www.trilinkbiotech.com/), [GenScript](https://www.genscript.com/) | ~$2,000 vs. ~$1k-$3k / mg | 1 Day vs. 1-3 Weeks |
+| 7 | LNP Mix | [Sunshine](https://www.unchainedlabs.com/sunshine/) | ~$150k | [VectorBuilder](https://www.vectorbuilder.com/), [Lonza](https://www.lonza.com/) | ~$500 vs. ~$2k-$5k / batch | 1 Day vs. 2-4 Weeks |
+| 8 | Validation | [Stunner](https://www.unchainedlabs.com/stunner/) | ~$80k | [CordenPharma](https://www.cordenpharma.com/), [uBriGene](https://www.ubrigene.com/) | ~$100 vs. ~$1k-$3k / batch | <12 Hours vs. 1-3 Weeks |
 
 ---
 
