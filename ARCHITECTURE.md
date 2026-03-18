@@ -34,7 +34,7 @@ flowchart TD
     
     %% Phase 4
     NodeIn4 --> Phase4
-    Phase4["<div style='font-size: 19px; font-weight: 700; color: #DC2626 !important; margin-bottom: 6px;'>Phase 4 · Writing the New Code</div><div style='font-size: 14px; color: #374151;'>Strings targets together, adds structural instructions (5' Cap, Poly-A tail), and optimizes codons for folding stability.<br><b>Software:</b> pVACvector + LinearDesign</div>"]
+    Phase4["<div style='font-size: 19px; font-weight: 700; color: #DC2626 !important; margin-bottom: 16px;'>Phase 4 · Writing the New Code</div><div style='font-size: 14px; color: #374151;'>Strings targets together, adds structural instructions (5' Cap, Poly-A tail), and optimizes codons for folding stability.<br><b>Software:</b> pVACvector + LinearDesign</div>"]
     
     %% PART 2 %%
     Title2["<div style='font-size: 24px; font-weight: 700; min-width: 1100px; text-align: center; letter-spacing: -0.5px;'>🧪 Part 2: Downstream Physical Pipeline · Blueprint → Vial</div>"]
