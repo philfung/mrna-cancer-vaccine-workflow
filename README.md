@@ -2,7 +2,7 @@
 
 An architecture overview and operational pipeline for creating a personalized mRNA cancer vaccine. This repository maps the continuous "Code-to-Clinic" workflow, bridging raw biological patient data to a physically deliverable lipid nanoparticle (LNP) vaccine, including all necessary software, hardware, and reagents.
 
-## Table of Contents
+# Table of Contents
 - [System Architecture](#system-architecture)
 - [Workflow, Part 1: Upstream Digital Pipeline (Data to Blueprint)](#part-1-upstream-digital-pipeline-data-to-blueprint)
 - [Workflow, Part 2: Downstream Physical Pipeline (Blueprint to Vial)](#part-2-downstream-physical-pipeline-blueprint-to-vial)
@@ -10,7 +10,7 @@ An architecture overview and operational pipeline for creating a personalized mR
 
 ---
 
-## System Architecture
+# System Architecture
 
 This pipeline is divided into two continuous halves:
 1. **Data to Blueprint:** Ingests raw sequencing data, utilizes neural networks to identify immunogenic targets, and compiles a stabilized digital mRNA sequence.
@@ -18,13 +18,16 @@ This pipeline is divided into two continuous halves:
 
 ---
 
-## Workflow, Part 1: Upstream Digital Pipeline (Data to Blueprint)
+# Workflow, Part 1: Upstream Digital Pipeline (Data to Blueprint)
 
 ### Phase 1: Reading the Blueprint (Digitizing the Cells)
 **Goal:** Convert physical biological samples into unorganized genetic code to establish a baseline and identify tumor anomalies.
 * **Hardware:** Next-Generation Sequencer (e.g., Illumina NextSeq 2000 or Element AVITI, ~$300k)
 * **Est. Cost:** ~$1,000 / pt
 * **Inputs:** Tumor biopsy & Normal blood (healthy baseline).
+  * **Normal Blood (DNA):** Whole Exome Sequencing (WES) at ~30X–50X depth.
+  * **Tumor Biopsy (DNA):** WES at deep ~100X–500X coverage (to find rare solid tumor mutations).
+  * **Tumor Biopsy (RNA):** RNA-Seq at ~50M–100M reads (to verify that the mutated genes are actually expressed).
 * **Process:** The machine reads extracted DNA/RNA, turning biological chemistry into digital text.
 * **Outputs:** Billions of short, unorganized genetic reads.
 * **File Format:** `.fastq`
@@ -73,7 +76,7 @@ AUGGGCUACUUGCUGCCAGCGAUUGUCCAUAUCCUCCUCUUCUUGGGCAAAAUUUGGCCG...
 
 ---
 
-## Workflow, Part 2: Downstream Physical Pipeline (Blueprint to Vial)
+# Workflow, Part 2: Downstream Physical Pipeline (Blueprint to Vial)
 
 ### Phase 5: Printing the Master Copy (DNA Synthesis)
 **Goal:** Convert the digital blueprint back into a physical, readable linear DNA template.
@@ -118,7 +121,7 @@ AUGGGCUACUUGCUGCCAGCGAUUGUCCAUAUCCUCCUCUUCUUGGGCAAAAUUUGGCCG...
 
 ---
 
-## Hardware & Reagent Bill of Materials
+# Hardware & Reagent Bill of Materials
 
 | Phase | Subsystem | Primary Hardware | Est. HW Cost (new) | Core Consumables | Est. Run Cost |
 | --- | --- | --- | --- | --- | --- |
