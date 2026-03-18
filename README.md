@@ -1,11 +1,11 @@
-# creating an mRNA Cancer Vaccine - an end-to-end workflow
+# mRNA Cancer Vaccine in your garage - an end-to-end workflow
 
 An architecture overview and operational pipeline for creating a personalized mRNA cancer vaccine. This repository maps the continuous "Code-to-Clinic" workflow, bridging raw biological patient data to a physically deliverable lipid nanoparticle (LNP) vaccine, including all necessary software, hardware, and reagents.
 
 ## Table of Contents
 - [System Architecture](#system-architecture)
-- [Part 1: Upstream Digital Pipeline (Data to Blueprint)](#part-1-upstream-digital-pipeline-data-to-blueprint)
-- [Part 2: Downstream Physical Pipeline (Blueprint to Vial)](#part-2-downstream-physical-pipeline-blueprint-to-vial)
+- [Workflow, Part 1: Upstream Digital Pipeline (Data to Blueprint)](#part-1-upstream-digital-pipeline-data-to-blueprint)
+- [Workflow, Part 2: Downstream Physical Pipeline (Blueprint to Vial)](#part-2-downstream-physical-pipeline-blueprint-to-vial)
 - [Hardware & Reagent Stack Summary](#hardware--reagent-stack-summary)
 
 ---
@@ -18,11 +18,12 @@ This pipeline is divided into two continuous halves:
 
 ---
 
-## Part 1: Upstream Digital Pipeline (Data to Blueprint)
+## Workflow, Part 1: Upstream Digital Pipeline (Data to Blueprint)
 
 ### Phase 1: Reading the Blueprint (Digitizing the Cells)
 **Goal:** Convert physical biological samples into unorganized genetic code to establish a baseline and identify tumor anomalies.
-* **Hardware:** Next-Generation Sequencer (e.g., Illumina NovaSeq)
+* **Hardware:** Next-Generation Sequencer (e.g., Illumina NextSeq 2000 or Element AVITI, ~$300k)
+* **Est. Cost:** ~$1,000 / pt
 * **Inputs:** Tumor biopsy & Normal blood (healthy baseline).
 * **Process:** The machine reads extracted DNA/RNA, turning biological chemistry into digital text.
 * **Outputs:** Billions of short, unorganized genetic reads.
@@ -72,11 +73,12 @@ AUGGGCUACUUGCUGCCAGCGAUUGUCCAUAUCCUCCUCUUCUUGGGCAAAAUUUGGCCG...
 
 ---
 
-## Part 2: Downstream Physical Pipeline (Blueprint to Vial)
+## Workflow, Part 2: Downstream Physical Pipeline (Blueprint to Vial)
 
 ### Phase 5: Printing the Master Copy (DNA Synthesis)
 **Goal:** Convert the digital blueprint back into a physical, readable linear DNA template.
-* **Hardware:** Benchtop DNA Synthesizer (e.g., Telesis Bio BioXp 4400).
+* **Hardware:** Benchtop DNA Synthesizer (e.g., Telesis Bio BioXp, ~$100,000).
+* **Est. Cost:** ~$600 / rxn
 * **Inputs:** The `.fasta` file.
 * **Process:** Automated Gibson Assembly stitches synthetic oligonucleotides into a complete DNA plasmid, which is then linearized with restriction enzymes (e.g., BspQI).
 * **Outputs:** Physical, purified linear DNA template.
@@ -84,7 +86,8 @@ AUGGGCUACUUGCUGCCAGCGAUUGUCCAUAUCCUCCUCUUCUUGGGCAAAAUUUGGCCG...
 
 ### Phase 6: Mass Production (Automated mRNA Synthesis)
 **Goal:** Execute the code by transcribing the DNA into functional, immune-cloaked mRNA.
-* **Hardware:** NTxscribe System.
+* **Hardware:** NTxscribe System / Telesis Bio BioXp (~$250k / ~$100k).
+* **Est. Cost:** ~$2,000 / rxn
 * **Inputs:** Linear DNA template + IVT Reagents.
 * **Process:** Continuous-flow In Vitro Transcription (IVT) bioreactors read the DNA and print the corresponding mRNA strand.
 * **Outputs:** Highly pure, naked mRNA.
@@ -95,7 +98,8 @@ AUGGGCUACUUGCUGCCAGCGAUUGUCCAUAUCCUCCUCUUCUUGGGCAAAAUUUGGCCG...
 
 ### Phase 7: Packaging for Delivery (LNP Formulation)
 **Goal:** Wrap the fragile mRNA in a protective lipid nanoparticle to allow human cell entry.
-* **Hardware:** Unchained Labs Sunshine (Microfluidic Mixer) & Sunny Microfluidic Chips.
+* **Hardware:** Unchained Labs Sunshine / NanoAssemblr Ignite / Spark (~$150k / ~$150k).
+* **Est. Cost:** ~$500 / rxn
 * **Inputs:** Purified mRNA + 4-Lipid Cocktail.
 * **Process:** Precise microfluidic collisions force the negatively charged mRNA and positively charged lipids to self-assemble into nanoparticles.
 * **Outputs:** Formulated mRNA Lipid Nanoparticles (LNPs).
@@ -103,7 +107,8 @@ AUGGGCUACUUGCUGCCAGCGAUUGUCCAUAUCCUCCUCUUCUUGGGCAAAAUUUGGCCG...
 
 ### Phase 8: Quality Check & Bottling (QC & Finalization)
 **Goal:** Validate structural integrity, size, and concentration before finalizing for injection.
-* **Hardware:** Unchained Labs Stunner & TFF System.
+* **Hardware:** Unchained Labs Stunner (~$80,000) & TFF System.
+* **Est. Cost:** ~$100 / rxn
 * **Inputs:** Raw mRNA-LNP mixture.
 * **Process:**
   * **Stunner:** Dynamic Light Scattering (DLS) verifies particles are exactly 60–100nm.
@@ -113,12 +118,12 @@ AUGGGCUACUUGCUGCCAGCGAUUGUCCAUAUCCUCCUCUUCUUGGGCAAAAUUUGGCCG...
 
 ---
 
-## Hardware & Reagent Stack Summary
+## Hardware & Reagent Bill of Materials
 
-| Subsystem | Primary Hardware | Core Consumables |
-| --- | --- | --- |
-| Sequencing | Illumina NovaSeq | Extraction Kits, Flow Cells |
-| DNA Prep | Telesis Bio BioXp | Gibson Kits, AMPure XP Beads |
-| mRNA Synth | NTxscribe | T7 Polymerase, Mod-NTPs, CleanCap |
-| LNP Mix | Unchained Labs Sunshine | Sunny Chips, 4-Lipid Cocktail |
-| Validation | Unchained Labs Stunner | Stunner Plates, RiboGreen Assay |
+| Phase | Subsystem | Primary Hardware | Est. HW Cost (new) | Core Consumables | Est. Run Cost |
+| --- | --- | --- | --- | --- | --- |
+| 1 | Sequencing | Illumina NextSeq 2000 / Element AVITI | ~$300,000 | Extraction Kits, Flow Cells | ~$1,000 / pt |
+| 5 | DNA Prep | Telesis Bio BioXp | ~$100,000 | Gibson Kits, AMPure XP Beads | ~$600 / rxn |
+| 6 | mRNA Synth | NTxscribe / Telesis Bio BioXp | ~$250k / ~$100k | T7 Polymerase, Mod-NTPs, CleanCap | ~$2,000 / rxn |
+| 7 | LNP Mix | Unchained Labs Sunshine / NanoAssemblr Ignite / Spark | ~$150k / ~$150k | Sunny Chips, 4-Lipid Cocktail | ~$500 / rxn |
+| 8 | Validation | Unchained Labs Stunner | ~$80,000 | Stunner Plates, RiboGreen Assay | ~$100 / rxn |
