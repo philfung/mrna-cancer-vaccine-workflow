@@ -32,7 +32,8 @@ This pipeline is divided into two continuous halves:
 ### Phase 1: Reading the Blueprint (Digitizing the Cells)
 **Goal:** Convert physical biological samples into unorganized genetic code to establish a baseline and identify tumor anomalies.
 * **Hardware:** Next-Generation Sequencer (e.g., [Illumina NextSeq 2000](https://www.illumina.com/systems/sequencing-platforms/nextseq-1000-2000.html) or [Element AVITI](https://www.elementbiosciences.com/products/aviti), ~$300k)
-* **Est. Cost:** ~$1,000 / pt
+* **Alt. (Outsourced):** Commercial labs (e.g., [Novogene](https://www.novogene.com/), [Azenta](https://www.azenta.com/), [Eurofins](https://www.eurofinsgenomics.com/)) or academic core facilities.
+* **Est. Cost:** ~$1,000 / pt (In-House) or ~$2,500 / pt (Outsourced trio)
 * **Inputs:** Tumor biopsy & Normal blood (healthy baseline).
   * **Normal Blood (DNA):** Whole Exome Sequencing (WES) at ~30X–50X depth.
   * **Tumor Biopsy (DNA):** WES at deep ~100X–500X coverage (to find rare solid tumor mutations).
@@ -50,6 +51,17 @@ GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCC
 +
 !''*((((***+))%%%++)(%%%%).1***-+*''))**
 ```
+
+#### In-House vs. Outsourced Sequencing
+If you don't want to buy and maintain a ~$300,000 sequencer, you can send physical samples (frozen tissue/blood) to a Contract Research Organization (CRO).
+
+| Category | In-House (NextSeq 2000) | Outsourced (Service Lab) |
+| --- | --- | --- |
+| **Upfront Cost** | ~$300,000 (Hardware) | $0 |
+| **Run Cost** | ~$1,000 / pt | ~$2,000 - $3,000 / pt |
+| **Turnaround** | 24 - 48 hours | 2 - 4 weeks |
+| **Complexity** | High (Requires specialized tech) | Low (Ship and wait) |
+| **Typical Labs** | N/A | Novogene, Azenta, Genewiz, Eurofins |
 
 ### Phase 2: Spotting the Typos (Finding the Mutations)
 **Goal:** Compare the healthy code against the tumor code to isolate specific cancer-causing errors.
