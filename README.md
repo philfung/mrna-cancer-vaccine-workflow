@@ -4,8 +4,8 @@ An architecture overview and operational pipeline for creating a personalized mR
 
 # Table of Contents
 - [System Architecture](#system-architecture)
-- [Workflow, Part 1: Upstream Digital Pipeline (Data to Blueprint)](#part-1-upstream-digital-pipeline-data-to-blueprint)
-- [Workflow, Part 2: Downstream Physical Pipeline (Blueprint to Vial)](#part-2-downstream-physical-pipeline-blueprint-to-vial)
+- [Workflow, Part 1: Upstream Digital Pipeline ("Data to Blueprint")](#part-1-upstream-digital-pipeline-data-to-blueprint)
+- [Workflow, Part 2: Downstream Physical Pipeline ("Blueprint to Vial")](#part-2-downstream-physical-pipeline-blueprint-to-vial)
 - [Hardware & Reagent Stack Summary](#hardware--reagent-stack-summary)
 
 ---
@@ -18,7 +18,7 @@ This pipeline is divided into two continuous halves:
 
 ---
 
-# Workflow, Part 1: Upstream Digital Pipeline (Data to Blueprint)
+# Workflow, Part 1: Upstream Digital Pipeline ("Data to Blueprint")
 
 ### Phase 1: Reading the Blueprint (Digitizing the Cells)
 **Goal:** Convert physical biological samples into unorganized genetic code to establish a baseline and identify tumor anomalies.
@@ -76,7 +76,7 @@ AUGGGCUACUUGCUGCCAGCGAUUGUCCAUAUCCUCCUCUUCUUGGGCAAAAUUUGGCCG...
 
 ---
 
-# Workflow, Part 2: Downstream Physical Pipeline (Blueprint to Vial)
+# Workflow, Part 2: Downstream Physical Pipeline ("Blueprint to Vial")
 
 ### Phase 5: Printing the Master Copy (DNA Synthesis)
 **Goal:** Convert the digital blueprint back into a physical, readable linear DNA template.
