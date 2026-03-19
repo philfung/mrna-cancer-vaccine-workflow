@@ -36,10 +36,10 @@ const NavigationControls = ({ currentStep, onNext, onPrev, onReset }) => {
       <div className="button-group">
         <button className="nav-btn" onClick={onPrev} disabled={currentStep === 1}>
           <ChevronLeft size={20} />
-          Prev
+          <span>Prev</span>
         </button>
         <button className="nav-btn primary" onClick={onNext} disabled={currentStep === workflowSteps.length}>
-          Next
+          <span>Next</span>
           <ChevronRight size={20} />
         </button>
         <button className="nav-btn icon" onClick={onReset} title="Reset View">
@@ -59,7 +59,12 @@ const Flow = () => {
   const focusStep = useCallback((stepId) => {
     const step = workflowSteps.find(s => s.id === stepId);
     if (step) {
-      fitView({ nodes: step.nodes.map(id => ({ id })), duration: 800, padding: 0.2 });
+      const isMobile = window.innerWidth < 768;
+      fitView({ 
+        nodes: step.nodes.map(id => ({ id })), 
+        duration: 800, 
+        padding: isMobile ? 0.3 : 0.2 
+      });
     }
   }, [fitView]);
 

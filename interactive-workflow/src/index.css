@@ -424,3 +424,93 @@ body, html, #root {
 .react-flow__controls-button:hover {
   background: #f8fafc !important;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 1024px) {
+  .nav-controls {
+    left: 1rem;
+    width: 280px;
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-controls {
+    bottom: 1.5rem;
+    left: 50%;
+    top: auto;
+    transform: translateX(-50%);
+    width: 90vw;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.85rem 1.25rem;
+    gap: 1.5rem;
+    border-radius: 1.25rem;
+  }
+  
+  .step-info {
+    flex: 1;
+  }
+  
+  .step-name {
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .button-group {
+    padding-top: 0;
+    border-top: none;
+    width: auto;
+    gap: 0.5rem;
+  }
+  
+  .nav-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+  
+  .step-node {
+    width: 90vw;
+  }
+  
+  .workflow-node {
+    min-width: unset;
+  }
+  
+  .node-title {
+    font-size: 1rem;
+  }
+  
+  .node-description {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .nav-controls {
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+  }
+  
+  .part-name {
+    font-size: 0.55rem;
+  }
+  
+  .step-count {
+    display: none; /* Save space on tiny screens */
+  }
+  
+  .step-name {
+    font-size: 0.8rem;
+  }
+  
+  .nav-btn span {
+    display: none;
+  }
+  
+  .nav-btn {
+    padding: 0.5rem;
+  }
+}
