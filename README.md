@@ -1,8 +1,6 @@
 # 💉 OpenVAXX: DIY Personalized mRNA Cancer Vaccines
-
-A visualization of everything you need to build a personalized mRNA cancer vaccine in your garage—from biopsy to syringe. 
-
-Practical, open-source, and state-of-the-art tools at every step.
+From biopsy to syringe: everything you need to synthesize personalized mRNA cancer vaccines in your garage. 
+Focuses on open-source, state-of-the-art software tools paired with "best-tool-for-the-job" benchtop hardware.
 
 > [!CAUTION]
 > **⚠️ RESEARCH & EDUCATION USE ONLY. NOT MEDICAL ADVICE.**
