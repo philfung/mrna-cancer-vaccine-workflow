@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { Handle, Position } from 'reactflow';
 
 const WorkflowNode = ({ data, isConnectable }) => {
-  const { title, description, type, hardware, cost, color, icon: Icon, goal, outsourced } = data;
+  const { title, description, type, hardware, cost, color, icon: Icon, goal, outsourced, image } = data;
 
   const isStep = type === 'step';
   const isTitle = type === 'title';
@@ -42,6 +42,12 @@ const WorkflowNode = ({ data, isConnectable }) => {
         {isTitle && <h2 className="node-main-title">{title}</h2>}
 
         <div className="node-description" dangerouslySetInnerHTML={{ __html: description }} />
+        
+        {image && (
+          <div className="node-hardware-container">
+            <img src={image} alt={title} className="node-hardware-image" />
+          </div>
+        )}
         
         {isStep && (hardware || cost || outsourced) && (
           <div className="node-footer">

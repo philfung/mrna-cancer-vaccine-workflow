@@ -1,6 +1,11 @@
 import { Database, Zap, Target, PenTool, Printer, Factory, Package, FlaskConical } from 'lucide-react';
 import { MarkerType } from 'reactflow';
 
+import bioxpImg from './assets/hardware/bioxp.jpeg';
+import illuminaImg from './assets/hardware/illumina_nextseq.jpeg';
+import stunnerImg from './assets/hardware/unchained_stunner.jpeg';
+import sunshineImg from './assets/hardware/unchained_sunshine.png';
+
 export const initialNodes = [
   // ... (nodes remain the same)
   // PART 1
@@ -59,7 +64,8 @@ export const initialNodes = [
       outsourced: 'Novogene, Azenta, Eurofins',
       cost: '~$1,000 / pt (In-House) or ~$2,500 (Outsourced)',
       color: 'rose',
-      icon: Database
+      icon: Database,
+      image: illuminaImg
     },
   },
   {
@@ -232,7 +238,8 @@ export const initialNodes = [
       outsourced: 'Twist, IDT, GenScript, Azenta',
       cost: '~$600 / rxn (In-House) or ~$200-$900 (Outsourced)',
       color: 'teal',
-      icon: Printer
+      icon: Printer,
+      image: bioxpImg
     },
   },
   {
@@ -276,7 +283,8 @@ export const initialNodes = [
       outsourced: 'TriLink, GenScript, BiCell Scientific',
       cost: '~$2,000 / rxn (In-House) or ~$1,000-$3,000 / mg',
       color: 'teal',
-      icon: Factory
+      icon: Factory,
+      image: bioxpImg
     },
   },
   {
@@ -320,7 +328,8 @@ export const initialNodes = [
       outsourced: 'VectorBuilder, Lonza, Vernal Biosciences',
       cost: '~$500 / rxn (In-House) or ~$2,000-$5,000 / batch',
       color: 'teal',
-      icon: Package
+      icon: Package,
+      image: sunshineImg
     },
   },
   {
@@ -351,7 +360,8 @@ export const initialNodes = [
       outsourced: 'CordenPharma, uBriGene, VectorBuilder',
       cost: '~$100 / rxn (In-House) or ~$1,000-$3,000 / batch',
       color: 'teal',
-      icon: FlaskConical
+      icon: FlaskConical,
+      image: stunnerImg
     },
   },
   {
