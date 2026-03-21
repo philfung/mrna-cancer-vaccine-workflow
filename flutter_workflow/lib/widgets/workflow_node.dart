@@ -10,16 +10,26 @@ class WorkflowNode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget node;
     switch (data.type) {
       case NodeType.step:
-        return _buildStepNode();
+        node = _buildStepNode();
+        break;
       case NodeType.data:
-        return _buildDataNode();
+        node = _buildDataNode();
+        break;
       case NodeType.title:
-        return _buildTitleNode();
+        node = _buildTitleNode();
+        break;
       case NodeType.group:
-        return _buildGroupNode();
+        node = _buildGroupNode();
+        break;
     }
+
+    if (data.isHighlighted) {
+      return _PulsingHighlight(child: node);
+    }
+    return node;
   }
 
   Widget _buildStepNode() {
@@ -319,5 +329,59 @@ class WorkflowNode extends StatelessWidget {
       default:
         return const Color(0xFF6366F1);
     }
+  }
+}
+
+class _PulsingHighlight extends StatefulWidget {
+  final Widget child;
+  const _PulsingHighlight({required this.child});
+
+  @override
+  State<_PulsingHighlight> createState() => _PulsingHighlightState();
+}
+
+class _PulsingHighlightState extends State<_PulsingHighlight> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 1000),
+      vsync: this,
+    )..repeat(reverse: true);
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.yellow.withOpacity(_animation.value * 0.7),
+                blurRadius: 25,
+                spreadRadius: 8,
+              ),
+            ],
+          ),
+          child: child,
+        );
+      },
+      child: widget.child,
+    );
   }
 }

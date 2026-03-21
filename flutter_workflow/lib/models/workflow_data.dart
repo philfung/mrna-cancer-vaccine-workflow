@@ -20,6 +20,7 @@ class WorkflowNodeData {
   final Offset? position;
   final Size? size;
   final String? label;
+  final bool isHighlighted;
 
   WorkflowNodeData({
     required this.id,
@@ -39,6 +40,7 @@ class WorkflowNodeData {
     this.position,
     this.size,
     this.label,
+    this.isHighlighted = false,
   });
 }
 

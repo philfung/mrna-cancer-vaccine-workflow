@@ -28,6 +28,7 @@ final List<WorkflowNodeData> initialNodes = [
     images: [
       'lib/assets/icons/icon_tissue.png'
     ],
+    isHighlighted: true,
   ),
     WorkflowNodeData(
     id: 'NodeIn1B',
@@ -39,6 +40,7 @@ final List<WorkflowNodeData> initialNodes = [
     images: [
       'lib/assets/icons/icon_blood.png',
     ],
+    isHighlighted: true,
   ),
   WorkflowNodeData(
     id: 'Step1',
@@ -265,6 +267,7 @@ final List<WorkflowNodeData> initialNodes = [
     parentNode: 'Part2Group',
     color: 'teal',
     images: ['lib/assets/icons/icon_vaccine.png'],
+    isHighlighted: true,
   ),
 ];
 

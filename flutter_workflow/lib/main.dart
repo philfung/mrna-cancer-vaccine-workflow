@@ -372,7 +372,7 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'From biopsy to syringe: documenting the entire flow to synthesize personalized mRNA vaccine from your private lab, including all software tools and benchtop lab equipment.',
+                    'From biopsy to syringe: documenting the entire flow to synthesize personalized mRNA vaccine from your private lab.',
                     style: GoogleFonts.inter(
                       fontSize: 15,
                       height: 1.5,
@@ -393,51 +393,26 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
 
   Widget _buildBottomControls(WorkflowStep step, WorkflowState state) {
     return Positioned(
-      bottom: 40, left: 0, right: 0,
+      bottom: 40,
+      left: 0,
+      right: 0,
       child: Center(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(32), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 40, offset: const Offset(0, 10))]),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(step.part, style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.bold, color: const Color(0xFF6366F1))),
-                  const SizedBox(height: 4),
-                  Text('Step ${step.id} of ${workflowSteps.length}', style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF94A3B8))),
-                  const SizedBox(height: 4),
-                  Text(step.title, style: GoogleFonts.outfit(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF1E293B))),
-                ],
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (state.currentStepId > 1)
+              _AnimatedArrow(
+                icon: LucideIcons.chevronUp,
+                onPressed: () => _onPrevPressed(state),
               ),
-              const SizedBox(width: 48),
-              Row(
-                children: [
-                  _buildNavButton(icon: LucideIcons.chevronLeft, label: 'Prev', onPressed: state.currentStepId > 1 ? () => _onPrevPressed(state) : null),
-                  const SizedBox(width: 16),
-                  _buildNavButton(icon: LucideIcons.chevronRight, label: 'Next', isPrimary: true, onPressed: state.currentStepId < workflowSteps.length ? () => _onNextPressed(state) : null),
-                  const SizedBox(width: 16),
-                  _buildNavButton(icon: LucideIcons.maximize, label: '', onPressed: () { _focusOnStep(state.currentStepId); }),
-                ],
+            const SizedBox(height: 12),
+            if (state.currentStepId < workflowSteps.length)
+              _AnimatedArrow(
+                icon: LucideIcons.chevronDown,
+                onPressed: () => _onNextPressed(state),
+                isDown: true,
               ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildNavButton({required IconData icon, required String label, VoidCallback? onPressed, bool isPrimary = false}) {
-    final isDisabled = onPressed == null;
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onPressed, borderRadius: BorderRadius.circular(16),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: label.isEmpty ? 12 : 20, vertical: 12),
-          decoration: BoxDecoration(color: isPrimary ? (isDisabled ? const Color(0xFF6366F1).withOpacity(0.5) : const Color(0xFF6366F1)) : Colors.transparent, borderRadius: BorderRadius.circular(16), border: isPrimary ? null : Border.all(color: const Color(0xFFE2E8F0))),
-          child: Row(children: [if (icon == LucideIcons.chevronLeft) Icon(icon, color: isPrimary ? Colors.white : (isDisabled ? Colors.grey : const Color(0xFF475569)), size: 20), if (label.isNotEmpty) ...[if (icon == LucideIcons.chevronLeft) const SizedBox(width: 8), Text(label, style: GoogleFonts.inter(color: isPrimary ? Colors.white : (isDisabled ? Colors.grey : const Color(0xFF475569)), fontWeight: FontWeight.bold)), if (icon == LucideIcons.chevronRight) const SizedBox(width: 8)], if (icon != LucideIcons.chevronLeft) Icon(icon, color: isPrimary ? Colors.white : (isDisabled ? Colors.grey : const Color(0xFF475569)), size: 20)]),
+          ],
         ),
       ),
     );
@@ -452,6 +427,63 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
       case 'teal': return const Color(0xFF14B8A6);
       default: return const Color(0xFF6366F1);
     }
+  }
+}
+
+class _AnimatedArrow extends StatefulWidget {
+  final IconData icon;
+  final VoidCallback onPressed;
+  final bool isDown;
+
+  const _AnimatedArrow({required this.icon, required this.onPressed, this.isDown = false});
+
+  @override
+  State<_AnimatedArrow> createState() => _AnimatedArrowState();
+}
+
+class _AnimatedArrowState extends State<_AnimatedArrow> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(duration: const Duration(seconds: 2), vsync: this)..repeat(reverse: true);
+    _animation = Tween<double>(begin: 0, end: 10).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+  }
+
+  @override
+  void dispose() { _controller.dispose(); super.dispose(); }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: Offset(0, widget.isDown ? _animation.value : -_animation.value),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: widget.onPressed,
+              borderRadius: BorderRadius.circular(32),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.4),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white.withOpacity(0.5), width: 2),
+                  boxShadow: [
+                    BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 15, spreadRadius: 2, offset: const Offset(0, 5)),
+                  ],
+                ),
+                child: Icon(widget.icon, color: const Color(0xFF1E293B).withOpacity(0.7), size: 48),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 
