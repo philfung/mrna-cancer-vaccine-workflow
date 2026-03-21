@@ -61,12 +61,10 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
     for (var node in initialNodes) {
       _nodeKeys[node.id] = GlobalKey();
     }
-
-    // Initial focus with a longer delay to ensure layout is complete
+    
+    // Initial focus on step 1
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 500), () {
-        if (mounted) _focusOnStep(1);
-      });
+      _focusOnStep(1);
     });
   }
 
@@ -188,40 +186,54 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
             InteractiveViewer(
               transformationController: _transformationController,
               constrained: false,
+              boundaryMargin: const EdgeInsets.symmetric(horizontal: 2000, vertical: 2000),
               minScale: 0.1,
               maxScale: 2.5,
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(100, 600, 100, 1200),
-                width: 1400, // Constrain width based on NODE_WIDTH and margins
-                child: Stack(
-                  key: _canvasKey,
-                  children: [
-                     // Edges Layer
-                     Positioned.fill(
-                       child: IgnorePointer(
-                         child: AnimatedBuilder(
-                           animation: _animationController,
-                           builder: (context, child) {
-                             return CustomPaint(
-                               painter: DynamicEdgePainter(
-                                 edges: state.edges,
-                                 nodeKeys: _nodeKeys,
-                                 canvasKey: _canvasKey,
-                                 animationValue: _animationController.value,
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final viewportWidth = MediaQuery.of(context).size.width;
+                  final canvasWidth = math.max(1400.0, viewportWidth);
+                  
+                  return Container(
+                    padding: const EdgeInsets.fromLTRB(100, 600, 100, 1200),
+                    width: canvasWidth,
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: SizedBox(
+                        width: 1200, // Inner width (1400 total - 200 padding)
+                        child: Stack(
+                          key: _canvasKey,
+                          children: [
+                             // Edges Layer
+                             Positioned.fill(
+                               child: IgnorePointer(
+                                 child: AnimatedBuilder(
+                                   animation: _animationController,
+                                   builder: (context, child) {
+                                     return CustomPaint(
+                                       painter: DynamicEdgePainter(
+                                         edges: state.edges,
+                                         nodeKeys: _nodeKeys,
+                                         canvasKey: _canvasKey,
+                                         animationValue: _animationController.value,
+                                       ),
+                                     );
+                                   },
+                                 ),
                                ),
-                             );
-                           },
-                         ),
-                       ),
-                     ),
-                     // Content Layer
-                     _buildWorkflowLayout(state),
-                  ],
-                ),
+                             ),
+                             // Content Layer
+                             _buildWorkflowLayout(state),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }
               ),
             ),
             // Header & Controls
-            _buildHeader(),
+            _buildHeader(state),
             _buildBottomControls(step, state),
           ],
         ),
@@ -328,7 +340,7 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
     return groupWidgets;
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(WorkflowState state) {
     return Positioned(
       top: 0, left: 0, right: 0,
       child: Container(
@@ -370,7 +382,32 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
                       ],
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
+                  // Current Step Indicator
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF6366F1).withOpacity(0.08),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: const Color(0xFF6366F1).withOpacity(0.2)),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(LucideIcons.list, color: Color(0xFF6366F1), size: 16),
+                        const SizedBox(width: 8),
+                        Text(
+                          state.currentStep.title,
+                          style: GoogleFonts.inter(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF6366F1),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
                   Text(
                     'From biopsy to syringe: documenting the entire flow to synthesize personalized mRNA vaccine from your private lab.',
                     style: GoogleFonts.inter(

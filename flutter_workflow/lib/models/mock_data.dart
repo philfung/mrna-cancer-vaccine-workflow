@@ -28,7 +28,7 @@ final List<WorkflowNodeData> initialNodes = [
     images: [
       'lib/assets/icons/icon_tissue.png'
     ],
-    isHighlighted: true,
+    isHighlighted: false,
   ),
     WorkflowNodeData(
     id: 'NodeIn1B',
@@ -40,7 +40,7 @@ final List<WorkflowNodeData> initialNodes = [
     images: [
       'lib/assets/icons/icon_blood.png',
     ],
-    isHighlighted: true,
+    isHighlighted: false,
   ),
   WorkflowNodeData(
     id: 'Step1',
@@ -267,7 +267,7 @@ final List<WorkflowNodeData> initialNodes = [
     parentNode: 'Part2Group',
     color: 'teal',
     images: ['lib/assets/icons/icon_vaccine.png'],
-    isHighlighted: true,
+    isHighlighted: false,
   ),
 ];
 
@@ -296,12 +296,14 @@ final List<WorkflowEdgeData> initialEdges = [
 ];
 
 final List<WorkflowStep> workflowSteps = [
-  WorkflowStep(id: 1, title: 'Reading the Blueprint', part: 'Part A: Upstream Digital Pipeline', nodeIds: ['Step1', 'NodeIn1A', 'NodeIn1B', 'NodeIn2']),
-  WorkflowStep(id: 2, title: 'Spotting the Typos', part: 'Part A: Upstream Digital Pipeline', nodeIds: ['Step2', 'NodeIn2', 'NodeRef', 'NodeIn3']),
-  WorkflowStep(id: 3, title: 'Picking the Targets', part: 'Part A: Upstream Digital Pipeline', nodeIds: ['Step3', 'NodeIn3', 'NodeHLA', 'NodeIn4']),
-  WorkflowStep(id: 4, title: 'Writing the New Code', part: 'Part A: Upstream Digital Pipeline', nodeIds: ['Step4', 'NodeIn4', 'NodeIn5']),
-  WorkflowStep(id: 5, title: 'Printing the Master Copy', part: 'Part B: Downstream Physical Pipeline', nodeIds: ['Step5', 'NodeIn5', 'NodeIn6']),
-  WorkflowStep(id: 6, title: 'Mass Production', part: 'Part B: Downstream Physical Pipeline', nodeIds: ['Step6', 'NodeIn6', 'NodeIVT', 'NodeIn7']),
-  WorkflowStep(id: 7, title: 'Packaging for Delivery', part: 'Part B: Downstream Physical Pipeline', nodeIds: ['Step7', 'NodeIn7', 'NodeLipids', 'NodeIn8']),
-  WorkflowStep(id: 8, title: 'Quality Check & Bottling', part: 'Part B: Downstream Physical Pipeline', nodeIds: ['Step8', 'NodeIn8', 'NodeEnd']),
+  WorkflowStep(id: 1, title: 'Patient Samples', part: 'Part A: Upstream Digital Pipeline', nodeIds: ['NodeIn1A', 'NodeIn1B']),
+  WorkflowStep(id: 2, title: 'Step 1: Reading the Blueprint', part: 'Part A: Upstream Digital Pipeline', nodeIds: ['Step1', 'NodeIn1A', 'NodeIn1B', 'NodeIn2']),
+  WorkflowStep(id: 3, title: 'Step 2: Spotting the Typos', part: 'Part A: Upstream Digital Pipeline', nodeIds: ['Step2', 'NodeIn2', 'NodeRef', 'NodeIn3']),
+  WorkflowStep(id: 4, title: 'Step 3: Picking the Targets', part: 'Part A: Upstream Digital Pipeline', nodeIds: ['Step3', 'NodeIn3', 'NodeHLA', 'NodeIn4']),
+  WorkflowStep(id: 5, title: 'Step 4: Writing the New Code', part: 'Part A: Upstream Digital Pipeline', nodeIds: ['Step4', 'NodeIn4', 'NodeIn5']),
+  WorkflowStep(id: 6, title: 'Step 5: Printing the Master Copy', part: 'Part B: Downstream Physical Pipeline', nodeIds: ['Step5', 'NodeIn5', 'NodeIn6']),
+  WorkflowStep(id: 7, title: 'Step 6: Mass Production', part: 'Part B: Downstream Physical Pipeline', nodeIds: ['Step6', 'NodeIn6', 'NodeIVT', 'NodeIn7']),
+  WorkflowStep(id: 8, title: 'Step 7: Packaging for Delivery', part: 'Part B: Downstream Physical Pipeline', nodeIds: ['Step7', 'NodeIn7', 'NodeLipids', 'NodeIn8']),
+  WorkflowStep(id: 9, title: 'Step 8: Quality Check & Bottling', part: 'Part B: Downstream Physical Pipeline', nodeIds: ['Step8', 'NodeIn8', 'NodeEnd']),
+  WorkflowStep(id: 10, title: 'Final Vaccine Product', part: 'Part B: Downstream Physical Pipeline', nodeIds: ['NodeEnd']),
 ];
