@@ -47,8 +47,8 @@ final List<WorkflowNodeData> initialNodes = [
   WorkflowNodeData(
     id: 'NodeIn2',
     type: NodeType.data,
-    title: '📄 4 Patient genetic & HLA files',
-    description: 'baseline-normal.fastq<br/>tumor-exome.fastq<br/>tumor-rna.fastq<br/>patient-hla.txt',
+    title: '📄 Genetic files from patient samples',
+    description: '1. baseline-normal.fastq — Normal blood WES (~30X–50X)<br/>2. tumor-exome.fastq — Tumor biopsy WES (~100X–500X)<br/>3. tumor-rna.fastq — Tumor biopsy RNA-Seq (~50M–100M reads)<br/>4. patient-hla.txt — Patient HLA profile (MHC Class I & II typing)',
     parentNode: 'Part1Group',
     color: 'blue',
   ),
