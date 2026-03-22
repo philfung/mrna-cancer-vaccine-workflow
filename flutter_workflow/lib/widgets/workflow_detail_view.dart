@@ -59,10 +59,43 @@ class WorkflowDetailView extends ConsumerWidget {
                     _buildSectionTitle('GOAL'),
                     _buildStepGoal(stepNode.goal ?? ''),
                     const SizedBox(height: 16),
-                    
+
                     _buildSectionTitle('PROCESS'),
                     _buildDescription(stepNode.description ?? ''),
                     const SizedBox(height: 16),
+
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildSectionTitle('TOOLS AND EQUIPMENT'),
+                              if (stepNode.hardware != null && stepNode.hardware != 'None')
+                                _buildDetailRow(LucideIcons.microscope, 'Lab Equipment', stepNode.hardware!),
+                              if (stepNode.software != null && stepNode.software != 'None')
+                                _buildDetailRow(LucideIcons.code, 'Software', stepNode.software!),
+                              if (stepNode.cost != null)
+                                _buildDetailRow(LucideIcons.dollarSign, 'Est. Cost', stepNode.cost!),
+                            ],
+                          ),
+                        ),
+                        if (stepNode.image != null) ...[
+                          const SizedBox(width: 16),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.asset(
+                              stepNode.image!,
+                              width: 80,
+                              height: 80,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                    const SizedBox(height: 8),
                     
                     if (stepNode.inputs != null && stepNode.inputs!.isNotEmpty) ...[
                       _buildSectionTitle('INPUTS'),
@@ -75,16 +108,7 @@ class WorkflowDetailView extends ConsumerWidget {
                       ...stepNode.outputs!.map((output) => _buildResourceItem(output, isOutput: true)),
                       const SizedBox(height: 16),
                     ],
-                    
-                    _buildSectionTitle('LOGISTICS'),
-                    if (stepNode.hardware != null && stepNode.hardware != 'None')
-                      _buildDetailRow(LucideIcons.microscope, 'Equipment', stepNode.hardware!),
-                    if (stepNode.software != null && stepNode.software != 'None')
-                      _buildDetailRow(LucideIcons.code, 'Software', stepNode.software!),
-                    if (stepNode.cost != null)
-                      _buildDetailRow(LucideIcons.dollarSign, 'Est. Cost', stepNode.cost!),
-                    if (stepNode.fileFormat != null)
-                      _buildDetailRow(LucideIcons.fileCode, 'Format', stepNode.fileFormat!),
+
                     
                   ] else if (currentStep.id == 1) ...[
                     _buildStepGoal('Procuring Biological Starting Material'),
@@ -145,33 +169,14 @@ class WorkflowDetailView extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Text(
-                  step.title,
-                  style: GoogleFonts.outfit(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
-                    height: 1.2,
-                  ),
-                ),
-              ),
-              if (stepNode?.image != null) ...[
-                const SizedBox(width: 16),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.asset(
-                    stepNode!.image!,
-                    width: 52,
-                    height: 52,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ],
-            ],
+          Text(
+            step.title,
+            style: GoogleFonts.outfit(
+              fontSize: 28,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+              height: 1.2,
+            ),
           ),
         ],
       ),
@@ -290,7 +295,7 @@ class WorkflowDetailView extends ConsumerWidget {
     if (label == 'Software') {
       return _buildSoftwareDetailRow(icon, label, value);
     }
-    if (label == 'Equipment') {
+    if (label == 'Lab Equipment') {
       return _buildHardwareDetailRow(icon, label, value);
     }
     return Padding(
