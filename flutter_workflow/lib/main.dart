@@ -15,7 +15,7 @@ import 'widgets/welcome_modal.dart';
 const double MARGIN_VERTICAL_GROUP_NODES = 200.0;
 const double MARGIN_VERTICAL_DATA_NODES = 60.0;
 const double MARGIN_HORIZONTAL_BETWEEN_DATA_NODES = 40.0;
-const double NODE_WIDTH = 400.0;
+const double NODE_WIDTH = 600.0;
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -132,7 +132,7 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
     // Limit maximum scale to 1.0 (actual size) and minimum scale to 0.4
     final double scale = math.min(math.min(scaleX, scaleY), 1.0).clamp(0.4, 1.0);
     
-    const double detailPanelWidth = 450.0;
+    final double detailPanelWidth = _getDetailPanelWidth(viewportSize.width);
     final double availableWidth = viewportSize.width - detailPanelWidth;
     
     final targetMatrix = Matrix4.identity()
@@ -141,6 +141,10 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
       ..translate(-x, -y);
 
     _animateToMatrix(targetMatrix);
+  }
+
+  double _getDetailPanelWidth(double screenWidth) {
+    return math.min(screenWidth * 0.5, 450.0);
   }
 
   void _animateToMatrix(Matrix4 targetMatrix) {
@@ -208,9 +212,9 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
                     maxScale: 2.5,
                     child: LayoutBuilder(
                       builder: (context, constraints) {
-                        const double detailPanelWidth = 450.0;
-                        final viewportWidth = MediaQuery.of(context).size.width - detailPanelWidth;
-                        final canvasWidth = math.max(1200.0, viewportWidth);
+                      final double detailPanelWidth = _getDetailPanelWidth(MediaQuery.of(context).size.width);
+                      final viewportWidth = MediaQuery.of(context).size.width - detailPanelWidth;
+                        final canvasWidth = math.max(1600.0, viewportWidth);
                         
                         return Container(
                           padding: const EdgeInsets.fromLTRB(100, 600, 100, 1200),
@@ -218,7 +222,7 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
                           child: Align(
                             alignment: Alignment.topCenter,
                             child: SizedBox(
-                              width: 1000, // Inner width
+                              width: 1400, // Inner width
                               child: Stack(
                                 key: _canvasKey,
                                 children: [
@@ -256,7 +260,10 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
                 ],
               ),
             ),
-            const WorkflowDetailView(),
+            SizedBox(
+              width: _getDetailPanelWidth(MediaQuery.of(context).size.width),
+              child: const WorkflowDetailView(),
+            ),
           ],
         ),
       ),
@@ -365,53 +372,79 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
   Widget _buildHeader(WorkflowState state) {
     return Positioned(
       top: 0, left: 0, right: 0,
-      child: Container(
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter, end: Alignment.bottomCenter,
-            colors: [Colors.white.withOpacity(0.95), Colors.white.withOpacity(0.8), Colors.transparent],
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'OpenVaxx',
-                          style: GoogleFonts.outfit(
-                            fontSize: 32,
-                            fontWeight: FontWeight.w900,
-                            color: const Color(0xFF1E293B),
-                          ),
-                        ),
-                        TextSpan(
-                          text: '  DIY mRNA Vaccine Workflow',
-                          style: GoogleFonts.outfit(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: const Color(0xFF94A3B8),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                ],
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth < 100) return const SizedBox.shrink();
+          
+          return Container(
+            padding: const EdgeInsets.all(24),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              border: Border(
+                bottom: BorderSide(
+                  color: Color(0xFFE2E8F0),
+                  width: 1,
+                ),
               ),
             ),
-            const SizedBox(width: 24),
-            Container(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), decoration: BoxDecoration(color: const Color(0xFF6366F1), borderRadius: BorderRadius.circular(20)), child: Text('v1.2.0', style: GoogleFonts.inter(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14))),
-          ],
-        ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      RichText(
+                        overflow: TextOverflow.ellipsis,
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'OpenVaxx',
+                              style: GoogleFonts.outfit(
+                                fontSize: 32,
+                                fontWeight: FontWeight.w900,
+                                color: const Color(0xFF1E293B),
+                              ),
+                            ),
+                            TextSpan(
+                              text: '  DIY mRNA Vaccine Workflow',
+                              style: GoogleFonts.outfit(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: const Color(0xFF94A3B8),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 24),
+                // Hide version badge if extremely narrow
+                if (constraints.maxWidth > 350)
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF6366F1),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      'v1.2.0',
+                      style: GoogleFonts.inter(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          );
+        }
       ),
     );
   }

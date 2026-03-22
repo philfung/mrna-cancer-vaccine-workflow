@@ -25,7 +25,7 @@ class WorkflowDetailView extends ConsumerWidget {
     }
 
     return Container(
-      width: 450,
+      width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border(
@@ -102,6 +102,7 @@ class WorkflowDetailView extends ConsumerWidget {
 
   Widget _buildHeader(WorkflowStep step) {
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.fromLTRB(32, 48, 32, 32),
       decoration: BoxDecoration(
         color: const Color(0xFFF8FAFC),

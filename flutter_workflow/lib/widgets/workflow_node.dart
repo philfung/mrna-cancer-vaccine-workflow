@@ -35,8 +35,8 @@ class WorkflowNode extends StatelessWidget {
   Widget _buildStepNode() {
     final color = _getColor(data.color);
     return Container(
-      width: 400,
-      padding: const EdgeInsets.all(24),
+      width: 600,
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(24),
@@ -136,8 +136,8 @@ class WorkflowNode extends StatelessWidget {
   Widget _buildDataNode() {
     final color = _getColor(data.color);
     return Container(
-      width: 400,
-      padding: const EdgeInsets.all(20),
+      constraints: const BoxConstraints(maxWidth: 450),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -150,9 +150,11 @@ class WorkflowNode extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      child: IntrinsicWidth(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
           Row(
             children: [
               Container(
@@ -164,7 +166,7 @@ class WorkflowNode extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 12),
-              Expanded(
+              Flexible(
                 child: Text(
                   data.title,
                   style: GoogleFonts.outfit(
@@ -188,6 +190,7 @@ class WorkflowNode extends StatelessWidget {
           if (data.images != null && data.images!.isNotEmpty) ...[
             const SizedBox(height: 16),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 for (var imagePath in data.images!) ...[
                   ClipRRect(
@@ -212,8 +215,9 @@ class WorkflowNode extends StatelessWidget {
           ],
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildTitleNode() {
     final color = _getColor(data.color);
