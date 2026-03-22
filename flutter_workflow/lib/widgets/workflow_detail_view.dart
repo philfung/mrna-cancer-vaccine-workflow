@@ -267,6 +267,9 @@ class WorkflowDetailView extends ConsumerWidget {
     if (label == 'Software') {
       return _buildSoftwareDetailRow(icon, label, value);
     }
+    if (label == 'Equipment') {
+      return _buildHardwareDetailRow(icon, label, value);
+    }
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Row(
@@ -298,6 +301,113 @@ class WorkflowDetailView extends ConsumerWidget {
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHardwareDetailRow(IconData icon, String label, String value) {
+    final Map<String, String> links = {
+      'Illumina NextSeq 2000': 'https://www.illumina.com/systems/sequencing-platforms/nextseq-1000-2000.html',
+      'Telesis Bio BioXp': 'https://telesisbio.com/products/bioxp-systems/',
+      'Unchained Labs Sunshine': 'https://www.unchainedlabs.com/sunshine/',
+      'Unchained Labs Stunner': 'https://www.unchainedlabs.com/stunner/',
+    };
+
+    List<InlineSpan> spans = [];
+    String remaining = value;
+
+    while (remaining.isNotEmpty) {
+      String? foundKey;
+      int minIndex = remaining.length;
+
+      for (var key in links.keys) {
+        int index = remaining.indexOf(key);
+        if (index != -1 && index < minIndex) {
+          minIndex = index;
+          foundKey = key;
+        }
+      }
+
+      if (foundKey == null) {
+        spans.add(TextSpan(text: remaining));
+        break;
+      }
+
+      if (minIndex > 0) {
+        spans.add(TextSpan(text: remaining.substring(0, minIndex)));
+      }
+
+      spans.add(
+        WidgetSpan(
+          alignment: PlaceholderAlignment.baseline,
+          baseline: TextBaseline.alphabetic,
+          child: MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureDetector(
+              onTap: () async {
+                final url = Uri.parse(links[foundKey]!);
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url);
+                }
+              },
+              child: Text(
+                foundKey,
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.blueAccent,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.blueAccent,
+                ),
+              ),
+            ),
+          ),
+        )
+      );
+
+      remaining = remaining.substring(minIndex + foundKey.length);
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: const Color(0xFF2C2C2E),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, size: 16, color: Colors.grey[400]),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label.toUpperCase(),
+                  style: GoogleFonts.inter(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey[500],
+                  ),
+                ),
+                RichText(
+                  text: TextSpan(
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                    children: spans,
                   ),
                 ),
               ],
