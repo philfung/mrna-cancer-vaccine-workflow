@@ -19,7 +19,7 @@ const double MARGIN_HORIZONTAL_BETWEEN_DATA_NODES = 40.0;
 const double NODE_WIDTH = 600.0;
 
 void main() {
-  GoogleFonts.config.allowRuntimeFetching = false;
+  GoogleFonts.config.allowRuntimeFetching = true;
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -407,21 +407,29 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'OpenVaxx',
-                            style: GoogleFonts.outfit(
-                              fontSize: 32,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.white,
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'OpenVaxx',
+                              style: GoogleFonts.outfit(
+                                fontSize: 32,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 4),
-                          Text(
-                            'DIY mRNA Vaccine Workflow',
-                            style: GoogleFonts.outfit(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.grey[400],
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'DIY mRNA Vaccine Workflow',
+                              style: GoogleFonts.outfit(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.grey[400],
+                              ),
                             ),
                           ),
                         ],

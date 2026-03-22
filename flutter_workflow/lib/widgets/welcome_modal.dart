@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'dart:math';
 
 class WelcomeModal extends StatelessWidget {
   const WelcomeModal({super.key});
@@ -11,25 +12,36 @@ class WelcomeModal extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
       elevation: 20,
       backgroundColor: const Color(0xFF1C1C1E),
-      child: Container(
-        width: 650,
-        padding: const EdgeInsets.all(40),
-        child: SingleChildScrollView(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: 650,
+          minWidth: 320,
+          maxHeight: MediaQuery.of(context).size.height * 0.85,
+        ),
+        child: Container(
+          padding: EdgeInsets.all(min(MediaQuery.of(context).size.width * 0.05, 40)),
+          child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
-                  Text(
-                    '💉 OpenVAXX',
-                    style: GoogleFonts.outfit(
-                      fontSize: 32,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
+                  Expanded(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        '💉 OpenVAXX',
+                        style: GoogleFonts.outfit(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
-                  const Spacer(),
+                  const SizedBox(width: 8),
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
                     icon: Icon(LucideIcons.x, color: Colors.grey[400]),
@@ -37,19 +49,23 @@ class WelcomeModal extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
-              Text(
-                'DIY Personalized mRNA Cancer Vaccines',
-                style: GoogleFonts.outfit(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xFF6366F1),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'DIY Personalized mRNA Cancer Vaccines',
+                  style: GoogleFonts.outfit(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF6366F1),
+                  ),
                 ),
               ),
               const SizedBox(height: 32),
               Text(
                 'From biopsy to syringe: everything you need to synthesize personalized mRNA cancer vaccines in your garage. Focuses on open-source, state-of-the-art software tools paired with "best-tool-for-the-job" benchtop lab equipment.',
                 style: GoogleFonts.inter(
-                  fontSize: 16,
+                  fontSize: min(MediaQuery.of(context).size.width * 0.04, 16),
                   fontWeight: FontWeight.w500,
                   color: Colors.grey[300],
                   height: 1.6,
@@ -85,7 +101,7 @@ class WelcomeModal extends StatelessWidget {
                     Text(
                       '⚠️ RESEARCH & EDUCATION USE ONLY. NOT MEDICAL ADVICE. This is a technical reference for educational purposes. Building mRNA vaccines involves severe biological hazards, requiring strict oversight and qualified personnel. The authors assume no liability for misuse. Consult professionals before attempting any part of this workflow.',
                       style: GoogleFonts.inter(
-                        fontSize: 13,
+                        fontSize: min(MediaQuery.of(context).size.width * 0.035, 13),
                         fontWeight: FontWeight.w500,
                         color: Colors.red[200],
                         height: 1.5,
@@ -117,6 +133,7 @@ class WelcomeModal extends StatelessWidget {
               ),
             ],
           ),
+        ),
         ),
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:math';
 import '../providers/workflow_provider.dart';
 import '../models/workflow_data.dart';
 
@@ -57,43 +58,70 @@ class WorkflowDetailView extends ConsumerWidget {
                 children: [
                   if (stepNode != null) ...[
                     _buildSectionTitle('GOAL'),
-                    _buildStepGoal(stepNode.goal ?? ''),
+                    _buildStepGoal(context, stepNode.goal ?? ''),
                     const SizedBox(height: 16),
 
                     _buildSectionTitle('PROCESS'),
-                    _buildDescription(stepNode.description ?? ''),
+                    _buildDescription(context, stepNode.description ?? ''),
                     const SizedBox(height: 16),
 
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Column(
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        final bool isNarrow = constraints.maxWidth < 340;
+                        
+                        final textColumn = Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildSectionTitle('TOOLS AND EQUIPMENT'),
+                            if (stepNode!.hardware != null && stepNode.hardware != 'None')
+                              _buildDetailRow(LucideIcons.microscope, 'Lab Equipment', stepNode.hardware!),
+                            if (stepNode.software != null && stepNode.software != 'None')
+                              _buildDetailRow(LucideIcons.code, 'Software', stepNode.software!),
+                            if (stepNode.cost != null)
+                              _buildDetailRow(LucideIcons.dollarSign, 'Est. Cost', stepNode.cost!),
+                          ],
+                        );
+
+                        if (isNarrow) {
+                          return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _buildSectionTitle('TOOLS AND EQUIPMENT'),
-                              if (stepNode.hardware != null && stepNode.hardware != 'None')
-                                _buildDetailRow(LucideIcons.microscope, 'Lab Equipment', stepNode.hardware!),
-                              if (stepNode.software != null && stepNode.software != 'None')
-                                _buildDetailRow(LucideIcons.code, 'Software', stepNode.software!),
-                              if (stepNode.cost != null)
-                                _buildDetailRow(LucideIcons.dollarSign, 'Est. Cost', stepNode.cost!),
+                              textColumn,
+                              if (stepNode.image != null) ...[
+                                const SizedBox(height: 16),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.asset(
+                                    stepNode.image!,
+                                    width: double.infinity,
+                                    height: 200,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ],
                             ],
-                          ),
-                        ),
-                        if (stepNode.image != null) ...[
-                          const SizedBox(width: 16),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.asset(
-                              stepNode.image!,
-                              width: 80,
-                              height: 80,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ],
-                      ],
+                          );
+                        }
+
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(child: textColumn),
+                            if (stepNode.image != null) ...[
+                              const SizedBox(width: 16),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.asset(
+                                  stepNode.image!,
+                                  width: 120,
+                                  height: 120,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ],
+                          ],
+                        );
+                      },
                     ),
                     const SizedBox(height: 8),
                     
@@ -111,21 +139,21 @@ class WorkflowDetailView extends ConsumerWidget {
 
                     
                   ] else if (currentStep.id == 1) ...[
-                    _buildStepGoal('Procuring Biological Starting Material'),
+                    _buildStepGoal(context, 'Procuring Biological Starting Material'),
                     const SizedBox(height: 16),
-                    _buildDescription('Two key patient samples are required to initiate the personalized mRNA vaccine manufacturing process:'),
+                    _buildDescription(context, 'Two key patient samples are required to initiate the personalized mRNA vaccine manufacturing process:'),
                     const SizedBox(height: 16),
                     _buildSectionTitle('REQUIRED SAMPLES'),
                     _buildImageResourceItem('lib/assets/icons/icon_tissue.png', 'Tumor Biopsy: Provides tumor DNA & RNA to identify cancer-specific somatic mutations (neoantigens) unique to the patient.'),
                     _buildImageResourceItem('lib/assets/icons/icon_blood.png', 'Normal Blood: Serves as a healthy genetic reference to filter out inherited (germline) mutations and isolate immune cells for HLA typing.'),
                   ] else if (currentStep.id == 10) ...[
-                    _buildStepGoal('Final Vaccine Formulation'),
+                    _buildStepGoal(context, 'Final Vaccine Formulation'),
                     const SizedBox(height: 16),
-                    _buildDescription('The personalized mRNA vaccine formulation encapsulated in lipid nanoparticles, quality verified and ready for clinical administration.'),
+                    _buildDescription(context, 'The personalized mRNA vaccine formulation encapsulated in lipid nanoparticles, quality verified and ready for clinical administration.'),
                   ] else ...[
-                    _buildStepGoal('Overview of required inputs and baseline data.'),
+                    _buildStepGoal(context, 'Overview of required inputs and baseline data.'),
                     const SizedBox(height: 16),
-                    _buildDescription('This stage prepares the necessary patient samples and reference data required for the digital pipeline.'),
+                    _buildDescription(context, 'This stage prepares the necessary patient samples and reference data required for the digital pipeline.'),
                   ],
                 ],
               ),
@@ -169,13 +197,17 @@ class WorkflowDetailView extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Text(
-            step.title,
-            style: GoogleFonts.outfit(
-              fontSize: 28,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
-              height: 1.2,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              step.title,
+              style: GoogleFonts.outfit(
+                fontSize: 28,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+                height: 1.2,
+              ),
             ),
           ),
         ],
@@ -198,11 +230,11 @@ class WorkflowDetailView extends ConsumerWidget {
     );
   }
 
-  Widget _buildStepGoal(String goal) {
+  Widget _buildStepGoal(BuildContext context, String goal) {
     return Text(
       goal,
       style: GoogleFonts.inter(
-        fontSize: 18,
+        fontSize: min(MediaQuery.of(context).size.width * 0.05, 18),
         fontWeight: FontWeight.w600,
         color: Colors.grey[300],
         height: 1.4,
@@ -210,11 +242,11 @@ class WorkflowDetailView extends ConsumerWidget {
     );
   }
 
-  Widget _buildDescription(String description) {
+  Widget _buildDescription(BuildContext context, String description) {
     return Text(
       description,
       style: GoogleFonts.inter(
-        fontSize: 15,
+        fontSize: min(MediaQuery.of(context).size.width * 0.04, 15),
         fontWeight: FontWeight.w400,
         color: Colors.grey[400],
         height: 1.6,
