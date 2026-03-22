@@ -66,13 +66,13 @@ class WorkflowDetailView extends ConsumerWidget {
                     
                     if (stepNode.inputs != null && stepNode.inputs!.isNotEmpty) ...[
                       _buildSectionTitle('INPUTS'),
-                      ...stepNode.inputs!.map((input) => _buildResourceItem(LucideIcons.arrowRightCircle, input, const Color(0xFF3B82F6))),
+                      ...stepNode.inputs!.map((input) => _buildResourceItem(input, isOutput: false)),
                       const SizedBox(height: 16),
                     ],
                     
                     if (stepNode.outputs != null && stepNode.outputs!.isNotEmpty) ...[
                       _buildSectionTitle('OUTPUTS'),
-                      ...stepNode.outputs!.map((output) => _buildResourceItem(LucideIcons.checkCircle2, output, const Color(0xFF10B981))),
+                      ...stepNode.outputs!.map((output) => _buildResourceItem(output, isOutput: true)),
                       const SizedBox(height: 16),
                     ],
                     
@@ -217,13 +217,36 @@ class WorkflowDetailView extends ConsumerWidget {
     );
   }
 
-  Widget _buildResourceItem(IconData icon, String text, Color iconColor) {
+  Widget _buildResourceItem(String text, {required bool isOutput}) {
+    String imagePath;
+    String lower = text.toLowerCase();
+
+    if (lower.contains('tumor')) {
+      imagePath = 'lib/assets/icons/icon_tissue.png';
+    } else if (lower.contains('blood') || lower.contains('normal')) {
+      imagePath = 'lib/assets/icons/icon_blood.png';
+    } else if (lower.contains('fastq') || lower.contains('vcf') || lower.contains('fasta') || lower.contains('tsv') || lower.contains('blueprint')) {
+      imagePath = 'lib/assets/icons/icon_file.png';
+    } else if (lower.contains('dna')) {
+      imagePath = 'lib/assets/icons/icon_dna.png';
+    } else if (lower.contains('mrna') || lower.contains('rna ')) {
+      imagePath = 'lib/assets/icons/icon_mrna.png';
+    } else if (lower.contains('vaccine') || lower.contains('vial')) {
+      imagePath = 'lib/assets/icons/icon_vaccine.png';
+    } else if (lower.contains('lipid') || lower.contains('mixture')) {
+      imagePath = 'lib/assets/icons/icon_12ml.png';
+    } else if (lower.contains('reagent')) {
+      imagePath = 'lib/assets/icons/icon_5ml_dna.png';
+    } else {
+      imagePath = isOutput ? 'lib/assets/icons/icon_file.png' : 'lib/assets/icons/icon_file.png';
+    }
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 18, color: iconColor),
+          Image.asset(imagePath, width: 24, height: 24),
           const SizedBox(width: 12),
           Expanded(
             child: Text(

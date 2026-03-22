@@ -11,6 +11,7 @@ import 'models/workflow_data.dart';
 import 'models/mock_data.dart';
 import 'widgets/workflow_detail_view.dart';
 import 'widgets/welcome_modal.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 const double MARGIN_VERTICAL_GROUP_NODES = 200.0;
 const double MARGIN_VERTICAL_DATA_NODES = 60.0;
@@ -430,18 +431,36 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
                 const SizedBox(width: 24),
                 // Hide version badge if extremely narrow
                 if (constraints.maxWidth > 350)
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF6366F1),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      'v1.2.0',
-                      style: GoogleFonts.inter(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: () async {
+                        final url = Uri.parse('https://github.com/philfung/openvaxx');
+                        if (await canLaunchUrl(url)) {
+                          await launchUrl(url);
+                        }
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF6366F1),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(LucideIcons.github, size: 16, color: Colors.white),
+                            const SizedBox(width: 8),
+                            Text(
+                              'v1.2.0',
+                              style: GoogleFonts.inter(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
