@@ -22,25 +22,27 @@ final List<WorkflowNodeData> initialNodes = [
     id: 'NodeIn1A',
     type: NodeType.data,
     title: 'Patient tumor biopsy sample',
-    description: '',
+    description: 'Provides tumor DNA & RNA to identify cancer-specific mutations.',
     parentNode: 'Part1Group',
     color: 'blue',
     images: [
       'lib/assets/icons/icon_tissue.png'
     ],
     isHighlighted: false,
+    size: const Size(180, 0),
   ),
   WorkflowNodeData(
     id: 'NodeIn1B',
     type: NodeType.data,
     title: 'Patient normal blood sample',
-    description: '',
+    description: 'Provides a healthy genetic reference to filter out inherited mutations.',
     parentNode: 'Part1Group',
     color: 'blue',
     images: [
       'lib/assets/icons/icon_blood.png',
     ],
     isHighlighted: false,
+    size: const Size(180, 0),
   ),
   WorkflowNodeData(
     id: 'Step1',

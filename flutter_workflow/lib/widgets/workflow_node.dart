@@ -136,7 +136,8 @@ class WorkflowNode extends StatelessWidget {
   Widget _buildDataNode() {
     final color = _getColor(data.color);
     return Container(
-      constraints: const BoxConstraints(maxWidth: 450),
+      width: data.size?.width,
+      constraints: BoxConstraints(maxWidth: data.size?.width ?? 450),
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       decoration: BoxDecoration(
         color: Colors.white,

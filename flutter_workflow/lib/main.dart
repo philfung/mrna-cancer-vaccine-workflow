@@ -469,6 +469,8 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
                 icon: LucideIcons.chevronDown,
                 onPressed: () => _onNextPressed(state),
                 isDown: true,
+                label: 'Next Step',
+                color: Colors.yellow.withOpacity(0.6),
               ),
           ],
         ),
@@ -492,8 +494,10 @@ class _AnimatedArrow extends StatefulWidget {
   final IconData icon;
   final VoidCallback onPressed;
   final bool isDown;
+  final String? label;
+  final Color? color;
 
-  const _AnimatedArrow({required this.icon, required this.onPressed, this.isDown = false});
+  const _AnimatedArrow({required this.icon, required this.onPressed, this.isDown = false, this.label, this.color});
 
   @override
   State<_AnimatedArrow> createState() => _AnimatedArrowState();
@@ -526,16 +530,31 @@ class _AnimatedArrowState extends State<_AnimatedArrow> with SingleTickerProvide
               onTap: widget.onPressed,
               borderRadius: BorderRadius.circular(32),
               child: Container(
-                padding: const EdgeInsets.all(16),
+                padding: widget.label != null 
+                    ? const EdgeInsets.symmetric(horizontal: 24, vertical: 12)
+                    : const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.4),
-                  shape: BoxShape.circle,
+                  color: widget.color ?? Colors.white.withOpacity(0.4),
+                  borderRadius: BorderRadius.circular(32),
                   border: Border.all(color: Colors.white.withOpacity(0.5), width: 2),
                   boxShadow: [
                     BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 15, spreadRadius: 2, offset: const Offset(0, 5)),
                   ],
                 ),
-                child: Icon(widget.icon, color: const Color(0xFF1E293B).withOpacity(0.7), size: 48),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (widget.label != null && !widget.isDown) ...[
+                      Text(widget.label!, style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF1E293B).withOpacity(0.8))),
+                      const SizedBox(width: 8),
+                    ],
+                    Icon(widget.icon, color: const Color(0xFF1E293B).withOpacity(0.7), size: widget.label != null ? 32 : 48),
+                    if (widget.label != null && widget.isDown) ...[
+                      const SizedBox(width: 8),
+                      Text(widget.label!, style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF1E293B).withOpacity(0.8))),
+                    ],
+                  ],
+                ),
               ),
             ),
           ),

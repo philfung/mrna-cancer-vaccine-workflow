@@ -85,8 +85,19 @@ class WorkflowDetailView extends ConsumerWidget {
                     if (stepNode.fileFormat != null)
                       _buildDetailRow(LucideIcons.fileCode, 'Format', stepNode.fileFormat!),
                     
+                  ] else if (currentStep.id == 1) ...[
+                    _buildStepGoal('Procuring Biological Starting Material'),
+                    const SizedBox(height: 32),
+                    _buildDescription('Two key patient samples are required to initiate the personalized mRNA vaccine manufacturing process:'),
+                    const SizedBox(height: 24),
+                    _buildSectionTitle('REQUIRED SAMPLES'),
+                    _buildImageResourceItem('lib/assets/icons/icon_tissue.png', 'Tumor Biopsy: Provides tumor DNA & RNA to identify cancer-specific somatic mutations (neoantigens) unique to the patient.'),
+                    _buildImageResourceItem('lib/assets/icons/icon_blood.png', 'Normal Blood: Serves as a healthy genetic reference to filter out inherited (germline) mutations and isolate immune cells for HLA typing.'),
+                  ] else if (currentStep.id == 10) ...[
+                    _buildStepGoal('Final Vaccine Formulation'),
+                    const SizedBox(height: 32),
+                    _buildDescription('The personalized mRNA vaccine formulation encapsulated in lipid nanoparticles, quality verified and ready for clinical administration.'),
                   ] else ...[
-                    // Default view if no step node (e.g. data-only steps)
                     _buildStepGoal('Overview of required inputs and baseline data.'),
                     const SizedBox(height: 32),
                     _buildDescription('This stage prepares the necessary patient samples and reference data required for the digital pipeline.'),
@@ -193,6 +204,29 @@ class WorkflowDetailView extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, size: 18, color: iconColor),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              text,
+              style: GoogleFonts.inter(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: const Color(0xFF475569),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildImageResourceItem(String imagePath, String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.asset(imagePath, width: 20, height: 20),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
