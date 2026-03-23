@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'dart:math';
 import '../providers/workflow_provider.dart';
 import '../models/workflow_data.dart';
@@ -74,11 +75,13 @@ class WorkflowDetailView extends ConsumerWidget {
                           children: [
                             _buildSectionTitle('TOOLS AND EQUIPMENT'),
                             if (stepNode!.hardware != null && stepNode.hardware != 'None')
-                              _buildDetailRow(LucideIcons.microscope, 'Lab Equipment', stepNode.hardware!),
+                              _buildDetailRow(context, LucideIcons.microscope, 'Lab Equipment', stepNode.hardware!),
                             if (stepNode.software != null && stepNode.software != 'None')
-                              _buildDetailRow(LucideIcons.code, 'Software', stepNode.software!),
+                              _buildDetailRow(context, LucideIcons.code, 'Software', stepNode.software!),
+                            if (stepNode.outsourced != null && stepNode.outsourced != 'None')
+                              _buildDetailRow(context, LucideIcons.externalLink, 'Outsourced Alternatives', stepNode.outsourced!),
                             if (stepNode.cost != null)
-                              _buildDetailRow(LucideIcons.dollarSign, 'Est. Cost', stepNode.cost!),
+                              _buildDetailRow(context, LucideIcons.dollarSign, 'Est. Cost', stepNode.cost!),
                           ],
                         );
 
@@ -149,7 +152,7 @@ class WorkflowDetailView extends ConsumerWidget {
                   ] else if (currentStep.id == 10) ...[
                     _buildStepGoal(context, 'Final Vaccine Formulation'),
                     const SizedBox(height: 16),
-                    _buildDescription(context, 'The personalized mRNA vaccine formulation encapsulated in lipid nanoparticles, quality verified and ready for clinical administration.'),
+                    _buildDescription(context, 'The personalized mRNA vaccine formulation encapsulated in lipid nanoparticles.'),
                   ] else ...[
                     _buildStepGoal(context, 'Overview of required inputs and baseline data.'),
                     const SizedBox(height: 16),
@@ -243,24 +246,22 @@ class WorkflowDetailView extends ConsumerWidget {
   }
 
   Widget _buildDescription(BuildContext context, String description) {
-    // Handle <br/> tags for simple multi-line descriptions
-    final lines = description.split('<br/>');
-    
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: lines.map((line) => Padding(
-        padding: const EdgeInsets.only(bottom: 4),
-        child: _buildLinkifiedText(
-          context,
-          line,
-          GoogleFonts.inter(
-            fontSize: min(MediaQuery.of(context).size.width * 0.04, 15),
-            fontWeight: FontWeight.w400,
-            color: Colors.grey[400],
-            height: 1.6,
-          ),
-        ),
-      )).toList(),
+    return MarkdownBody(
+      data: description,
+      styleSheet: _markdownStyle(context, GoogleFonts.inter(
+        fontSize: min(MediaQuery.of(context).size.width * 0.04, 15),
+        fontWeight: FontWeight.w400,
+        color: Colors.grey[400],
+        height: 1.6,
+      )),
+      onTapLink: (text, href, title) async {
+        if (href != null) {
+          final url = Uri.parse(href);
+          if (await canLaunchUrl(url)) {
+            await launchUrl(url);
+          }
+        }
+      },
     );
   }
 
@@ -275,14 +276,21 @@ class WorkflowDetailView extends ConsumerWidget {
           Image.asset(imagePath, width: 48, height: 48),
           const SizedBox(width: 12),
           Expanded(
-            child: _buildLinkifiedText(
-              context,
-              item.text,
-              GoogleFonts.inter(
+            child: MarkdownBody(
+              data: item.text,
+              styleSheet: _markdownStyle(context, GoogleFonts.inter(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
                 color: Colors.grey[300],
-              ),
+              )),
+              onTapLink: (text, href, title) async {
+                if (href != null) {
+                  final url = Uri.parse(href);
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(url);
+                  }
+                }
+              },
             ),
           ),
         ],
@@ -299,14 +307,21 @@ class WorkflowDetailView extends ConsumerWidget {
           Image.asset(imagePath, width: 48, height: 48),
           const SizedBox(width: 12),
           Expanded(
-            child: _buildLinkifiedText(
-              context,
-              text,
-              GoogleFonts.inter(
+            child: MarkdownBody(
+              data: text,
+              styleSheet: _markdownStyle(context, GoogleFonts.inter(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
                 color: Colors.grey[300],
-              ),
+              )),
+              onTapLink: (text, href, title) async {
+                if (href != null) {
+                  final url = Uri.parse(href);
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(url);
+                  }
+                }
+              },
             ),
           ),
         ],
@@ -314,16 +329,11 @@ class WorkflowDetailView extends ConsumerWidget {
     );
   }
 
-  Widget _buildDetailRow(IconData icon, String label, String value) {
-    if (label == 'Software') {
-      return _buildSoftwareDetailRow(icon, label, value);
-    }
-    if (label == 'Lab Equipment') {
-      return _buildHardwareDetailRow(icon, label, value);
-    }
+  Widget _buildDetailRow(BuildContext context, IconData icon, String label, String value) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             padding: const EdgeInsets.all(8),
@@ -339,20 +349,28 @@ class WorkflowDetailView extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  label,
+                  label.toUpperCase(),
                   style: GoogleFonts.inter(
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
                     color: Colors.grey[500],
                   ),
                 ),
-                Text(
-                  value,
-                  style: GoogleFonts.inter(
+                MarkdownBody(
+                  data: value,
+                  styleSheet: _markdownStyle(context, GoogleFonts.inter(
                     fontSize: 14,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     color: Colors.white,
-                  ),
+                  )),
+                  onTapLink: (text, href, title) async {
+                    if (href != null) {
+                      final url = Uri.parse(href);
+                      if (await canLaunchUrl(url)) {
+                        await launchUrl(url);
+                      }
+                    }
+                  },
                 ),
               ],
             ),
@@ -362,326 +380,17 @@ class WorkflowDetailView extends ConsumerWidget {
     );
   }
 
-  Widget _buildHardwareDetailRow(IconData icon, String label, String value) {
-    final Map<String, String> links = {
-      'Illumina NextSeq 2000': 'https://www.illumina.com/systems/sequencing-platforms/nextseq-1000-2000.html',
-      'Telesis Bio BioXp': 'https://telesisbio.com/products/bioxp-systems/',
-      'Unchained Labs Sunshine': 'https://www.unchainedlabs.com/sunshine/',
-      'Unchained Labs Stunner': 'https://www.unchainedlabs.com/stunner/',
-    };
-
-    List<InlineSpan> spans = [];
-    String remaining = value;
-
-    while (remaining.isNotEmpty) {
-      String? foundKey;
-      int minIndex = remaining.length;
-
-      for (var key in links.keys) {
-        int index = remaining.indexOf(key);
-        if (index != -1 && index < minIndex) {
-          minIndex = index;
-          foundKey = key;
-        }
-      }
-
-      if (foundKey == null) {
-        spans.add(TextSpan(text: remaining));
-        break;
-      }
-
-      if (minIndex > 0) {
-        spans.add(TextSpan(text: remaining.substring(0, minIndex)));
-      }
-
-      spans.add(
-        WidgetSpan(
-          alignment: PlaceholderAlignment.baseline,
-          baseline: TextBaseline.alphabetic,
-          child: MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: () async {
-                final url = Uri.parse(links[foundKey]!);
-                if (await canLaunchUrl(url)) {
-                  await launchUrl(url);
-                }
-              },
-              child: Text(
-                foundKey,
-                style: GoogleFonts.inter(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.blueAccent,
-                  decoration: TextDecoration.underline,
-                  decorationColor: Colors.blueAccent,
-                ),
-              ),
-            ),
-          ),
-        )
-      );
-
-      remaining = remaining.substring(minIndex + foundKey.length);
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: const Color(0xFF2C2C2E),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Icon(icon, size: 16, color: Colors.grey[400]),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label.toUpperCase(),
-                  style: GoogleFonts.inter(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey[500],
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                    children: spans,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSoftwareDetailRow(IconData icon, String label, String value) {
-    final Map<String, String> links = {
-      'GATK Mutect2': 'https://github.com/broadinstitute/gatk',
-      'pVACseq': 'https://github.com/griffithlab/pVACtools',
-      'MHCflurry': 'https://github.com/openvax/mhcflurry',
-      'pVACvector': 'https://github.com/griffithlab/pVACtools',
-      'LinearDesign': 'https://github.com/LinearDesignSoftware/LinearDesign',
-    };
-
-    List<InlineSpan> spans = [];
-    String remaining = value;
-
-    while (remaining.isNotEmpty) {
-      String? foundKey;
-      int minIndex = remaining.length;
-
-      for (var key in links.keys) {
-        int index = remaining.indexOf(key);
-        if (index != -1 && index < minIndex) {
-          minIndex = index;
-          foundKey = key;
-        }
-      }
-
-      if (foundKey == null) {
-        spans.add(TextSpan(text: remaining));
-        break;
-      }
-
-      if (minIndex > 0) {
-        spans.add(TextSpan(text: remaining.substring(0, minIndex)));
-      }
-
-      spans.add(
-        WidgetSpan(
-          alignment: PlaceholderAlignment.baseline,
-          baseline: TextBaseline.alphabetic,
-          child: MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: () async {
-                final url = Uri.parse(links[foundKey]!);
-                if (await canLaunchUrl(url)) {
-                  await launchUrl(url);
-                }
-              },
-              child: Text(
-                foundKey,
-                style: GoogleFonts.inter(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.blueAccent,
-                  decoration: TextDecoration.underline,
-                  decorationColor: Colors.blueAccent,
-                ),
-              ),
-            ),
-          ),
-        )
-      );
-
-      remaining = remaining.substring(minIndex + foundKey.length);
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: const Color(0xFF2C2C2E),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Icon(icon, size: 16, color: Colors.grey[400]),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label.toUpperCase(),
-                  style: GoogleFonts.inter(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey[500],
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                    children: spans,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildLinkifiedText(BuildContext context, String text, TextStyle baseStyle) {
-    final Map<String, String> links = {
-      'FASTQ': 'https://en.wikipedia.org/wiki/FASTQ_format',
-      '.FASTQ': 'https://en.wikipedia.org/wiki/FASTQ_format',
-      'VCF': 'https://en.wikipedia.org/wiki/Variant_Call_Format',
-      '.vcf': 'https://en.wikipedia.org/wiki/Variant_Call_Format',
-      'FASTA': 'https://en.wikipedia.org/wiki/FASTA_format',
-      '.FASTA': 'https://en.wikipedia.org/wiki/FASTA_format',
-      'vaccine-construct.fa': 'https://en.wikipedia.org/wiki/FASTA_format',
-      'Patient HLA profile': 'https://support.illumina.com/content/dam/illumina-support/help/BaseSpace_App_WGS_v6_OLH_15050955_03/Content/Source/Informatics/Apps/HLATypingFormat_appISCWGS.htm#',
-      'HLA profile': 'https://support.illumina.com/content/dam/illumina-support/help/BaseSpace_App_WGS_v6_OLH_15050955_03/Content/Source/Informatics/Apps/HLATypingFormat_appISCWGS.htm#',
-      'ranked-predictions.tsv': 'https://pvactools.readthedocs.io/en/7.0.0_docs/pvacseq/output_files.html',
-    };
-
-    List<InlineSpan> spans = [];
-    String remaining = text;
-
-    while (remaining.isNotEmpty) {
-      String? foundKey;
-      String? matchedMapKey;
-      int minIndex = remaining.length;
-
-      // Case-insensitive search for keywords, but preserve casing for better matching
-      for (var key in links.keys) {
-        int startIndex = 0;
-        int index = -1;
-        while (startIndex < remaining.length) {
-          index = remaining.toUpperCase().indexOf(key.toUpperCase(), startIndex);
-          if (index == -1) break;
-          
-          bool isValid = true;
-          if (index + key.length < remaining.length) {
-            String nextChar = remaining[index + key.length];
-            if (RegExp(r'[a-zA-Z]').hasMatch(nextChar) && RegExp(r'[a-zA-Z]').hasMatch(key[key.length - 1])) {
-              isValid = false;
-            }
-          }
-          
-          if (isValid && index > 0) {
-            String prevChar = remaining[index - 1];
-            if (RegExp(r'[a-zA-Z]').hasMatch(prevChar) && RegExp(r'[a-zA-Z]').hasMatch(key[0])) {
-              isValid = false;
-            }
-          }
-
-          if (isValid) {
-            if (index < minIndex) {
-              minIndex = index;
-              foundKey = remaining.substring(index, index + key.length);
-              matchedMapKey = key;
-            } else if (index == minIndex && key.length > (foundKey?.length ?? 0)) {
-              foundKey = remaining.substring(index, index + key.length);
-              matchedMapKey = key;
-            }
-            break;
-          } else {
-            startIndex = index + 1;
-          }
-        }
-      }
-
-      if (foundKey == null || matchedMapKey == null) {
-        spans.add(TextSpan(text: remaining));
-        break;
-      }
-
-      if (minIndex > 0) {
-        spans.add(TextSpan(text: remaining.substring(0, minIndex)));
-      }
-
-      final String linkUrl = links[matchedMapKey]!;
-
-      spans.add(
-        WidgetSpan(
-          alignment: PlaceholderAlignment.baseline,
-          baseline: TextBaseline.alphabetic,
-          child: MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: () async {
-                final url = Uri.parse(linkUrl);
-                if (await canLaunchUrl(url)) {
-                  await launchUrl(url);
-                }
-              },
-              child: Text(
-                foundKey,
-                style: baseStyle.copyWith(
-                  color: const Color(0xFF6366F1),
-                  decoration: TextDecoration.underline,
-                  decorationColor: const Color(0xFF6366F1).withOpacity(0.5),
-                ),
-              ),
-            ),
-          ),
-        )
-      );
-
-      remaining = remaining.substring(minIndex + foundKey.length);
-    }
-
-    return RichText(
-      text: TextSpan(
-        style: baseStyle,
-        children: spans,
+  MarkdownStyleSheet _markdownStyle(BuildContext context, TextStyle baseStyle) {
+    return MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+      p: baseStyle,
+      pPadding: EdgeInsets.zero,
+      listBullet: baseStyle,
+      listIndent: 20,
+      blockSpacing: 8,
+      a: baseStyle.copyWith(
+        color: const Color(0xFF6366F1),
+        decoration: TextDecoration.underline,
+        decorationColor: const Color(0xFF6366F1).withOpacity(0.5),
       ),
     );
   }

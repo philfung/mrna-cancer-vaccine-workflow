@@ -39,6 +39,7 @@ dependencies:
   flutter_animate: ^4.5.2
   lucide_icons: ^0.257.0
   url_launcher: ^6.3.2
+  flutter_markdown: ^0.7.5
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,5 @@
-# 💉 OpenVAXX: DIY Personalized mRNA Cancer Vaccines
-From biopsy to syringe: everything you need to synthesize personalized mRNA cancer vaccines in your garage. 
+# 💉 OpenVAXX: A end-to-end guide to producing a personalized mRNA vaccine
+From biopsy to syringe: everything you need to synthesize personalized mRNA cancer vaccines in your private lab.
 Focuses on open-source, state-of-the-art software tools paired with "best-tool-for-the-job" benchtop lab equipment.
 
 > [!CAUTION]
@@ -21,11 +21,6 @@ Focuses on open-source, state-of-the-art software tools paired with "best-tool-f
 This pipeline is divided into two continuous halves:
 1. **Data to Blueprint:** Ingests raw sequencing data, utilizes neural networks to identify immunogenic targets, and compiles a stabilized digital mRNA sequence.
 2. **Blueprint to Vial:** Converts the digital `.FASTA` sequence into physical DNA, automates In Vitro Transcription (IVT), and formulates the final LNP drug product.
-
-### [Full System Architecture Diagram](ARCHITECTURE.md)
-
-![Mermaid Diagram](images/part1.png)
-![Mermaid Diagram](images/part2.png)
 
 ---
 
@@ -163,13 +158,13 @@ GGCCGCUGCUUAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 # Lab Equipment & Reagent Bill of Materials
 
-| Step | Subsystem | In-House Lab Equipment | Cost | Outsourced Alt | Est. Run Cost (In-House vs. Out) | Est. Time (In-House vs. Out) |
-| --- | --- | --- | --- | --- | --- | --- |
-| 1 | Sequencing | [NextSeq 2000](https://www.illumina.com/systems/sequencing-platforms/nextseq-1000-2000.html) | ~$300k | [Novogene](https://www.novogene.com/), [Azenta](https://www.azenta.com/) | ~$1,000 vs. ~$2,500 / pt | 1-2 Days vs. 2-4 Weeks |
-| 5 | DNA Prep | [BioXp System](https://telesisbio.com/products/bioxp-system/) | ~$100k | [Twist](https://www.twistbioscience.com/), [IDT](https://www.idtdna.com/), [GenScript](https://www.genscript.com/) | ~$600 vs. ~$200-$900 / gene | 1 Day vs. 1-2 Weeks |
-| 6 | mRNA Synth | [NTxscribe](https://www.ntxbio.com/ntxscribe/) | ~$250k | [TriLink](https://www.trilinkbiotech.com/), [GenScript](https://www.genscript.com/) | ~$2,000 vs. ~$1k-$3k / mg | 1 Day vs. 1-3 Weeks |
-| 7 | LNP Mix | [Sunshine](https://www.unchainedlabs.com/sunshine/) | ~$150k | [VectorBuilder](https://www.vectorbuilder.com/), [Lonza](https://www.lonza.com/) | ~$500 vs. ~$2k-$5k / batch | 1 Day vs. 2-4 Weeks |
-| 8 | Validation | [Stunner](https://www.unchainedlabs.com/stunner/) | ~$80k | [CordenPharma](https://www.cordenpharma.com/), [uBriGene](https://www.ubrigene.com/) | ~$100 vs. ~$1k-$3k / batch | <12 Hours vs. 1-3 Weeks |
+| Step | Subsystem | In-House Lab Equipment | Outsourced Alt | Est. Run Cost (In-House vs. Sending Out)| Est. Time (In-House vs. Out) |
+| --- | --- | --- | --- | ----- | --- |
+| 1 | Sequencing | [NextSeq 2000](https://www.illumina.com/systems/sequencing-platforms/nextseq-1000-2000.html) | [Novogene](https://www.novogene.com/), [Azenta](https://www.azenta.com/) | (~$300k fixed + ~$1,000/pt) vs. ~$2,500 / pt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 1-2 Days vs. 2-4 Weeks &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
+| 5 | DNA Prep | [BioXp System](https://telesisbio.com/products/bioxp-system/) | [Twist](https://www.twistbioscience.com/), [IDT](https://www.idtdna.com/), [GenScript](https://www.genscript.com/) | (  ~$100k fixed + ~$600/gene) vs. ~$200-$900 / gene | 1 Day vs. 1-2 Weeks |
+| 6 | mRNA Synth | [NTxscribe](https://www.ntxbio.com/ntxscribe/) | [TriLink](https://www.trilinkbiotech.com/), [GenScript](https://www.genscript.com/) | (~$250k fixed + ~$2,000/rxn) vs. ~$1k-$3k / mg | 1 Day vs. 1-3 Weeks |
+| 7 | LNP Mix | [Sunshine](https://www.unchainedlabs.com/sunshine/) | [VectorBuilder](https://www.vectorbuilder.com/), [Lonza](https://www.lonza.com/) | (~$150k fixed + ~$500/rxn) vs. ~$2k-$5k / batch | 1 Day vs. 2-4 Weeks |
+| 8 | Validation | [Stunner](https://www.unchainedlabs.com/stunner/) | [CordenPharma](https://www.cordenpharma.com/), [uBriGene](https://www.ubrigene.com/) | (~$80k fixed + ~$100/rxn) vs. ~$1k-$3k / batch | <12 Hours vs. 1-3 Weeks |
 
 ---
 
@@ -181,24 +176,22 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 # Interactive System Architecture
 
-You can explore the system architecture interactively through our React-based diagnostic tool.
+You can explore the system architecture interactively through our Flutter-based web app.
 
 ### Running it locally
 The interactive workflow is a Vite-based application. To run it:
 
 1.  **Navigate to the directory:**
     ```bash
-    cd interactive-workflow
+    cd flutter_website
     ```
 2.  **Install dependencies:**
     ```bash
-    npm install
+    flutter build web
     ```
 3.  **Start the development server:**
     ```bash
-    npm run dev
+    flutter run -d chrome
     ```
-4.  **Open the URL:** The terminal will provide a URL (e.g., `http://localhost:5173`) to view the application in your browser.
 
-> [!CAUTION]
-> Do not use `python -m http.server` to serve the source files directly, as modern browsers require transpilation for `.jsx` files and strict MIME types for modules.
+

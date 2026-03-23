@@ -14,9 +14,10 @@ import 'widgets/welcome_modal.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const double MARGIN_VERTICAL_GROUP_NODES = 200.0;
-const double MARGIN_VERTICAL_DATA_NODES = 60.0;
+const double MARGIN_VERTICAL_DATA_NODES = 30.0;
 const double MARGIN_HORIZONTAL_BETWEEN_DATA_NODES = 40.0;
 const double NODE_WIDTH = 600.0;
+const String APP_VERSION = 'v1.0.0';
 
 void main() {
   GoogleFonts.config.allowRuntimeFetching = true;
@@ -59,6 +60,7 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
   late AnimationController _animationController;
   final Map<String, GlobalKey> _nodeKeys = {};
   final GlobalKey _canvasKey = GlobalKey();
+  Size? _lastSize;
 
   @override
   void initState() {
@@ -131,17 +133,16 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
     final double y = combinedRect.center.dy + paddingTop;
 
     final viewportSize = MediaQuery.of(context).size;
-    
-    // Calculate scale with some padding
-    const double viewPadding = 80.0;
-    final double scaleX = (viewportSize.width - viewPadding * 2) / combinedRect.width;
-    final double scaleY = (viewportSize.height - viewPadding * 2) / combinedRect.height;
-    
-    // Limit maximum scale to 1.0 (actual size) and minimum scale to 0.4
-    final double scale = math.min(math.min(scaleX, scaleY), 1.0).clamp(0.4, 1.0);
-    
     final double detailPanelWidth = _getDetailPanelWidth(viewportSize.width);
     final double availableWidth = viewportSize.width - detailPanelWidth;
+    
+    // Calculate scale with some padding
+    const double viewPadding = 32.0;
+    final double scaleX = (availableWidth - viewPadding * 2) / combinedRect.width;
+    final double scaleY = (viewportSize.height - viewPadding * 2) / combinedRect.height;
+    
+    // Limit maximum scale to 1.0 (actual size) and minimum scale to 0.8
+    final double scale = math.min(math.min(scaleX, scaleY), 1.0).clamp(0.8, 1.0);
     
     final targetMatrix = Matrix4.identity()
       ..translate(availableWidth / 2, viewportSize.height / 2)
@@ -187,6 +188,15 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
   Widget build(BuildContext context) {
     final state = ref.watch(workflowProvider);
     final step = state.currentStep;
+    final viewportSize = MediaQuery.of(context).size;
+
+    // Handle responsive re-centering on resize
+    if (_lastSize != null && _lastSize != viewportSize) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _focusOnStep(state.currentStepId);
+      });
+    }
+    _lastSize = viewportSize;
 
     return Focus(
       autofocus: true,
@@ -352,7 +362,7 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
       // The step itseld
       groupWidgets.add(WorkflowNode(data: step, key: _nodeKeys[step.id]));
       renderedNodeIds.add(step.id);
-      groupWidgets.add(const SizedBox(height: 100));
+      groupWidgets.add(const SizedBox(height: 40));
     }
 
     // Finally, any group data nodes that WERE NOT rendered yet (terminal outbounds)
@@ -424,7 +434,7 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
                             fit: BoxFit.scaleDown,
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              'DIY mRNA Vaccine Workflow',
+                              'A guide to producing a personalized mRNA vaccine',
                               style: GoogleFonts.outfit(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
@@ -462,7 +472,7 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen> with TickerProv
                             const Icon(LucideIcons.github, size: 16, color: Colors.white),
                             const SizedBox(width: 8),
                             Text(
-                              'v1.2.0',
+                              APP_VERSION,
                               style: GoogleFonts.inter(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,

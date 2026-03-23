@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/workflow_data.dart';
 import '../utils/icon_mapper.dart';
 
@@ -13,16 +15,16 @@ class WorkflowNode extends StatelessWidget {
     Widget node;
     switch (data.type) {
       case NodeType.step:
-        node = _buildStepNode();
+        node = _buildStepNode(context);
         break;
       case NodeType.data:
-        node = _buildDataNode();
+        node = _buildDataNode(context);
         break;
       case NodeType.title:
-        node = _buildTitleNode();
+        node = _buildTitleNode(context);
         break;
       case NodeType.group:
-        node = _buildGroupNode();
+        node = _buildGroupNode(context);
         break;
     }
 
@@ -32,7 +34,7 @@ class WorkflowNode extends StatelessWidget {
     return node;
   }
 
-  Widget _buildStepNode() {
+  Widget _buildStepNode(BuildContext context) {
     final color = _getColor(data.color);
     return Container(
       width: 600,
@@ -68,22 +70,24 @@ class WorkflowNode extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      data.title,
-                      style: GoogleFonts.outfit(
+                    MarkdownBody(
+                      data: data.title,
+                      styleSheet: _markdownStyle(context, GoogleFonts.outfit(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
-                      ),
+                      )),
+                      onTapLink: (text, href, title) => _launchUrl(href),
                     ),
                     if (data.goal != null)
-                      Text(
-                        'Goal: ${data.goal}',
-                        style: GoogleFonts.inter(
+                      MarkdownBody(
+                        data: 'Goal: ${data.goal}',
+                        styleSheet: _markdownStyle(context, GoogleFonts.inter(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                           color: color,
-                        ),
+                        )),
+                        onTapLink: (text, href, title) => _launchUrl(href),
                       ),
                   ],
                 ),
@@ -91,13 +95,14 @@ class WorkflowNode extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          Text(
-            data.description ?? '',
-            style: GoogleFonts.inter(
+          MarkdownBody(
+            data: data.description ?? '',
+            styleSheet: _markdownStyle(context, GoogleFonts.inter(
               fontSize: 15,
               color: Colors.grey[400],
               height: 1.5,
-            ),
+            )),
+            onTapLink: (text, href, title) => _launchUrl(href),
           ),
           if (data.image != null) ...[
             const SizedBox(height: 16),
@@ -123,17 +128,17 @@ class WorkflowNode extends StatelessWidget {
             const SizedBox(height: 20),
             const Divider(),
             const SizedBox(height: 12),
-            if (data.hardware != null) _buildFooterItem('Lab Equipment', data.hardware!),
-            if (data.software != null) _buildFooterItem('Software', data.software!),
-            if (data.outsourced != null) _buildFooterItem('Outsourced', data.outsourced!),
-            if (data.cost != null) _buildFooterItem('Cost', data.cost!, isCost: true, color: color),
+            if (data.hardware != null) _buildFooterItem(context, 'Lab Equipment', data.hardware!),
+            if (data.software != null) _buildFooterItem(context, 'Software', data.software!),
+            if (data.outsourced != null) _buildFooterItem(context, 'Outsourced', data.outsourced!),
+            if (data.cost != null) _buildFooterItem(context, 'Cost', data.cost!, isCost: true, color: color),
           ],
         ],
       ),
     );
   }
 
-  Widget _buildDataNode() {
+  Widget _buildDataNode(BuildContext context) {
     final color = _getColor(data.color);
     return Container(
       width: data.size?.width,
@@ -156,22 +161,24 @@ class WorkflowNode extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          Text(
-            data.title,
-            style: GoogleFonts.outfit(
+          MarkdownBody(
+            data: data.title,
+            styleSheet: _markdownStyle(context, GoogleFonts.outfit(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Colors.white,
-            ),
+            )),
+            onTapLink: (text, href, title) => _launchUrl(href),
           ),
           const SizedBox(height: 8),
-          Text(
-            (data.description ?? '').replaceAll('<br/>', '\n'),
-            style: GoogleFonts.inter(
+          MarkdownBody(
+            data: (data.description ?? '').replaceAll('<br/>', '  \n'),
+            styleSheet: _markdownStyle(context, GoogleFonts.inter(
               fontSize: 14,
               color: Colors.grey[400],
               height: 1.4,
-            ),
+            )),
+            onTapLink: (text, href, title) => _launchUrl(href),
           ),
           if (data.images != null && data.images!.isNotEmpty) ...[
             const SizedBox(height: 16),
@@ -205,34 +212,36 @@ class WorkflowNode extends StatelessWidget {
   );
 }
 
-  Widget _buildTitleNode() {
+  Widget _buildTitleNode(BuildContext context) {
     final color = _getColor(data.color);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          data.title,
-          style: GoogleFonts.outfit(
+        MarkdownBody(
+          data: data.title,
+          styleSheet: _markdownStyle(context, GoogleFonts.outfit(
             fontSize: 48,
             fontWeight: FontWeight.w800,
             color: color,
             letterSpacing: -1,
-          ),
+          )),
+          onTapLink: (text, href, title) => _launchUrl(href),
         ),
         const SizedBox(height: 8),
-        Text(
-          data.description ?? '',
-          style: GoogleFonts.inter(
+        MarkdownBody(
+          data: data.description ?? '',
+          styleSheet: _markdownStyle(context, GoogleFonts.inter(
             fontSize: 24,
             fontWeight: FontWeight.w500,
             color: const Color(0xFF64748B),
-          ),
+          )),
+          onTapLink: (text, href, title) => _launchUrl(href),
         ),
       ],
     );
   }
 
-  Widget _buildGroupNode() {
+  Widget _buildGroupNode(BuildContext context) {
     final color = _getColor(data.color);
     return Container(
       width: data.size?.width ?? 1400,
@@ -259,13 +268,14 @@ class WorkflowNode extends StatelessWidget {
                   color: color.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Text(
-                  data.label ?? '',
-                  style: GoogleFonts.outfit(
+                child: MarkdownBody(
+                  data: data.label ?? '',
+                  styleSheet: _markdownStyle(context, GoogleFonts.outfit(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: color,
-                  ),
+                  )),
+                  onTapLink: (text, href, title) => _launchUrl(href),
                 ),
               ),
             ),
@@ -275,33 +285,50 @@ class WorkflowNode extends StatelessWidget {
     );
   }
 
-  Widget _buildFooterItem(String label, String value, {bool isCost = false, Color? color}) {
+  Widget _buildFooterItem(BuildContext context, String label, String value, {bool isCost = false, Color? color}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 6),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '$label: ',
-            style: GoogleFonts.inter(
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
-              color: Colors.grey[300],
-            ),
+      child: MarkdownBody(
+        data: '**$label:** $value',
+        styleSheet: _markdownStyle(context, GoogleFonts.inter(
+          fontSize: 13,
+          fontWeight: isCost ? FontWeight.bold : FontWeight.w500,
+          color: isCost ? color : Colors.grey[400],
+        )).copyWith(
+          strong: GoogleFonts.inter(
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey[300],
           ),
-          Expanded(
-            child: Text(
-              value,
-              style: GoogleFonts.inter(
-                fontSize: 13,
-                fontWeight: isCost ? FontWeight.bold : FontWeight.w500,
-                color: isCost ? color : Colors.grey[400],
-              ),
-            ),
-          ),
-        ],
+        ),
+        onTapLink: (text, href, title) => _launchUrl(href),
       ),
     );
+  }
+
+  MarkdownStyleSheet _markdownStyle(BuildContext context, TextStyle baseStyle) {
+    return MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+      p: baseStyle,
+      pPadding: EdgeInsets.zero,
+      listBullet: baseStyle,
+      listIndent: 20,
+      blockSpacing: 8,
+      textAlign: WrapAlignment.start,
+      a: baseStyle.copyWith(
+        color: const Color(0xFF6366F1),
+        decoration: TextDecoration.underline,
+        decorationColor: const Color(0xFF6366F1).withOpacity(0.5),
+      ),
+    );
+  }
+
+  Future<void> _launchUrl(String? href) async {
+    if (href != null) {
+      final url = Uri.parse(href);
+      if (await canLaunchUrl(url)) {
+        await launchUrl(url);
+      }
+    }
   }
 
   Color _getColor(String? colorName) {
