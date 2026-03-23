@@ -20,7 +20,7 @@ Focuses on open-source, state-of-the-art software tools paired with "best-tool-f
 
 This pipeline is divided into two continuous halves:
 1. **Data to Blueprint:** Ingests raw sequencing data, utilizes neural networks to identify immunogenic targets, and compiles a stabilized digital mRNA sequence.
-2. **Blueprint to Vial:** Converts the digital `.fasta` sequence into physical DNA, automates In Vitro Transcription (IVT), and formulates the final LNP drug product.
+2. **Blueprint to Vial:** Converts the digital `.FASTA` sequence into physical DNA, automates In Vitro Transcription (IVT), and formulates the final LNP drug product.
 
 ### [Full System Architecture Diagram](ARCHITECTURE.md)
 
@@ -42,11 +42,11 @@ This pipeline is divided into two continuous halves:
   * **Tumor Biopsy (RNA):** RNA-Seq at ~50M–100M reads (to verify that the mutated genes are actually expressed).
 * **Process:** The machine reads extracted DNA/RNA, turning biological chemistry into digital text.
 * **Outputs:** 4 files including billions of short genetic reads and the patient's immune profile:
-  1. `baseline-normal.fastq` — Normal blood WES (~30X–50X)
-  2. `tumor-exome.fastq` — Tumor biopsy WES (~100X–500X)
-  3. `tumor-rna.fastq` — Tumor biopsy RNA-Seq (~50M–100M reads)
+  1. `baseline-normal.FASTQ` — Normal blood WES (~30X–50X)
+  2. `tumor-exome.FASTQ` — Tumor biopsy WES (~100X–500X)
+  3. `tumor-rna.FASTQ` — Tumor biopsy RNA-Seq (~50M–100M reads)
   4. `patient-hla.txt` — Patient HLA profile (MHC Class I & II typing)
-* **File Format:** `.fastq` & `.txt`
+* **File Format:** `.FASTQ` & `.txt`
 ```text
 @Patient_001:Baseline_Normal:1:1101:1234:5678
 GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCC
@@ -57,7 +57,7 @@ GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCC
 ## Step 2: Spotting the Typos (Finding the Mutations)
 **Goal:** Compare the healthy code against the tumor code to isolate specific cancer-causing errors.
 * **Software:** [GATK Mutect2](https://github.com/broadinstitute/gatk)
-* **Inputs:** 3 patient `.fastq` files (`baseline-normal`, `tumor-exome`, `tumor-rna`) + Human Reference Genome (`.fasta`).
+* **Inputs:** 3 patient `.FASTQ` files (`baseline-normal`, `tumor-exome`, `tumor-rna`) + Human Reference Genome (`.FASTA`).
 * **Process:** Aligns reads and mathematically subtracts healthy DNA from tumor DNA to isolate somatic mutations.
 * **Outputs:** 2 `.vcf` files containing a condensed list of specific genetic mutations:
   1. `somatic-variants.vcf` — All raw mutation candidates.
@@ -90,9 +90,9 @@ HLA-B*07:02 APRGVFLLS         112.4               145.2                 0.85
 * **Software:** [pVACvector](https://github.com/griffithlab/pVACtools) + [LinearDesign](https://github.com/LinearDesignSoftware/LinearDesign)
 * **Inputs:** Top targets from `ranked-predictions.tsv`.
 * **Process:** Strings targets together, adds structural instructions (5' Cap, Poly-A tail), and optimizes codons for folding stability.
-* **Outputs:** 1 `.fasta` file representing the complete, optimized mRNA blueprint.
-  * `vaccine-construct.fasta` — Master mRNA sequence (5' UTR, Kozak, Start, Epitopes, Linkers, Stop, 3' UTR, Poly-A).
-* **File Format:** `.fasta`
+* **Outputs:** 1 `.FASTA` file representing the complete, optimized mRNA blueprint.
+  * `vaccine-construct.FASTA` — Master mRNA sequence (5' UTR, Kozak, Start, Epitopes, Linkers, Stop, 3' UTR, Poly-A).
+* **File Format:** `.FASTA`
 ```text
 >Patient_001_Custom_Vaccine_v1 | 5'UTR-Kozak-AUG-Epitopes-AAY_Linkers-Stop-3'UTR-PolyA
 GGGAAAUAAGAGAGAAAAGAAGAGUAAGAAGAAAUAUAAGAGCCACCAUGGGCUACUUGCUGCCAGCGAU
@@ -109,7 +109,7 @@ GGCCGCUGCUUAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 * **Lab Equipment:** Benchtop DNA Synthesizer (e.g., [Telesis Bio BioXp](https://telesisbio.com/products/bioxp-system/), ~$100,000).
 * **Alt. (Outsourced):** Custom gene synthesis (e.g., [Twist Bioscience](https://www.twistbioscience.com/), [IDT](https://www.idtdna.com/), [GenScript](https://www.genscript.com/), [Azenta](https://www.azenta.com/)).
 * **Est. Cost:** ~$600 / rxn (In-House) or ~$200 - $900 (Outsourced gene)
-* **Inputs:** The `.fasta` file.
+* **Inputs:** The `.FASTA` file.
 * **Process:** Automated Gibson Assembly stitches synthetic oligonucleotides into a complete DNA plasmid, which is then linearized with restriction enzymes (e.g., BspQI).
 * **Outputs:** ~1.5 mL of purified, linearized DNA template in a sterile 2.0 mL microcentrifuge tube.
   * **Yield:** ~75 µg of total DNA (typically at ~50 ng/µL concentration).

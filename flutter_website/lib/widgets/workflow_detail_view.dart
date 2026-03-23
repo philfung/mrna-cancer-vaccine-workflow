@@ -127,13 +127,13 @@ class WorkflowDetailView extends ConsumerWidget {
                     
                     if (stepNode.inputs != null && stepNode.inputs!.isNotEmpty) ...[
                       _buildSectionTitle('INPUTS'),
-                      ...stepNode.inputs!.map((input) => _buildResourceItem(input, isOutput: false)),
+                      ...stepNode.inputs!.map((input) => _buildResourceItem(context, input, isOutput: false)),
                       const SizedBox(height: 16),
                     ],
                     
                     if (stepNode.outputs != null && stepNode.outputs!.isNotEmpty) ...[
                       _buildSectionTitle('OUTPUTS'),
-                      ...stepNode.outputs!.map((output) => _buildResourceItem(output, isOutput: true)),
+                      ...stepNode.outputs!.map((output) => _buildResourceItem(context, output, isOutput: true)),
                       const SizedBox(height: 16),
                     ],
 
@@ -144,8 +144,8 @@ class WorkflowDetailView extends ConsumerWidget {
                     _buildDescription(context, 'Two key patient samples are required to initiate the personalized mRNA vaccine manufacturing process:'),
                     const SizedBox(height: 16),
                     _buildSectionTitle('REQUIRED SAMPLES'),
-                    _buildImageResourceItem('lib/assets/icons/icon_tissue.png', 'Tumor Biopsy: Provides tumor DNA & RNA to identify cancer-specific somatic mutations (neoantigens) unique to the patient.'),
-                    _buildImageResourceItem('lib/assets/icons/icon_blood.png', 'Normal Blood: Serves as a healthy genetic reference to filter out inherited (germline) mutations and isolate immune cells for HLA typing.'),
+                    _buildImageResourceItem(context, 'lib/assets/icons/icon_tissue.png', 'Tumor Biopsy: Provides tumor DNA & RNA to identify cancer-specific somatic mutations (neoantigens) unique to the patient.'),
+                    _buildImageResourceItem(context, 'lib/assets/icons/icon_blood.png', 'Normal Blood: Serves as a healthy genetic reference to filter out inherited (germline) mutations and isolate immune cells for HLA typing.'),
                   ] else if (currentStep.id == 10) ...[
                     _buildStepGoal(context, 'Final Vaccine Formulation'),
                     const SizedBox(height: 16),
@@ -243,40 +243,29 @@ class WorkflowDetailView extends ConsumerWidget {
   }
 
   Widget _buildDescription(BuildContext context, String description) {
-    return Text(
-      description,
-      style: GoogleFonts.inter(
-        fontSize: min(MediaQuery.of(context).size.width * 0.04, 15),
-        fontWeight: FontWeight.w400,
-        color: Colors.grey[400],
-        height: 1.6,
-      ),
+    // Handle <br/> tags for simple multi-line descriptions
+    final lines = description.split('<br/>');
+    
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: lines.map((line) => Padding(
+        padding: const EdgeInsets.only(bottom: 4),
+        child: _buildLinkifiedText(
+          context,
+          line,
+          GoogleFonts.inter(
+            fontSize: min(MediaQuery.of(context).size.width * 0.04, 15),
+            fontWeight: FontWeight.w400,
+            color: Colors.grey[400],
+            height: 1.6,
+          ),
+        ),
+      )).toList(),
     );
   }
 
-  Widget _buildResourceItem(String text, {required bool isOutput}) {
-    String imagePath;
-    String lower = text.toLowerCase();
-
-    if (lower.contains('tumor')) {
-      imagePath = 'lib/assets/icons/icon_tissue.png';
-    } else if (lower.contains('blood') || lower.contains('normal')) {
-      imagePath = 'lib/assets/icons/icon_blood.png';
-    } else if (lower.contains('fastq') || lower.contains('vcf') || lower.contains('fasta') || lower.contains('tsv') || lower.contains('blueprint')) {
-      imagePath = 'lib/assets/icons/icon_file.png';
-    } else if (lower.contains('dna')) {
-      imagePath = 'lib/assets/icons/icon_dna.png';
-    } else if (lower.contains('mrna') || lower.contains('rna ')) {
-      imagePath = 'lib/assets/icons/icon_mrna.png';
-    } else if (lower.contains('vaccine') || lower.contains('vial')) {
-      imagePath = 'lib/assets/icons/icon_vaccine.png';
-    } else if (lower.contains('lipid') || lower.contains('mixture')) {
-      imagePath = 'lib/assets/icons/icon_12ml.png';
-    } else if (lower.contains('reagent')) {
-      imagePath = 'lib/assets/icons/icon_5ml_dna.png';
-    } else {
-      imagePath = isOutput ? 'lib/assets/icons/icon_file.png' : 'lib/assets/icons/icon_file.png';
-    }
+  Widget _buildResourceItem(BuildContext context, WorkflowNodeInOut item, {required bool isOutput}) {
+    String imagePath = 'lib/assets/icons/${item.icon}';
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -286,9 +275,10 @@ class WorkflowDetailView extends ConsumerWidget {
           Image.asset(imagePath, width: 48, height: 48),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(
-              text,
-              style: GoogleFonts.inter(
+            child: _buildLinkifiedText(
+              context,
+              item.text,
+              GoogleFonts.inter(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
                 color: Colors.grey[300],
@@ -300,7 +290,7 @@ class WorkflowDetailView extends ConsumerWidget {
     );
   }
 
-  Widget _buildImageResourceItem(String imagePath, String text) {
+  Widget _buildImageResourceItem(BuildContext context, String imagePath, String text) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
@@ -309,9 +299,10 @@ class WorkflowDetailView extends ConsumerWidget {
           Image.asset(imagePath, width: 48, height: 48),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(
+            child: _buildLinkifiedText(
+              context,
               text,
-              style: GoogleFonts.inter(
+              GoogleFonts.inter(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
                 color: Colors.grey[300],
@@ -582,6 +573,115 @@ class WorkflowDetailView extends ConsumerWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildLinkifiedText(BuildContext context, String text, TextStyle baseStyle) {
+    final Map<String, String> links = {
+      'FASTQ': 'https://en.wikipedia.org/wiki/FASTQ_format',
+      '.FASTQ': 'https://en.wikipedia.org/wiki/FASTQ_format',
+      'VCF': 'https://en.wikipedia.org/wiki/Variant_Call_Format',
+      '.vcf': 'https://en.wikipedia.org/wiki/Variant_Call_Format',
+      'FASTA': 'https://en.wikipedia.org/wiki/FASTA_format',
+      '.FASTA': 'https://en.wikipedia.org/wiki/FASTA_format',
+      'vaccine-construct.fa': 'https://en.wikipedia.org/wiki/FASTA_format',
+      'Patient HLA profile': 'https://support.illumina.com/content/dam/illumina-support/help/BaseSpace_App_WGS_v6_OLH_15050955_03/Content/Source/Informatics/Apps/HLATypingFormat_appISCWGS.htm#',
+      'HLA profile': 'https://support.illumina.com/content/dam/illumina-support/help/BaseSpace_App_WGS_v6_OLH_15050955_03/Content/Source/Informatics/Apps/HLATypingFormat_appISCWGS.htm#',
+      'ranked-predictions.tsv': 'https://pvactools.readthedocs.io/en/7.0.0_docs/pvacseq/output_files.html',
+    };
+
+    List<InlineSpan> spans = [];
+    String remaining = text;
+
+    while (remaining.isNotEmpty) {
+      String? foundKey;
+      String? matchedMapKey;
+      int minIndex = remaining.length;
+
+      // Case-insensitive search for keywords, but preserve casing for better matching
+      for (var key in links.keys) {
+        int startIndex = 0;
+        int index = -1;
+        while (startIndex < remaining.length) {
+          index = remaining.toUpperCase().indexOf(key.toUpperCase(), startIndex);
+          if (index == -1) break;
+          
+          bool isValid = true;
+          if (index + key.length < remaining.length) {
+            String nextChar = remaining[index + key.length];
+            if (RegExp(r'[a-zA-Z]').hasMatch(nextChar) && RegExp(r'[a-zA-Z]').hasMatch(key[key.length - 1])) {
+              isValid = false;
+            }
+          }
+          
+          if (isValid && index > 0) {
+            String prevChar = remaining[index - 1];
+            if (RegExp(r'[a-zA-Z]').hasMatch(prevChar) && RegExp(r'[a-zA-Z]').hasMatch(key[0])) {
+              isValid = false;
+            }
+          }
+
+          if (isValid) {
+            if (index < minIndex) {
+              minIndex = index;
+              foundKey = remaining.substring(index, index + key.length);
+              matchedMapKey = key;
+            } else if (index == minIndex && key.length > (foundKey?.length ?? 0)) {
+              foundKey = remaining.substring(index, index + key.length);
+              matchedMapKey = key;
+            }
+            break;
+          } else {
+            startIndex = index + 1;
+          }
+        }
+      }
+
+      if (foundKey == null || matchedMapKey == null) {
+        spans.add(TextSpan(text: remaining));
+        break;
+      }
+
+      if (minIndex > 0) {
+        spans.add(TextSpan(text: remaining.substring(0, minIndex)));
+      }
+
+      final String linkUrl = links[matchedMapKey]!;
+
+      spans.add(
+        WidgetSpan(
+          alignment: PlaceholderAlignment.baseline,
+          baseline: TextBaseline.alphabetic,
+          child: MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureDetector(
+              onTap: () async {
+                final url = Uri.parse(linkUrl);
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url);
+                }
+              },
+              child: Text(
+                foundKey,
+                style: baseStyle.copyWith(
+                  color: const Color(0xFF6366F1),
+                  decoration: TextDecoration.underline,
+                  decorationColor: const Color(0xFF6366F1).withOpacity(0.5),
+                ),
+              ),
+            ),
+          ),
+        )
+      );
+
+      remaining = remaining.substring(minIndex + foundKey.length);
+    }
+
+    return RichText(
+      text: TextSpan(
+        style: baseStyle,
+        children: spans,
       ),
     );
   }

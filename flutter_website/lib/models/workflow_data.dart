@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 
 enum NodeType { step, data, title, group }
 
+class WorkflowNodeInOut {
+  final String text;
+  final String icon;
+
+  const WorkflowNodeInOut(this.text, this.icon);
+}
+
 class WorkflowNodeData {
   final String id;
   final NodeType type;
@@ -20,8 +27,8 @@ class WorkflowNodeData {
   final Offset? position;
   final Size? size;
   final String? label;
-  final List<String>? inputs;
-  final List<String>? outputs;
+  final List<WorkflowNodeInOut>? inputs;
+  final List<WorkflowNodeInOut>? outputs;
   final String? fileFormat;
   final bool isHighlighted;
 
