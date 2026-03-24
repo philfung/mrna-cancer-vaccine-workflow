@@ -58,22 +58,22 @@ class WelcomeModal extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'A end-to-end guide to producing a personalized mRNA vaccine',
-                    style: GoogleFonts.outfit(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF6366F1),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 32),
+                // const SizedBox(height: 8),
+                // FittedBox(
+                //   fit: BoxFit.scaleDown,
+                //   alignment: Alignment.centerLeft,
+                //   child: Text(
+                //     'A end-to-end guide to producing a personalized mRNA vaccine',
+                //     style: GoogleFonts.outfit(
+                //       fontSize: 20,
+                //       fontWeight: FontWeight.w600,
+                //       color: const Color(0xFF6366F1),
+                //     ),
+                //   ),
+                // ),
+                const SizedBox(height: 10),
                 Text(
-                  'From biopsy to syringe: an end-to-end workflow for producing a personalized mRNA vaccine. Focuses on open-source, state-of-the-art software tools paired with "best-tool-for-the-job" benchtop lab equipment.',
+                  'From biopsy to syringe, this demonstrates an end-to-end workflow for producing a personalized mRNA vaccine. ',
                   style: GoogleFonts.inter(
                     fontSize: min(MediaQuery.of(context).size.width * 0.04, 16),
                     fontWeight: FontWeight.w500,
@@ -81,9 +81,9 @@ class WelcomeModal extends StatelessWidget {
                     height: 1.6,
                   ),
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 10),
                 Container(
-                  padding: const EdgeInsets.all(24),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: const Color(0xFF3F1D1D),
                     borderRadius: BorderRadius.circular(20),
@@ -94,8 +94,8 @@ class WelcomeModal extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          const Icon(LucideIcons.alertTriangle, color: Color(0xFFEF4444), size: 20),
-                          const SizedBox(width: 12),
+                          const Icon(LucideIcons.alertTriangle, color: Color(0xFFEF4444), size: 15),
+                          const SizedBox(width: 5),
                           Text(
                             'Caution',
                             style: GoogleFonts.inter(
@@ -107,9 +107,9 @@ class WelcomeModal extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 5),
                       Text(
-                        '⚠️ RESEARCH & EDUCATION USE ONLY. NOT MEDICAL ADVICE. This is a technical reference for educational purposes. Building mRNA vaccines involves severe biological hazards, requiring strict oversight and qualified personnel. The authors assume no liability for misuse. Consult professionals before attempting any part of this workflow.',
+                        '⚠️ RESEARCH & EDUCATION USE ONLY. NOT MEDICAL ADVICE. This is a reference for educational purposes. Building mRNA vaccines involves severe biological hazards, requiring strict oversight and qualified personnel. The authors assume no liability for misuse.  Do not attempt any part of this workflow.',
                         style: GoogleFonts.inter(
                           fontSize: min(MediaQuery.of(context).size.width * 0.035, 13),
                           fontWeight: FontWeight.w500,
@@ -120,7 +120,7 @@ class WelcomeModal extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(

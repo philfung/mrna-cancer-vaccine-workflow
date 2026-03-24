@@ -34,10 +34,43 @@ class WorkflowNode extends StatelessWidget {
     return node;
   }
 
+  double _getNodeWidth(BuildContext context) {
+    // print(MediaQuery.of(context).size.width);
+    double width = MediaQuery.of(context).size.width;
+    if (width / 2.0 < 200) {
+      return 200;
+    } else if (width / 2.0 > 500) {
+      return 500;
+    } else {
+      return width / 2.0;
+    }
+  }
+
+  double _getBoxScalingFactor(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    // print(width);
+    double scale = 1.0;
+    double maxWidth = 800;
+    double minWidth = 400;
+    double minScale = .5;
+    if (width  < minWidth) {
+      scale = minScale;
+    } else if (width > maxWidth) {
+      scale = 1.0;
+    } else {
+      scale = minScale + (1.0 - minScale) * (width - minWidth) / (maxWidth - minWidth);
+    }
+    // print(scale);
+    return scale;
+  }
+
   Widget _buildStepNode(BuildContext context) {
     final color = _getColor(data.color);
+    final scale = _getBoxScalingFactor(context);
+    double width = MediaQuery.of(context).size.width;
+
     return Container(
-      width: 600,
+      width: (width/2.0),
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
       decoration: BoxDecoration(
         color: const Color(0xFF1C1C1E),
@@ -56,16 +89,16 @@ class WorkflowNode extends StatelessWidget {
         children: [
           Row(
             children: [
-              if (data.iconName != null)
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: color.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(getLucideIcon(data.iconName), color: color, size: 24),
-                ),
-              const SizedBox(width: 16),
+              // if (data.iconName != null)
+              //   Container(
+              //     padding: const EdgeInsets.all(12),
+              //     decoration: BoxDecoration(
+              //       color: color.withOpacity(0.1),
+              //       borderRadius: BorderRadius.circular(12),
+              //     ),
+              //     child: Icon(getLucideIcon(data.iconName), color: color, size: 24),
+              //   ),
+              // const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +106,7 @@ class WorkflowNode extends StatelessWidget {
                     MarkdownBody(
                       data: data.title,
                       styleSheet: _markdownStyle(context, GoogleFonts.outfit(
-                        fontSize: 20,
+                        fontSize: 20 * scale,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       )),
@@ -83,7 +116,7 @@ class WorkflowNode extends StatelessWidget {
                       MarkdownBody(
                         data: 'Goal: ${data.goal}',
                         styleSheet: _markdownStyle(context, GoogleFonts.inter(
-                          fontSize: 14,
+                          fontSize: 14 * scale,
                           fontWeight: FontWeight.w600,
                           color: color,
                         )),
@@ -94,18 +127,18 @@ class WorkflowNode extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: (16 * scale)),
           MarkdownBody(
             data: data.description ?? '',
             styleSheet: _markdownStyle(context, GoogleFonts.inter(
-              fontSize: 15,
+              fontSize: 15 * scale,
               color: Colors.grey[400],
               height: 1.5,
             )),
             onTapLink: (text, href, title) => _launchUrl(href),
           ),
           if (data.image != null) ...[
-            const SizedBox(height: 16),
+            SizedBox(height: 16 * scale),
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: Container(
@@ -113,10 +146,10 @@ class WorkflowNode extends StatelessWidget {
                 child: Image.asset(
                   data.image!,
                   width: double.infinity,
-                  height: 200,
+                  height: 200 * scale,
                   fit: BoxFit.contain,
                   errorBuilder: (context, error, stackTrace) => Container(
-                    height: 200,
+                    height: 200 * scale,
                     color: Colors.grey[200],
                     child: const Icon(Icons.broken_image, color: Colors.grey),
                   ),
@@ -125,9 +158,9 @@ class WorkflowNode extends StatelessWidget {
             ),
           ],
           if (data.hardware != null || data.software != null || data.outsourced != null || data.cost != null) ...[
-            const SizedBox(height: 20),
+            SizedBox(height: 20 * scale),
             const Divider(),
-            const SizedBox(height: 12),
+            SizedBox(height: 12 * scale),
             if (data.hardware != null) _buildFooterItem(context, 'Lab Equipment', data.hardware!),
             if (data.software != null) _buildFooterItem(context, 'Software', data.software!),
             if (data.outsourced != null) _buildFooterItem(context, 'Outsourced', data.outsourced!),
@@ -140,10 +173,14 @@ class WorkflowNode extends StatelessWidget {
 
   Widget _buildDataNode(BuildContext context) {
     final color = _getColor(data.color);
+    final scale = _getBoxScalingFactor(context);
+    double constraintWidth = data.size?.width ?? 450;
+    constraintWidth *= scale;
+
     return Container(
-      width: data.size?.width,
-      constraints: BoxConstraints(maxWidth: data.size?.width ?? 450),
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      width: constraintWidth,
+      constraints: BoxConstraints(maxWidth: constraintWidth),
+      padding: EdgeInsets.symmetric(horizontal: 24 * scale, vertical: 16 * scale),
       decoration: BoxDecoration(
         color: const Color(0xFF1C1C1E),
         borderRadius: BorderRadius.circular(16),
@@ -164,24 +201,24 @@ class WorkflowNode extends StatelessWidget {
           MarkdownBody(
             data: data.title,
             styleSheet: _markdownStyle(context, GoogleFonts.outfit(
-              fontSize: 16,
+              fontSize: 16 * scale,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             )),
             onTapLink: (text, href, title) => _launchUrl(href),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8 * scale),
           MarkdownBody(
             data: (data.description ?? '').replaceAll('<br/>', '  \n'),
             styleSheet: _markdownStyle(context, GoogleFonts.inter(
-              fontSize: 14,
+              fontSize: 14 * scale,
               color: Colors.grey[400],
               height: 1.4,
             )),
             onTapLink: (text, href, title) => _launchUrl(href),
           ),
           if (data.images != null && data.images!.isNotEmpty) ...[
-            const SizedBox(height: 16),
+            SizedBox(height: 16 * scale),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -190,18 +227,18 @@ class WorkflowNode extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                     child: Image.asset(
                       imagePath,
-                      height: 80,
-                      width: 80,
+                      height: 80 * scale,
+                      width: 80 * scale,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) => Container(
-                        height: 80,
-                        width: 80,
+                        height: 80 * scale,
+                        width: 80 * scale,
                         color: Colors.grey[200],
                         child: const Icon(Icons.broken_image, color: Colors.grey),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12 * scale),
                 ],
               ],
             ),
