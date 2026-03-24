@@ -72047,7 +72047,7 @@ return A.N($async$vY,r)}}
 A.a4q.prototype={}
 A.Ic.prototype={
 S(a){var s=null
-return new A.xf(B.R0,"\ud83d\udc89\ud83d\udc15 OpenVaxx",A.aao(B.a7,A.apc(B.a7,s,s,B.af),"Inter",B.k,A.aBO(A.aao(B.a7,s,s,s,s,s).ok),!0),!1,s)}}
+return new A.xf(B.R0,"\ud83d\udc89\ud83d\udc36 OpenVaxx",A.aao(B.a7,A.apc(B.a7,s,s,B.af),"Inter",B.k,A.aBO(A.aao(B.a7,s,s,s,s,s).ok),!0),!1,s)}}
 A.Au.prototype={
 ak(){return new A.S9(A.aE0(),A.o(t.N,t.yi),new A.bA(null,t.C),null,null)}}
 A.S9.prototype={
@@ -72286,7 +72286,7 @@ o=A.b([A.qJ(A.GQ(l,A.ei("\ud83d\udc89\ud83d\udc36 OpenVaxx",l,A.pn().$3$color$fo
 if(k>350*s){k=16*s
 n=8*s
 m=A.dn(20*s)
-o.push(A.qJ(A.GQ(l,A.d8(A.fj(A.b([A.Hb(B.G6,B.j,l,k),A.bT(l,l,n),A.ei("v1.0.0",l,A.du().$3$color$fontSize$fontWeight(B.j,14*s,B.aj),l)],p),B.a9,B.ap,B.ba,l),B.t,l,l,new A.cd(B.af,l,l,m,l,l,B.T),l,l,l,new A.ax(k,n,k,n),l),B.aO,!1,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,new A.aib(),l,l,l,!1,B.dN),B.e3,l,l,l,l))}return A.d8(A.dS(A.b([A.fj(o,B.a9,B.qL,B.P,l),A.bT(l,4*s,l),A.aln(B.ha,A.ei("A guide to producing a personalized mRNA cancer vaccine",l,A.pn().$3$color$fontSize$fontWeight(B.bL,16*s,B.B),l),B.k5)],p),B.M,B.ba),B.t,l,l,B.y4,l,l,l,new A.ax(q,r,q,r),l)},
+o.push(A.qJ(A.GQ(l,A.d8(A.fj(A.b([A.Hb(B.G6,B.j,l,k),A.bT(l,l,n),A.ei("v1.0.0",l,A.du().$3$color$fontSize$fontWeight(B.j,14*s,B.aj),l)],p),B.a9,B.ap,B.ba,l),B.t,l,l,new A.cd(B.af,l,l,m,l,l,B.T),l,l,l,new A.ax(k,n,k,n),l),B.aO,!1,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,l,new A.aib(),l,l,l,!1,B.dN),B.e3,l,l,l,l))}return A.d8(A.dS(A.b([A.fj(o,B.a9,B.qL,B.P,l),A.bT(l,4*s,l),A.aln(B.ha,A.ei("An open-source guide to producing a personalized mRNA cancer vaccine",l,A.pn().$3$color$fontSize$fontWeight(B.bL,16*s,B.B),l),B.k5)],p),B.M,B.ba),B.t,l,l,B.y4,l,l,l,new A.ax(q,r,q,r),l)},
 $S:468}
 A.aia.prototype={
 $0(){return this.a.mS(1)},
