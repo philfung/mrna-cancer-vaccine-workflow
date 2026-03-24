@@ -70,19 +70,19 @@ final List<WorkflowNodeData> initialNodes = [
     ],
     outputs: [
       WorkflowNodeInOut(
-        'baseline-normal.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) — Normal blood Whole Exome Sequencing (~30X–50X)',
+        'baseline-normal.FASTQ — Normal blood Whole Exome Sequencing (~30X–50X)',
         'icon_file.png',
       ),
       WorkflowNodeInOut(
-        'tumor-exome.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) — Tumor biopsy Whole Exome Sequencing (~100X–500X)',
+        'tumor-exome.FASTQ — Tumor biopsy Whole Exome Sequencing (~100X–500X)',
         'icon_file.png',
       ),
       WorkflowNodeInOut(
-        'tumor-rna.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) — Tumor biopsy RNA-Seq (~50M–100M reads)',
+        'tumor-rna.FASTQ — Tumor biopsy RNA-Seq (~50M–100M reads).  Used in Step 3 for expression-level filtering within pVACseq.',
         'icon_file.png',
       ),
       WorkflowNodeInOut(
-        'patient-hla.txt — [Patient HLA profile](https://support.illumina.com/content/dam/illumina-support/help/BaseSpace_App_WGS_v6_OLH_15050955_03/Content/Source/Informatics/Apps/HLATypingFormat_appISCWGS.htm#) (MHC Class I & II typing)',
+        'patient-hla.txt — Patient HLA profile (MHC Class I & II typing), derived computationally from baseline-normal.FASTQ using tools such as OptiType or HLA-HD',
         'icon_file.png',
       ),
     ],
@@ -93,7 +93,7 @@ final List<WorkflowNodeData> initialNodes = [
     type: NodeType.data,
     title: '📄 Genetic files from patient samples',
     description:
-        '1. baseline-normal.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) — Normal blood Whole Exome Sequencing (~30X–50X)  \n2. tumor-exome.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) — Tumor biopsy Whole Exome Sequencing (~100X–500X)  \n3. tumor-rna.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) — Tumor biopsy RNA-Seq (~50M–100M reads)  \n4. patient-hla.txt — [Patient HLA profile](https://support.illumina.com/content/dam/illumina-support/help/BaseSpace_App_WGS_v6_OLH_15050955_03/Content/Source/Informatics/Apps/HLATypingFormat_appISCWGS.htm#) (MHC Class I & II typing)',
+        '1. baseline-normal.FASTQ — Normal blood Whole Exome Sequencing (~30X–50X)  \n2. tumor-exome.FASTQ — Tumor biopsy Whole Exome Sequencing (~100X–500X)  \n3. tumor-rna.FASTQ — Tumor biopsy RNA-Seq (~50M–100M reads)  \n4. patient-hla.txt — Patient HLA profile (MHC Class I & II typing), derived computationally from baseline-normal.FASTQ',
     parentNode: 'Part1Group',
     color: 'blue',
   ),
@@ -122,7 +122,7 @@ final List<WorkflowNodeData> initialNodes = [
     image: 'lib/assets/icons/icon_ai_script.png',
     inputs: [
       WorkflowNodeInOut(
-        '3 patient .[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) files',
+        '2 patient .FASTQ files (baseline-normal, tumor-exome)',
         'icon_file.png',
       ),
       WorkflowNodeInOut(
@@ -151,6 +151,7 @@ final List<WorkflowNodeData> initialNodes = [
         'somatic-variants.[VCF](https://en.wikipedia.org/wiki/Variant_Call_Format)  \nfiltered-variants.[VCF](https://en.wikipedia.org/wiki/Variant_Call_Format)',
     parentNode: 'Part1Group',
     color: 'blue',
+    size: const Size(160, 0),
   ),
   WorkflowNodeData(
     id: 'NodeHLA',
@@ -160,6 +161,18 @@ final List<WorkflowNodeData> initialNodes = [
     description: 'Immune system receptor map  \nHLA-A*02:01, HLA-B*07:02...',
     parentNode: 'Part1Group',
     color: 'blue',
+    size: const Size(160, 0),
+  ),
+  WorkflowNodeData(
+    id: 'NodeTumorRNAFastQ',
+    type: NodeType.data,
+    title:
+        '📄  Tumor biopsy RNA-Seq.([FASTQ](https://en.wikipedia.org/wiki/FASTQ_format))',
+    description:
+        'tumor-rna.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format).',
+    parentNode: 'Part1Group',
+    color: 'blue',
+    size: const Size(160, 0),
   ),
   WorkflowNodeData(
     id: 'Step3',
@@ -167,7 +180,7 @@ final List<WorkflowNodeData> initialNodes = [
     title: 'Step 3 · Picking the Targets',
     goal: 'AI Neoantigen Prediction',
     description:
-        'Neural networks predict which mutations will most effectively trigger an immune response based on the patient HLA receptors.',
+        'Neural networks predict which mutations will most effectively trigger an immune response based on the patient HLA receptors. pVACseq also uses tumor-rna.FASTQ to filter candidate neoantigens by their actual expression levels in the tumor.',
     hardware: 'None',
     software:
         '[pVACseq](https://github.com/griffithlab/pVACtools) (open-source cancer immunotherapy suite) running [MHCflurry](https://github.com/openvax/mhcflurry) (open-source peptide-MHC binding prediction)',
@@ -182,6 +195,10 @@ final List<WorkflowNodeData> initialNodes = [
       ),
       WorkflowNodeInOut(
         '[Patient HLA profile](https://support.illumina.com/content/dam/illumina-support/help/BaseSpace_App_WGS_v6_OLH_15050955_03/Content/Source/Informatics/Apps/HLATypingFormat_appISCWGS.htm#) (.txt)',
+        'icon_file.png',
+      ),
+      WorkflowNodeInOut(
+        'tumor-rna.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) - used by pVACseq to filter candidates by expression level',
         'icon_file.png',
       ),
     ],
@@ -471,6 +488,12 @@ final List<WorkflowEdgeData> initialEdges = [
     animated: true,
   ),
   WorkflowEdgeData(
+    id: 'tumor-rna-step3',
+    source: 'NodeTumorRNAFastQ',
+    target: 'Step3',
+    dashed: true,
+  ),
+  WorkflowEdgeData(
     id: 'step3-e4',
     source: 'Step3',
     target: 'NodeIn4',
@@ -573,7 +596,7 @@ final List<WorkflowStep> workflowSteps = [
     id: 4,
     title: 'Step 3: Picking the Targets',
     part: 'Part A: Upstream Digital Pipeline',
-    nodeIds: ['Step3', 'NodeIn3', 'NodeHLA', 'NodeIn4'],
+    nodeIds: ['Step3', 'NodeIn3', 'NodeHLA', 'NodeIn4', 'NodeTumorRNAFastQ'],
   ),
   WorkflowStep(
     id: 5,

@@ -14,8 +14,6 @@ Focuses on open-source, state-of-the-art software tools paired with "best-tool-f
 - [Lab Equipment & Reagent Stack Summary](#lab-equipment--reagent-stack-summary)
 - [Interactive System Architecture (Web App)](#interactive-system-architecture)
 
----
-
 # System Architecture
 
 This pipeline is divided into two continuous halves:
@@ -35,12 +33,12 @@ This pipeline is divided into two continuous halves:
   * **Normal Blood (DNA):** Whole Exome Sequencing (WES) at ~30X–50X depth.
   * **Tumor Biopsy (DNA):** WES at deep ~100X–500X coverage (to find rare solid tumor mutations).
   * **Tumor Biopsy (RNA):** RNA-Seq at ~50M–100M reads (to verify that the mutated genes are actually expressed).
-* **Process:** The machine reads extracted DNA/RNA, turning biological chemistry into digital text.
-* **Outputs:** 4 files including billions of short genetic reads and the patient's immune profile:
+* **Process:** The machine reads extracted DNA/RNA, turning biological chemistry into digital text. HLA typing is derived computationally from the normal blood WES data in a separate analysis (using tools such as OptiType or HLA-HD) — it is not a raw output of the sequencer itself.
+* **Outputs:** 3 raw sequencing files plus a computationally derived HLA profile:
   1. `baseline-normal.FASTQ` — Normal blood WES (~30X–50X)
   2. `tumor-exome.FASTQ` — Tumor biopsy WES (~100X–500X)
-  3. `tumor-rna.FASTQ` — Tumor biopsy RNA-Seq (~50M–100M reads)
-  4. `patient-hla.txt` — Patient HLA profile (MHC Class I & II typing)
+  3. `tumor-rna.FASTQ` — Tumor biopsy RNA-Seq (~50M–100M reads).  Used downstream in
+  4. `patient-hla.txt` — Patient HLA profile (MHC Class I & II typing), derived computationally from `baseline-normal.FASTQ`
 * **File Format:** `.FASTQ` & `.txt`
 ```text
 @Patient_001:Baseline_Normal:1:1101:1234:5678
@@ -52,7 +50,7 @@ GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCC
 ## Step 2: Spotting the Typos (Finding the Mutations)
 **Goal:** Compare the healthy code against the tumor code to isolate specific cancer-causing errors.
 * **Software:** [GATK Mutect2](https://github.com/broadinstitute/gatk)
-* **Inputs:** 3 patient `.FASTQ` files (`baseline-normal`, `tumor-exome`, `tumor-rna`) + Human Reference Genome (`.FASTA`).
+* **Inputs:** 2 patient `.FASTQ` files (`baseline-normal`, `tumor-exome`) + Human Reference Genome (`.FASTA`). Note: `tumor-rna.FASTQ` is **not** a direct input to Mutect2 — RNA-seq expression data is used downstream in Step 3 for expression-level filtering within pVACseq.
 * **Process:** Aligns reads and mathematically subtracts healthy DNA from tumor DNA to isolate somatic mutations.
 * **Outputs:** 2 `.vcf` files containing a condensed list of specific genetic mutations:
   1. `somatic-variants.vcf` — All raw mutation candidates.
@@ -69,7 +67,7 @@ chr7    14045313  Mut_01   A    T    .     PASS    SOMATIC;DP=152;AF=0.24
 ## Step 3: Picking the Targets (AI Neoantigen Prediction)
 **Goal:** Use AI to predict which mutations the immune system will recognize as a threat.
 * **Software:** [pVACseq](https://github.com/griffithlab/pVACtools) running [MHCflurry](https://github.com/openvax/mhcflurry) neural networks.
-* **Inputs:** `filtered-variants.vcf` + Patient HLA profile (`.txt`).
+* **Inputs:** `filtered-variants.vcf` + Patient HLA profile (`patient-hla.txt`) + `tumor-rna.FASTQ` (used by pVACseq to filter candidates by expression level — mutations not expressed in the tumor RNA are deprioritized).
 * **Process:** Neural networks predict which mutations will most effectively trigger an immune response based on the patient's specific HLA receptors.
 * **Outputs:** A ranked leaderboard of the best targets (neoantigens).
 * **File Format:** `ranked-predictions.tsv`
@@ -105,11 +103,13 @@ GGCCGCUGCUUAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 * **Alt. (Outsourced):** Custom gene synthesis (e.g., [Twist Bioscience](https://www.twistbioscience.com/), [IDT](https://www.idtdna.com/), [GenScript](https://www.genscript.com/), [Azenta](https://www.azenta.com/)).
 * **Est. Cost:** ~$600 / rxn (In-House) or ~$200 - $900 (Outsourced gene)
 * **Inputs:** The `.FASTA` file.
-* **Process:** Automated Gibson Assembly stitches synthetic oligonucleotides into a complete DNA plasmid, which is then linearized with restriction enzymes (e.g., BspQI).
+* **Process:** Two synthesis routes are available — choose one:
+  * **Cell-Free / Linear (recommended for speed):** The BioXp system uses cell-free enzymatic assembly to build a linear dsDNA construct directly from the FASTA sequence, without any bacterial cloning. The construct is then linearized with a restriction enzyme (e.g., BspQI) and column-purified. Total time: ~1–2 days.
+  * **Plasmid-Based (traditional route):** Gibson Assembly stitches synthetic oligonucleotides into a circular DNA plasmid, which is transformed into *E. coli*, grown overnight in culture (~24–48 hours), miniprepped to recover plasmid DNA, and then linearized with a restriction enzyme (e.g., BspQI) before use as an IVT template.
 * **Outputs:** ~1.5 mL of purified, linearized DNA template in a sterile 2.0 mL microcentrifuge tube.
   * **Yield:** ~75 µg of total DNA (typically at ~50 ng/µL concentration).
   * **Physical Form:** Clear, colorless liquid; stable at -20°C.
-* **Key Reagents:** Oligonucleotides, BspQI restriction enzymes, AMPure XP purification beads.
+* **Key Reagents:** Oligonucleotides, BspQI restriction enzymes, AMPure XP purification beads (cell-free route) or competent *E. coli* cells, LB media, miniprep kit (plasmid route).
 
 
 ## Step 6: Mass Production (Automated mRNA Synthesis)
@@ -118,7 +118,9 @@ GGCCGCUGCUUAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 * **Alt. (Outsourced):** Custom mRNA synthesis (e.g., [TriLink BioTechnologies](https://www.trilinkbiotech.com/), [GenScript](https://www.genscript.com/), [BiCell Scientific](https://bicellscientific.com/)).
 * **Est. Cost:** ~$2,000 / rxn (In-House) or ~$1,000 - $3,000 / mg (Outsourced)
 * **Inputs:** Linear DNA template + IVT Reagents.
-* **Process:** Continuous-flow In Vitro Transcription (IVT) bioreactors read the DNA and print the corresponding mRNA strand.
+* **Process:** Continuous-flow In Vitro Transcription (IVT) bioreactors read the DNA and print the corresponding mRNA strand. After transcription, two cleanup sub-steps are required before the mRNA is considered pure:
+  1. **DNase I digest** — Degrades the remaining DNA template to prevent contamination of the final product.
+  2. **mRNA purification** — Removes enzymes, free nucleotides, and abortive transcripts via lithium chloride (LiCl) precipitation or column-based cleanup (e.g., silica column or HPLC).
 * **Outputs:** ~5.0 mL of highly pure, naked mRNA in a sterile 15 mL conical tube.
   * **Yield:** ~1.0 mg of mRNA (typically at ~200 ng/µL concentration).
   * **Physical Form:** Slightly viscous, clear liquid; stored at -80°C.
@@ -126,6 +128,8 @@ GGCCGCUGCUUAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
   * T7 RNA Polymerase (the "printer")
   * N1-methylpseudouridine (cloaking)
   * CleanCap® AG (human cell recognition)
+  * DNase I (template removal)
+  * LiCl or silica column reagents (mRNA purification)
 
 ## Step 7: Packaging for Delivery (LNP Formulation)
 **Goal:** Wrap the fragile mRNA in a protective lipid nanoparticle to allow human cell entry.
@@ -154,17 +158,6 @@ GGCCGCUGCUUAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
   * **Physical Form:** Clear to slightly opalescent liquid; stored at -80°C in a cryoprotectant buffer.
 * **Key Reagents:** Tris-Sucrose Buffer (cryoprotectant), RiboGreen Assay (encapsulation verification).
 
----
-
-# Lab Equipment & Reagent Bill of Materials
-
-| Step | Subsystem | In-House Lab Equipment | Outsourced Alt | Est. Run Cost (In-House vs. Sending Out)| Est. Time (In-House vs. Out) |
-| --- | --- | --- | --- | ----- | --- |
-| 1 | Sequencing | [NextSeq 2000](https://www.illumina.com/systems/sequencing-platforms/nextseq-1000-2000.html) | [Novogene](https://www.novogene.com/), [Azenta](https://www.azenta.com/) | (~$300k fixed + ~$1,000/pt) vs. ~$2,500 / pt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 1-2 Days vs. 2-4 Weeks &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
-| 5 | DNA Prep | [BioXp System](https://telesisbio.com/products/bioxp-system/) | [Twist](https://www.twistbioscience.com/), [IDT](https://www.idtdna.com/), [GenScript](https://www.genscript.com/) | (  ~$100k fixed + ~$600/gene) vs. ~$200-$900 / gene | 1 Day vs. 1-2 Weeks |
-| 6 | mRNA Synth | [NTxscribe](https://www.ntxbio.com/ntxscribe/) | [TriLink](https://www.trilinkbiotech.com/), [GenScript](https://www.genscript.com/) | (~$250k fixed + ~$2,000/rxn) vs. ~$1k-$3k / mg | 1 Day vs. 1-3 Weeks |
-| 7 | LNP Mix | [Sunshine](https://www.unchainedlabs.com/sunshine/) | [VectorBuilder](https://www.vectorbuilder.com/), [Lonza](https://www.lonza.com/) | (~$150k fixed + ~$500/rxn) vs. ~$2k-$5k / batch | 1 Day vs. 2-4 Weeks |
-| 8 | Validation | [Stunner](https://www.unchainedlabs.com/stunner/) | [CordenPharma](https://www.cordenpharma.com/), [uBriGene](https://www.ubrigene.com/) | (~$80k fixed + ~$100/rxn) vs. ~$1k-$3k / batch | <12 Hours vs. 1-3 Weeks |
 
 ---
 
