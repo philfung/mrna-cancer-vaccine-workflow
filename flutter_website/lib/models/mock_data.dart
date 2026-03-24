@@ -280,7 +280,7 @@ final List<WorkflowNodeData> initialNodes = [
     title: 'Step 5 · Printing the Master Copy',
     goal: 'DNA Synthesis',
     description:
-        'Gibson Assembly stitches oligonucleotides into a DNA plasmid, which is then linearized with enzymes.',
+        'Two synthesis routes are available — choose one: \n1. **Cell-Free / Linear (recommended for speed):** The BioXp system prints the DNA template directly from the digital sequence. \n2. **Plasmid-Based (traditional):** Gibson Assembly stitches oligonucleotides into a DNA plasmid, which is then linearized with enzymes.',
     hardware:
         'Benchtop DNA Synthesizer (e.g., [Telesis Bio BioXp](https://telesisbio.com/products/bioxp-systems/))',
     outsourced: 'Twist, IDT, GenScript, Azenta',
@@ -294,6 +294,10 @@ final List<WorkflowNodeData> initialNodes = [
       WorkflowNodeInOut(
         '[vaccine-construct.fa](https://en.wikipedia.org/wiki/FASTA_format) blueprint',
         'icon_file.png',
+      ),
+      WorkflowNodeInOut(
+        'Reagents — Oligonucleotides, BspQI restriction enzymes, AMPure XP purification beads (cell-free route) or competent *E. coli* cells, LB media, miniprep kit (plasmid route)',
+        'icon_beads.png',
       ),
     ],
     outputs: [
@@ -327,7 +331,7 @@ final List<WorkflowNodeData> initialNodes = [
     title: 'Step 6 · Creating the mRNA',
     goal: 'Automated mRNA Synthesis',
     description:
-        'In Vitro Transcription (IVT) bioreactors read the DNA and print the corresponding mRNA strand.',
+        'Continuous-flow In Vitro Transcription (IVT) bioreactors read the DNA and print the corresponding mRNA strand. After transcription, two cleanup steps:  \n1. **DNase I digest** — Degrades the remaining DNA template.  \n2. **mRNA purification** — Removes enzymes, free nucleotides, and abortive transcripts via precip. (LiCL) or column (e.g., silica column or HPLC).',
     hardware:
         '[Telesis Bio BioXp](https://telesisbio.com/products/bioxp-systems/)',
     outsourced: 'TriLink, GenScript, BiCell Scientific',
