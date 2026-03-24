@@ -62,7 +62,7 @@ class WorkflowDetailView extends ConsumerWidget {
                   if (stepNode != null) ...[
                     _buildSectionTitle('GOAL', scale),
                     _buildStepGoal(context, stepNode.goal ?? '', scale),
-                    SizedBox(height: 16 * scale),
+                    SizedBox(height: 10 * scale),
 
                     _buildSectionTitle('PROCESS', scale),
                     _buildDescription(
@@ -70,7 +70,7 @@ class WorkflowDetailView extends ConsumerWidget {
                       stepNode.description ?? '',
                       scale,
                     ),
-                    SizedBox(height: 16 * scale),
+                    SizedBox(height: 10 * scale),
 
                     LayoutBuilder(
                       builder: (context, constraints) {
@@ -125,7 +125,7 @@ class WorkflowDetailView extends ConsumerWidget {
                             children: [
                               textColumn,
                               if (stepNode.image != null) ...[
-                                SizedBox(height: 16 * scale),
+                                SizedBox(height: 10 * scale),
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(
                                     8 * scale,
@@ -175,7 +175,7 @@ class WorkflowDetailView extends ConsumerWidget {
                           isOutput: false,
                         ),
                       ),
-                      SizedBox(height: 16 * scale),
+                      SizedBox(height: 10 * scale),
                     ],
 
                     if (stepNode.outputs != null &&
@@ -189,7 +189,7 @@ class WorkflowDetailView extends ConsumerWidget {
                           isOutput: true,
                         ),
                       ),
-                      SizedBox(height: 16 * scale),
+                      SizedBox(height: 10 * scale),
                     ],
                   ] else if (currentStep.id == 1) ...[
                     _buildStepGoal(
@@ -315,11 +315,11 @@ class WorkflowDetailView extends ConsumerWidget {
 
   Widget _buildSectionTitle(String title, double scale) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 12 * scale),
+      padding: EdgeInsets.only(bottom: 10 * scale),
       child: Text(
         title,
         style: GoogleFonts.inter(
-          fontSize: 12 * scale,
+          fontSize: 10 * scale,
           fontWeight: FontWeight.w800,
           color: Colors.grey[500],
           letterSpacing: 1.5 * scale,
@@ -488,7 +488,7 @@ class WorkflowDetailView extends ConsumerWidget {
                   styleSheet: _markdownStyle(
                     context,
                     GoogleFonts.inter(
-                      fontSize: 14 * scale,
+                      fontSize: 13 * scale,
                       fontWeight: FontWeight.w500,
                       color: Colors.white,
                     ),

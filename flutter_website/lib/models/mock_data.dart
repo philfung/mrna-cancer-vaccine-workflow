@@ -16,7 +16,7 @@ final List<WorkflowNodeData> initialNodes = [
     title: 'Part A: Upstream Digital Pipeline',
     description: 'Data → Blueprint',
     parentNode: 'Part1Group',
-    fontSize: 48,
+    fontSize: 30,
     color: 'indigo',
   ),
   WorkflowNodeData(
@@ -170,7 +170,7 @@ final List<WorkflowNodeData> initialNodes = [
         'Neural networks predict which mutations will most effectively trigger an immune response based on the patient HLA receptors.',
     hardware: 'None',
     software:
-        '[pVACseq](https://github.com/griffithlab/pVACtools) (open-source cancer immunotherapy suite) running [MHCflurry](https://github.com/openvax/mhcflurry) (open source peptide-MHC binding prediction)',
+        '[pVACseq](https://github.com/griffithlab/pVACtools) (open-source cancer immunotherapy suite) running [MHCflurry](https://github.com/openvax/mhcflurry) (open-source peptide-MHC binding prediction)',
     parentNode: 'Part1Group',
     color: 'rose',
     iconName: 'target',
@@ -254,7 +254,7 @@ final List<WorkflowNodeData> initialNodes = [
     title: 'Part B: Downstream Physical Pipeline',
     description: 'Blueprint → Vial',
     parentNode: 'Part2Group',
-    fontSize: 48,
+    fontSize: 30,
     color: 'teal',
   ),
   WorkflowNodeData(
@@ -307,7 +307,7 @@ final List<WorkflowNodeData> initialNodes = [
   WorkflowNodeData(
     id: 'Step6',
     type: NodeType.step,
-    title: 'Step 6 · mRNA Synthesis',
+    title: 'Step 6 · Creating the mRNA',
     goal: 'Automated mRNA Synthesis',
     description:
         'In Vitro Transcription (IVT) bioreactors read the DNA and print the corresponding mRNA strand.',
@@ -589,7 +589,7 @@ final List<WorkflowStep> workflowSteps = [
   ),
   WorkflowStep(
     id: 7,
-    title: 'Step 6: Mass Production',
+    title: 'Step 6: Creating the mRNA',
     part: 'Part B: Downstream Physical Pipeline',
     nodeIds: ['Step6', 'NodeIn6', 'NodeIVT', 'NodeIn7'],
   ),
