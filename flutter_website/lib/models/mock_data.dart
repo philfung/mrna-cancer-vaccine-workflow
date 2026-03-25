@@ -299,7 +299,7 @@ final List<WorkflowNodeData> initialNodes = [
         'Two synthesis routes are available - choose one: \n1. **Cell-Free / Linear (recommended for speed):** The BioXp system prints the DNA template directly from the digital sequence. \n2. **Plasmid-Based (traditional):** Gibson Assembly stitches oligonucleotides into a DNA plasmid, which is then linearized with enzymes.',
     shortDescription: 'Translates the digital blueprint into DNA template.',
     hardware:
-        'Benchtop DNA Synthesizer (e.g., [Telesis Bio BioXp](https://telesisbio.com/products/bioxp-systems/))',
+        'Benchtop DNA Synthesizer (e.g., [Telesis Bio BioXp](https://telesisbio.com/products/bioxp-system/bioxp-3250-system/))',
     shortHardware: 'Telesis Bio BioXp',
     outsourced: 'Twist, IDT, GenScript, Azenta',
     cost:
@@ -355,7 +355,7 @@ final List<WorkflowNodeData> initialNodes = [
     shortDescription:
         'IVT bioreactors transcribe DNA into mRNA, followed by multi-stage purification.',
     hardware:
-        '[Telesis Bio BioXp](https://telesisbio.com/products/bioxp-systems/)',
+        '[Telesis Bio BioXp](https://telesisbio.com/products/bioxp-system/bioxp-3250-system/)',
     shortHardware: 'Telesis Bio BioXp',
     outsourced: 'TriLink, GenScript, BiCell Scientific',
     cost:
