@@ -12,6 +12,7 @@ import 'models/mock_data.dart';
 import 'widgets/workflow_detail_view.dart';
 import 'widgets/welcome_modal.dart';
 import 'utils/ui_utils.dart';
+import 'utils/analytics_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const double MARGIN_VERTICAL_GROUP_NODES = 200.0;
@@ -191,6 +192,7 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen>
 
   void _onNextPressed(WorkflowState state) {
     if (state.currentStepId < workflowSteps.length) {
+      AnalyticsUtils.logEvent('next_step_click', {'step_id': state.currentStepId});
       ref.read(workflowProvider.notifier).nextStep();
       Future.microtask(() => _focusOnStep(state.currentStepId + 1));
     }

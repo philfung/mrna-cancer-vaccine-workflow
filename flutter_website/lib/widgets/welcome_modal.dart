@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'dart:math';
+import '../utils/analytics_utils.dart';
 
 class WelcomeModal extends StatelessWidget {
   const WelcomeModal({super.key});
@@ -139,7 +140,10 @@ class WelcomeModal extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () {
+                        AnalyticsUtils.logEvent('understand_click');
+                        Navigator.of(context).pop();
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF6366F1),
                         foregroundColor: Colors.white,
