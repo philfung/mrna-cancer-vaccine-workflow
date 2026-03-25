@@ -45,7 +45,7 @@ class WelcomeModal extends StatelessWidget {
                           fit: BoxFit.scaleDown,
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'OpenVAXX',
+                            '💉🐶 OpenVaXX',
                             style: GoogleFonts.outfit(
                               fontSize: 32,
                               fontWeight: FontWeight.w900,

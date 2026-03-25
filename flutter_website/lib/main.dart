@@ -105,7 +105,8 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen>
     debugPrint('Focusing on step $stepId');
     final step = workflowSteps.firstWhere((s) => s.id == stepId);
 
-    if (_canvasKey.currentContext == null || _viewportKey.currentContext == null) {
+    if (_canvasKey.currentContext == null ||
+        _viewportKey.currentContext == null) {
       Future.delayed(
         const Duration(milliseconds: 100),
         () => _focusOnStep(stepId),
@@ -508,7 +509,7 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen>
                     child: GestureDetector(
                       onTap: () => _focusOnStep(1),
                       child: Text(
-                        'OpenVaxx',
+                        '💉🐶 OpenVaxx',
                         style: GoogleFonts.outfit(
                           fontSize: 32 * scale,
                           fontWeight: FontWeight.w900,
