@@ -160,13 +160,6 @@ GGCCGCUGCUUAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
   * **Physical Form:** Clear to slightly opalescent liquid; stored at -80°C in a cryoprotectant buffer.
 * **Key Reagents:** Tris-Sucrose Buffer (cryoprotectant), RiboGreen Assay (encapsulation verification).
 
-
----
-
-# License
-
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
-
 ---
 
 # Interactive System Architecture
@@ -193,6 +186,12 @@ The interactive workflow is a Vite-based application. To run it:
     flutter build web --release --base-href "/openvaxx/" <--wasm>
     ```
     The website will be available in the build/web folder
+
+---
+
+# License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
     
 
 
