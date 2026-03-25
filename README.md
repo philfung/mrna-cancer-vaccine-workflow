@@ -2,12 +2,13 @@
 From biopsy to syringe: this is an end-to-end overview on how to synthesize personalized mRNA cancer vaccine in a private lab.
 Focuses on open-source, state-of-the-art software tools paired with "best-tool-for-the-job" benchtop lab equipment.
 
-[Try the Interactive Guide](https://philfung.github.io/openvaxx/)
-
 > [!CAUTION]
 > **⚠️ RESEARCH & EDUCATION USE ONLY. NOT MEDICAL ADVICE.**
 > This is a reference for educational purposes. Building mRNA vaccines involves severe biological hazards, requiring strict oversight and qualified personnel. The authors assume no liability for misuse.  Do not attempt any part of this workflow.
 
+[**Try the Interactive Guide**](https://philfung.github.io/openvaxx/)
+
+**Open to contributors!! This is a work-in-progress and I am certainly not an expert in the field.**
 
 # Table of Contents
 - [System Architecture](#system-architecture)
@@ -34,12 +35,12 @@ This pipeline is divided into two continuous halves:
   * **Normal Blood (DNA):** Whole Exome Sequencing (WES) at ~30X–50X depth.
   * **Tumor Biopsy (DNA):** WES at deep ~100X–500X coverage (to find rare solid tumor mutations).
   * **Tumor Biopsy (RNA):** RNA-Seq at ~50M–100M reads (to verify that the mutated genes are actually expressed).
-* **Process:** The machine reads extracted DNA/RNA, turning biological chemistry into digital text. HLA typing is derived computationally from the normal blood WES data in a separate analysis (using tools such as OptiType or HLA-HD) — it is not a raw output of the sequencer itself.
+* **Process:** The machine reads extracted DNA/RNA, turning biological chemistry into digital text. 
 * **Outputs:** 3 raw sequencing files plus a computationally derived HLA profile:
   1. `baseline-normal.FASTQ` — Normal blood WES (~30X–50X)
   2. `tumor-exome.FASTQ` — Tumor biopsy WES (~100X–500X)
-  3. `tumor-rna.FASTQ` — Tumor biopsy RNA-Seq (~50M–100M reads).  Used downstream in
-  4. `patient-hla.txt` — Patient HLA profile (MHC Class I & II typing), derived computationally from `baseline-normal.FASTQ`
+  3. `tumor-rna.FASTQ` — Tumor biopsy RNA-Seq (~50M–100M reads).  Used downstream in Step 3.
+  4. `patient-hla.txt` — Patient HLA profile (MHC Class I & II typing).  This is derived in a separate analysis from `baseline-normal.FASTQ` using tools such as OptiType or HLA-HD.  It is not a direct output of the sequencer.
 * **File Format:** `.FASTQ` & `.txt`
 ```text
 @Patient_001:Baseline_Normal:1:1101:1234:5678
@@ -51,7 +52,7 @@ GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCC
 ## Step 2: Spotting the Typos (Finding the Mutations)
 **Goal:** Compare the healthy code against the tumor code to isolate specific cancer-causing errors.
 * **Software:** [GATK Mutect2](https://github.com/broadinstitute/gatk)
-* **Inputs:** 2 patient `.FASTQ` files (`baseline-normal`, `tumor-exome`) + Human Reference Genome (`.FASTA`). Note: `tumor-rna.FASTQ` is **not** a direct input to Mutect2 — RNA-seq expression data is used downstream in Step 3 for expression-level filtering within pVACseq.
+* **Inputs:** 2 patient `.FASTQ` files (`baseline-normal`, `tumor-exome`) + Human Reference Genome (`.FASTA`). 
 * **Process:** Aligns reads and mathematically subtracts healthy DNA from tumor DNA to isolate somatic mutations.
 * **Outputs:** 2 `.vcf` files containing a condensed list of specific genetic mutations:
   1. `somatic-variants.vcf` — All raw mutation candidates.
