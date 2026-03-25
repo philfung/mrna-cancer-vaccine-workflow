@@ -10,6 +10,10 @@ Focuses on open-source, state-of-the-art software tools paired with "best-tool-f
 
 **Open to contributors!! This is a work-in-progress.**
 
+<img height="500" alt="Screenshot 2026-03-25 at 4 03 14 PM" src="https://github.com/user-attachments/assets/b1f4df1c-62d2-4486-b7c5-fbe12a77f377" />
+
+
+
 # Table of Contents
 - [System Architecture](#system-architecture)
 - [Workflow, Part 1: Upstream Digital Pipeline ("Data to Blueprint")](#workflow-part-1-upstream-digital-pipeline-data-to-blueprint)
