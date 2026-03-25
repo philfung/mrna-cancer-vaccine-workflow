@@ -65,7 +65,7 @@ class WorkflowDetailView extends ConsumerWidget {
                   if (stepNode != null) ...[
                     _buildSectionTitle('GOAL', scale),
                     _buildStepGoal(context, stepNode.goal ?? '', scale),
-                    SizedBox(height: 10 * scale),
+                    SizedBox(height: 5 * scale),
 
                     _buildSectionTitle('PROCESS', scale),
                     _buildDescription(
@@ -272,9 +272,7 @@ class WorkflowDetailView extends ConsumerWidget {
       ),
       decoration: const BoxDecoration(
         color: Color(0xFF111111),
-        border: Border(
-          top: BorderSide(color: Color(0xFF2C2C2E), width: 1),
-        ),
+        border: Border(top: BorderSide(color: Color(0xFF2C2C2E), width: 1)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -283,20 +281,25 @@ class WorkflowDetailView extends ConsumerWidget {
             NavigationArrow(
               icon: LucideIcons.chevronUp,
               onPressed: () {
-                AnalyticsUtils.logEvent('prev_step_click', {'from_id': state.currentStepId});
+                AnalyticsUtils.logEvent('prev_step_click', {
+                  'from_id': state.currentStepId,
+                });
                 ref.read(workflowProvider.notifier).prevStep();
               },
               color: const Color(0xFF6366F1).withOpacity(0.15),
             )
           else
             const SizedBox.shrink(),
-          if (state.currentStepId > 1 && state.currentStepId < workflowSteps.length)
+          if (state.currentStepId > 1 &&
+              state.currentStepId < workflowSteps.length)
             SizedBox(width: 16 * scale),
           if (state.currentStepId < workflowSteps.length)
             NavigationArrow(
               icon: LucideIcons.chevronDown,
               onPressed: () {
-                AnalyticsUtils.logEvent('next_step_click', {'from_id': state.currentStepId});
+                AnalyticsUtils.logEvent('next_step_click', {
+                  'from_id': state.currentStepId,
+                });
                 ref.read(workflowProvider.notifier).nextStep();
               },
               isDown: true,
@@ -356,7 +359,7 @@ class WorkflowDetailView extends ConsumerWidget {
             child: Text(
               step.title,
               style: GoogleFonts.outfit(
-                fontSize: 28 * scale,
+                fontSize: 22 * scale,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,
                 height: 1.2,
@@ -370,7 +373,7 @@ class WorkflowDetailView extends ConsumerWidget {
 
   Widget _buildSectionTitle(String title, double scale) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 10 * scale),
+      padding: EdgeInsets.only(bottom: 5 * scale),
       child: Text(
         title,
         style: GoogleFonts.inter(
@@ -387,7 +390,7 @@ class WorkflowDetailView extends ConsumerWidget {
     return Text(
       goal,
       style: GoogleFonts.inter(
-        fontSize: min(MediaQuery.of(context).size.width * 0.05, 18 * scale),
+        fontSize: min(MediaQuery.of(context).size.width * 0.05, 16 * scale),
         fontWeight: FontWeight.w600,
         color: Colors.grey[300],
         height: 1.4,
@@ -405,7 +408,7 @@ class WorkflowDetailView extends ConsumerWidget {
       styleSheet: _markdownStyle(
         context,
         GoogleFonts.inter(
-          fontSize: min(MediaQuery.of(context).size.width * 0.04, 15 * scale),
+          fontSize: min(MediaQuery.of(context).size.width * 0.04, 12 * scale),
           fontWeight: FontWeight.w400,
           color: Colors.grey[400],
           height: 1.6,
@@ -432,11 +435,11 @@ class WorkflowDetailView extends ConsumerWidget {
     String imagePath = 'lib/assets/icons/${item.icon}';
 
     return Padding(
-      padding: EdgeInsets.only(bottom: 12 * scale),
+      padding: EdgeInsets.only(bottom: 10 * scale),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(imagePath, width: 40 * scale, height: 40 * scale),
+          Image.asset(imagePath, width: 32 * scale, height: 32 * scale),
           SizedBox(width: 12 * scale),
           Expanded(
             child: MarkdownBody(
@@ -444,7 +447,7 @@ class WorkflowDetailView extends ConsumerWidget {
               styleSheet: _markdownStyle(
                 context,
                 GoogleFonts.inter(
-                  fontSize: 14 * scale,
+                  fontSize: 12 * scale,
                   fontWeight: FontWeight.w500,
                   color: Colors.grey[300],
                 ),

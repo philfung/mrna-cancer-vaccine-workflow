@@ -85,19 +85,19 @@ class WorkflowNode extends StatelessWidget {
                       ),
                       onTapLink: (text, href, title) => _launchUrl(href),
                     ),
-                    if (data.goal != null)
-                      MarkdownBody(
-                        data: 'Goal: ${data.goal}',
-                        styleSheet: _markdownStyle(
-                          context,
-                          GoogleFonts.inter(
-                            fontSize: 14 * scale,
-                            fontWeight: FontWeight.w600,
-                            color: color,
-                          ),
-                        ),
-                        onTapLink: (text, href, title) => _launchUrl(href),
-                      ),
+                    // if (data.goal != null)
+                    //   MarkdownBody(
+                    //     data: 'Goal: ${data.goal}',
+                    //     styleSheet: _markdownStyle(
+                    //       context,
+                    //       GoogleFonts.inter(
+                    //         fontSize: 14 * scale,
+                    //         fontWeight: FontWeight.w600,
+                    //         color: color,
+                    //       ),
+                    //     ),
+                    //     onTapLink: (text, href, title) => _launchUrl(href),
+                    //   ),
                   ],
                 ),
               ),
@@ -205,19 +205,20 @@ class WorkflowNode extends StatelessWidget {
               ),
               onTapLink: (text, href, title) => _launchUrl(href),
             ),
-            SizedBox(height: 8 * scale),
-            MarkdownBody(
-              data: (data.description ?? '').replaceAll('<br/>', '  \n'),
-              styleSheet: _markdownStyle(
-                context,
-                GoogleFonts.inter(
-                  fontSize: 14 * scale,
-                  color: Colors.grey[400],
-                  height: 1.4,
+            if (data.description != null) SizedBox(height: 8 * scale),
+            if (data.description != null)
+              MarkdownBody(
+                data: (data.description ?? '').replaceAll('<br/>', '  \n'),
+                styleSheet: _markdownStyle(
+                  context,
+                  GoogleFonts.inter(
+                    fontSize: 14 * scale,
+                    color: Colors.grey[400],
+                    height: 1.4,
+                  ),
                 ),
+                onTapLink: (text, href, title) => _launchUrl(href),
               ),
-              onTapLink: (text, href, title) => _launchUrl(href),
-            ),
             if (data.images != null && data.images!.isNotEmpty) ...[
               SizedBox(height: 16 * scale),
               Row(
@@ -355,13 +356,13 @@ class WorkflowNode extends StatelessWidget {
             _markdownStyle(
               context,
               GoogleFonts.inter(
-                fontSize: 13,
+                fontSize: 12,
                 fontWeight: isCost ? FontWeight.bold : FontWeight.w500,
                 color: isCost ? color : Colors.grey[400],
               ),
             ).copyWith(
               strong: GoogleFonts.inter(
-                fontSize: 13,
+                fontSize: 12,
                 fontWeight: FontWeight.bold,
                 color: Colors.grey[300],
               ),

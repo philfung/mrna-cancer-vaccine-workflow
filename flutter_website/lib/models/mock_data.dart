@@ -23,8 +23,8 @@ final List<WorkflowNodeData> initialNodes = [
     id: 'NodeIn1A',
     type: NodeType.data,
     title: 'Patient tumor biopsy sample',
-    description:
-        'Provides tumor DNA & RNA to identify cancer-specific mutations.',
+    // description:
+    //     'Provides tumor DNA & RNA to identify cancer-specific mutations.',
     parentNode: 'Part1Group',
     color: 'blue',
     images: ['lib/assets/icons/icon_tissue.png'],
@@ -35,8 +35,8 @@ final List<WorkflowNodeData> initialNodes = [
     id: 'NodeIn1B',
     type: NodeType.data,
     title: 'Patient normal blood sample',
-    description:
-        'Provides a healthy genetic reference to filter out inherited mutations.',
+    // description:
+    //     'Provides a healthy genetic reference to filter out inherited mutations.',
     parentNode: 'Part1Group',
     color: 'blue',
     images: ['lib/assets/icons/icon_blood.png'],
@@ -93,7 +93,7 @@ final List<WorkflowNodeData> initialNodes = [
     type: NodeType.data,
     title: '📄 Genetic files from patient samples',
     description:
-        '1. baseline-normal.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format  ) — Normal blood Whole Exome Sequencing (~30X–50X)  \n2. tumor-exome.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) — Tumor biopsy Whole Exome Sequencing (~100X–500X)  \n3. tumor-rna.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) — Tumor biopsy RNA-Seq (~50M–100M reads)  \n4. [patient-hla.txt](https://support.illumina.com/content/dam/illumina-support/help/BaseSpace_App_WGS_v6_OLH_15050955_03/Content/Source/Informatics/Apps/HLATypingFormat_appISCWGS.htm#) — Patient HLA profile (MHC Class I & II typing), derived computationally from baseline-normal.FASTQ',
+        '1. baseline-normal.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)\n2. tumor-exome.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)\n3. tumor-rna.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)\n4. [patient-hla.txt](https://support.illumina.com/content/dam/illumina-support/help/BaseSpace_App_WGS_v6_OLH_15050955_03/Content/Source/Informatics/Apps/HLATypingFormat_appISCWGS.htm#)',
     parentNode: 'Part1Group',
     color: 'blue',
   ),
@@ -122,7 +122,11 @@ final List<WorkflowNodeData> initialNodes = [
     image: 'lib/assets/icons/icon_ai_script.png',
     inputs: [
       WorkflowNodeInOut(
-        '2 patient .FASTQ files (baseline-normal, tumor-exome)',
+        'baseline-normal.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)',
+        'icon_file.png',
+      ),
+      WorkflowNodeInOut(
+        'tumor-exome.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)',
         'icon_file.png',
       ),
       WorkflowNodeInOut(
@@ -167,7 +171,7 @@ final List<WorkflowNodeData> initialNodes = [
     id: 'NodeTumorRNAFastQ',
     type: NodeType.data,
     title:
-        '📄  Tumor biopsy RNA-Seq.([FASTQ](https://en.wikipedia.org/wiki/FASTQ_format))',
+        '📄  Tumor biopsy RNA-Sequencing(.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format))',
     description:
         'tumor-rna.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format).',
     parentNode: 'Part1Group',
@@ -312,7 +316,7 @@ final List<WorkflowNodeData> initialNodes = [
     id: 'NodeIn6',
     type: NodeType.data,
     title: '📜 1.5 mL Purified linear DNA template',
-    description: 'Yield: ~75 µg (at ~50 ng/µL)  \nStable at -20°C',
+    // description: 'Yield: ~75 µg (at ~50 ng/µL)  \nStable at -20°C',
     parentNode: 'Part2Group',
     color: 'teal',
     images: ['lib/assets/icons/icon_dna.png'],
@@ -357,7 +361,7 @@ final List<WorkflowNodeData> initialNodes = [
     id: 'NodeIn7',
     type: NodeType.data,
     title: '💉 5.0 mL Highly pure mRNA',
-    description: 'Yield: ~1.0 mg (at ~200 ng/µL)  \nStored at -80°C',
+    // description: 'Yield: ~1.0 mg (at ~200 ng/µL)  \nStored at -80°C',
     parentNode: 'Part2Group',
     color: 'teal',
     images: ['lib/assets/icons/icon_5ml_dna.png'],
@@ -402,8 +406,8 @@ final List<WorkflowNodeData> initialNodes = [
     id: 'NodeIn8',
     type: NodeType.data,
     title: '🧪 12 mL Raw mRNA-LNP mixture',
-    description:
-        'Yield: ~0.9 mg encapsulated (>90% efficiency)  \nOpalescent liquid',
+    // description:
+    //     'Yield: ~0.9 mg encapsulated (>90% efficiency)  \nOpalescent liquid',
     parentNode: 'Part2Group',
     color: 'teal',
     images: ['lib/assets/icons/icon_12ml.png'],
