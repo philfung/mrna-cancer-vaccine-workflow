@@ -8,7 +8,7 @@ Focuses on open-source, state-of-the-art software tools paired with "best-tool-f
 
 [**Try the Interactive Guide**](https://philfung.github.io/openvaxx/)
 
-**Open to contributors!! This is a work-in-progress and I am certainly not an expert in the field.**
+**Open to contributors!! This is a work-in-progress.**
 
 # Table of Contents
 - [System Architecture](#system-architecture)
