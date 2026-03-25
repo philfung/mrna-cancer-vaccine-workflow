@@ -1,10 +1,12 @@
-# 💉 OpenVAXX: A end-to-end guide to producing a personalized mRNA vaccine
+# 💉 OpenVAXX: A end-to-end guide to producing a personalized mRNA cancer vaccine
 From biopsy to syringe: everything you need to synthesize personalized mRNA cancer vaccines in your private lab.
 Focuses on open-source, state-of-the-art software tools paired with "best-tool-for-the-job" benchtop lab equipment.
 
+[Try the Demo App](https://philfung.github.io/openvaxx/)
+
 > [!CAUTION]
 > **⚠️ RESEARCH & EDUCATION USE ONLY. NOT MEDICAL ADVICE.**
-> This repository is a technical reference architecture for educational and research purposes only. Building and administering a personalized mRNA vaccine involves significant biological hazards, legal regulations, and requires regulatory oversight, institutional biosafety review, and qualified personnel. The authors do not advocate for the self-administration of any biological or medical products and assume no liability for the use or misuse of any information provided herein. Consult with qualified medical, scientific, and regulatory professionals before attempting any part of this workflow.
+> This is a reference for educational purposes. Building mRNA vaccines involves severe biological hazards, requiring strict oversight and qualified personnel. The authors assume no liability for misuse.  Do not attempt any part of this workflow.
 
 
 # Table of Contents
@@ -185,11 +187,11 @@ The interactive workflow is a Vite-based application. To run it:
     ```bash
     flutter run -d chrome
     ```
-4.  **Build for production:**
+4.  **Or, to build for production:**
     ```bash
-    flutter build web --release --base-href "/openvaxx/" --wasm
+    flutter build web --release --base-href "/openvaxx/" <--wasm>
     ```
-    the website will be available in the build/web folder
+    The website will be available in the build/web folder
     
 
 
