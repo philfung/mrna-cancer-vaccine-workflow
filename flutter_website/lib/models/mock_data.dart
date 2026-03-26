@@ -191,7 +191,7 @@ final List<WorkflowNodeData> initialNodes = [
         'AI predicts which mutations the immune system will recognize as a threat.',
     hardware: 'None',
     software:
-        'Run [nextNEOpi](https://github.com/icbi-lab/nextNEOpi) (open-source neoantigen prediction pipeline) using 1 or more peptide-MHC binding prediction tools: [MHCflurry](https://github.com/openvax/mhcflurry) (open-source) and/or [NetMHCpan](https://services.healthtech.dtu.dk/services/NetMHCpan-4.1/) (commercial)',
+        'Run [nextNEOpi](https://github.com/icbi-lab/nextNEOpi) (open-source neoantigen prediction pipeline) with 1 or more peptide-MHC binding prediction tools:\n1. [MHCflurry](https://github.com/openvax/mhcflurry) (open-source)\n2. [NetMHCpan](https://services.healthtech.dtu.dk/services/NetMHCpan-4.1/) (commercial)',
     shortSoftware: 'nextNEOpi + MHCflurry',
     parentNode: 'Part1Group',
     color: 'rose',
