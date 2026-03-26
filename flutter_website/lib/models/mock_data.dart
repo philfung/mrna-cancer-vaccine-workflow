@@ -241,7 +241,7 @@ final List<WorkflowNodeData> initialNodes = [
         'Organizes selected cancer markers, translate into a stable genetic blueprint.',
     hardware: 'None',
     software:
-        '[pVACvector](https://github.com/griffithlab/pVACtools) (open-source cancer immunotherapy suite)+ [LinearDesign](https://github.com/LinearDesignSoftware/LinearDesign) (open source mRNA design algorithm)',
+        '1. Generate protein string: [NeoDesign](https://github.com/HuangLab-Fudan/neoDesign) or [pVACvector](https://github.com/griffithlab/pVACtools)\n2. Generate multiple candidate mRNA sequences: [mRNAfold](https://github.com/maxhwardg/mRNAfold)\n3. Select best mRNA sequence: [mRNABERT](https://github.com/yyly6/mRNABERT)',
     shortSoftware: 'pVACvector + LinearDesign',
     parentNode: 'Part1Group',
     color: 'rose',
