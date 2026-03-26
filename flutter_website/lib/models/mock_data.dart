@@ -118,7 +118,7 @@ final List<WorkflowNodeData> initialNodes = [
         'Aligns genetic reads and identifies cancer-specific somatic mutations.',
     hardware: 'None',
     software:
-        '[GATK Mutect2](https://github.com/broadinstitute/gatk) (open-source Genome Analysis Toolkit)',
+        '[GATK Mutect2](https://github.com/broadinstitute/gatk) (open-source Genome Analysis Toolkit), Google\'s [DeepSomatic](https://github.com/google/deepsomatic), or Illumina\'s [Strelka 2](https://github.com/illumina/strelka).  (It is common to run several tools and only keep variants that are in agreement.)',
     shortSoftware: 'GATK Mutect2',
     parentNode: 'Part1Group',
     color: 'rose',
