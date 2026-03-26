@@ -118,7 +118,7 @@ final List<WorkflowNodeData> initialNodes = [
         'Aligns genetic reads and identifies cancer-specific somatic mutations.',
     hardware: 'None',
     software:
-        '[GATK Mutect2](https://github.com/broadinstitute/gatk) (open-source Genome Analysis Toolkit), Google\'s [DeepSomatic](https://github.com/google/deepsomatic), or Illumina\'s [Strelka 2](https://github.com/illumina/strelka).  (It is common to run several tools and only keep variants that are in agreement.)',
+        'Take best results from multiple genomic analysis tools:\n1.  [GATK Mutect2](https://github.com/broadinstitute/gatk)\n2. Google\'s [DeepSomatic](https://github.com/google/deepsomatic)\n3. Illumina\'s [Strelka](https://github.com/illumina/strelka)',
     shortSoftware: 'GATK Mutect2',
     parentNode: 'Part1Group',
     color: 'rose',
@@ -191,8 +191,8 @@ final List<WorkflowNodeData> initialNodes = [
         'AI predicts which mutations the immune system will recognize as a threat.',
     hardware: 'None',
     software:
-        '[pVACseq](https://github.com/griffithlab/pVACtools) (open-source cancer immunotherapy suite) running [MHCflurry](https://github.com/openvax/mhcflurry) (open-source peptide-MHC binding prediction)',
-    shortSoftware: 'pVACseq + MHCflurry',
+        'Run [nextNEOpi](https://github.com/icbi-lab/nextNEOpi) (open-source neoantigen prediction pipeline) using 1 or more peptide-MHC binding prediction tools: [MHCflurry](https://github.com/openvax/mhcflurry) (open-source) and/or [NetMHCpan](https://services.healthtech.dtu.dk/services/NetMHCpan-4.1/) (commercial)',
+    shortSoftware: 'nextNEOpi + MHCflurry',
     parentNode: 'Part1Group',
     color: 'rose',
     iconName: 'target',
