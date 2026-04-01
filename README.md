@@ -1,3 +1,7 @@
+[![Contributions](https://img.shields.io/badge/contributions-welcome-blue)](https://github.com/philfung/openvaxx/graphs/contributors)
+[![Last Commit](https://img.shields.io/github/last-commit/philfung/openvaxx)]()
+[![License: MIT](https://img.shields.io/badge/license-Apache%20License%202.0-blue)](https://opensource.org/license/apache-2.0)
+
 # 💉 OpenVAXX: A guide to producing a personalized mRNA cancer vaccine
 From biopsy to syringe: this is an end-to-end overview on how to synthesize personalized mRNA cancer vaccine in a private lab.
 Focuses on open-source, state-of-the-art software tools paired with "best-tool-for-the-job" benchtop lab equipment.
@@ -8,8 +12,8 @@ Focuses on open-source, state-of-the-art software tools paired with "best-tool-f
 
 [**Try the Interactive Guide**](https://philfung.github.io/openvaxx/)
 
-**Contributing: Open to contributors.**
-**Feature Requests: please open a Github issue.**
+* **Contributing**: Open to contributors.
+* **Feature Requests**: please open a Github issue.
 
 <img height="500" alt="Screenshot 2026-03-25 at 4 03 14 PM" src="https://github.com/user-attachments/assets/b1f4df1c-62d2-4486-b7c5-fbe12a77f377" />
 
