@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'OpenVaxx',
+      title: 'Open-mRNA',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -509,7 +509,7 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen>
                     child: GestureDetector(
                       onTap: () => _focusOnStep(1),
                       child: Text(
-                        '💉🐶 OpenVaxx',
+                        '💉🐶 Open-mRNA',
                         style: GoogleFonts.outfit(
                           fontSize: 32 * scale,
                           fontWeight: FontWeight.w900,
@@ -525,7 +525,7 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen>
                       child: GestureDetector(
                         onTap: () async {
                           final url = Uri.parse(
-                            'https://github.com/philfung/openvaxx',
+                            'https://github.com/philfung/open-mrna',
                           );
                           if (await canLaunchUrl(url)) {
                             await launchUrl(url);

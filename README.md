@@ -1,8 +1,8 @@
-[![Contributions](https://img.shields.io/badge/contributions-welcome-blue)](https://github.com/philfung/openvaxx/graphs/contributors)
-[![Last Commit](https://img.shields.io/github/last-commit/philfung/openvaxx)]()
+[![Contributions](https://img.shields.io/badge/contributions-welcome-blue)](https://github.com/philfung/open-mrna/graphs/contributors)
+[![Last Commit](https://img.shields.io/github/last-commit/philfung/open-mrna)]()
 [![License: MIT](https://img.shields.io/badge/license-Apache%20License%202.0-blue)](https://opensource.org/license/apache-2.0)
 
-# 💉 OpenVAXX: A guide to producing a personalized mRNA cancer vaccine
+# 💉 Open-mRNA: A guide to producing a personalized mRNA cancer vaccine
 From biopsy to syringe: this is an end-to-end overview on how to synthesize personalized mRNA cancer vaccine in a private lab.
 Focuses on open-source, state-of-the-art software tools paired with "best-tool-for-the-job" benchtop lab equipment.
 
@@ -10,7 +10,7 @@ Focuses on open-source, state-of-the-art software tools paired with "best-tool-f
 > **⚠️ RESEARCH & EDUCATION USE ONLY. NOT MEDICAL ADVICE.**
 > This is a reference for educational purposes. Building mRNA vaccines involves severe biological hazards, requiring strict oversight and qualified personnel. The authors assume no liability for misuse.  Do not attempt any part of this workflow.
 
-[**Try the Interactive Guide**](https://philfung.github.io/openvaxx/)
+[**Try the Interactive Guide**](https://philfung.github.io/open-mrna/)
 
 * **Contributing**: Open to contributors.
 * **Feature Requests**: please open a Github issue.
@@ -166,7 +166,7 @@ The interactive workflow is a Vite-based application. To run it:
     ```
 4.  **Or, to build for production:**
     ```bash
-    flutter build web --release --base-href "/openvaxx/" <--wasm>
+    flutter build web --release --base-href "/open-mrna/" <--wasm>
     ```
     The website will be available in the build/web folder
 
