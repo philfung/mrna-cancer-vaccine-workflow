@@ -15,9 +15,8 @@ Focuses on open-source, state-of-the-art software tools paired with "best-tool-f
 * **Contributing**: Open to contributors.
 * **Feature Requests**: please open a Github issue.
 
-<img height="500" alt="Screenshot 2026-03-25 at 4 03 14 PM" src="https://github.com/user-attachments/assets/b1f4df1c-62d2-4486-b7c5-fbe12a77f377" />
 
-
+<img height="500" alt="screenshot" src="https://github.com/user-attachments/assets/baf2de9a-8470-41b8-b4ef-289fb01f4763" />
 
 # Table of Contents
 - [System Architecture](#system-architecture)
