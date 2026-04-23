@@ -18,7 +18,7 @@ const double MARGIN_VERTICAL_GROUP_NODES = 200.0;
 const double MARGIN_VERTICAL_DATA_NODES = 30.0;
 const double MARGIN_HORIZONTAL_BETWEEN_DATA_NODES = 40.0;
 const double NODE_WIDTH = 600.0;
-const String APP_VERSION = 'v1.0.0';
+const String APP_VERSION = 'v0.5.0-beta';
 
 void main() {
   GoogleFonts.config.allowRuntimeFetching = true;
@@ -453,11 +453,12 @@ class _WorkflowScreenState extends ConsumerState<WorkflowScreen>
         .toList();
     if (terminalNodes.isNotEmpty) {
       // Add margin before terminal nodes if there were steps
-      if (groupWidgets.isNotEmpty)
+      if (groupWidgets.isNotEmpty) {
         groupWidgets.insert(
           groupWidgets.length - 1,
           const SizedBox(height: MARGIN_VERTICAL_DATA_NODES),
         );
+      }
 
       groupWidgets.add(
         Row(
@@ -631,8 +632,9 @@ class DynamicEdgePainter extends CustomPainter {
 
       if (sourceKey?.currentContext == null ||
           targetKey?.currentContext == null ||
-          canvasKey.currentContext == null)
+          canvasKey.currentContext == null) {
         continue;
+      }
 
       final RenderBox sourceBox =
           sourceKey!.currentContext!.findRenderObject() as RenderBox;
