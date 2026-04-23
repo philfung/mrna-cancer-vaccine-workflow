@@ -360,7 +360,8 @@ final List<WorkflowNodeData> initialNodes = [
     hardware:
         '[Telesis Bio BioXp](https://telesisbio.com/products/bioxp-system/bioxp-3250-system/)',
     shortHardware: 'Telesis Bio BioXp',
-    outsourced: 'TriLink, GenScript, BiCell Scientific',
+    outsourced:
+        'Integrated (Research & GMP): Lonza, Aldevron, TriLink | Specialists: Vernal Biosciences, VectorBuilder',
     cost:
         '~\$250k fixed + ~\$2k / rxn (In-House) or ~\$1k-\$3k / rxn (Outsourced)',
     parentNode: 'Part2Group',
@@ -413,7 +414,8 @@ final List<WorkflowNodeData> initialNodes = [
     hardware:
         '[Unchained Labs Sunshine](https://www.unchainedlabs.com/sunshine/) / NanoAssemblr Ignite',
     shortHardware: 'Unchained Labs Sunshine',
-    outsourced: 'VectorBuilder, Lonza, Vernal Biosciences',
+    outsourced:
+        'Integrated (Research & GMP): Lonza, Aldevron, TriLink | Specialists: Vernal Biosciences, VectorBuilder',
     cost:
         '~\$150k fixed + ~\$500 / rxn (In-House) or ~\$2k-\$5k / rxn (Outsourced)',
     parentNode: 'Part2Group',
@@ -458,7 +460,8 @@ final List<WorkflowNodeData> initialNodes = [
     hardware:
         '[Unchained Labs Stunner](https://www.unchainedlabs.com/stunner/) & TFF System',
     shortHardware: 'Unchained Labs Stunner',
-    outsourced: 'CordenPharma, uBriGene, VectorBuilder',
+    outsourced:
+        'Integrated (Research & GMP): Lonza, Aldevron, TriLink | Specialists: Vernal Biosciences, VectorBuilder',
     cost:
         '~\$100k fixed + ~\$100 / rxn (In-House) or ~\$1k-\$3k / rxn (Outsourced)',
     parentNode: 'Part2Group',
