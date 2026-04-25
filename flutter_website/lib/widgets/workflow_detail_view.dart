@@ -77,11 +77,7 @@ class WorkflowDetailView extends ConsumerWidget {
 
                     if (stepNode.note != null) ...[
                       _buildSectionTitle('NOTE', scale),
-                      _buildDescription(
-                        context,
-                        stepNode.note!,
-                        scale,
-                      ),
+                      _buildDescription(context, stepNode.note!, scale),
                       SizedBox(height: 10 * scale),
                     ],
 
@@ -244,6 +240,13 @@ class WorkflowDetailView extends ConsumerWidget {
                       context,
                       'lib/assets/icons/icon_vaccine.png',
                       'Finished Vaccine: 10 doses of sterile, personalized mRNA-LNP formulation.',
+                      scale,
+                    ),
+                    SizedBox(height: 16 * scale),
+                    _buildSectionTitle('NOTE', scale),
+                    _buildDescription(
+                      context,
+                      'In order to overcome the tumor microenvironment, other strategies may need to be considered in parallel, such as use of Tyrosine Kinase Inhibitors (TKIs) and PD-1 inhibitors.',
                       scale,
                     ),
                   ] else ...[

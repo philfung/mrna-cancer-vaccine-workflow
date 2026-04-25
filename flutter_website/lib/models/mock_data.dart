@@ -53,14 +53,15 @@ final List<WorkflowNodeData> initialNodes = [
         '[Illumina NextSeq 2000](https://www.illumina.com/systems/sequencing-platforms/nextseq-1000-2000.html) or Element AVITI',
     shortHardware: 'Illumina NextSeq 2000',
     outsourced: 'Tempus, Personalis, CeGaT, Novogene',
-    cost: '~\$300k fixed + ~\$1k / pt (In-House) or ~\$3k-\$10k / pt (Outsourced Clinical)',
+    cost:
+        '~\$300k fixed + ~\$1k / pt (In-House) or ~\$3k-\$10k / pt (Outsourced Clinical)',
     parentNode: 'Part1Group',
     color: 'rose',
     iconName: 'database',
     image: 'lib/assets/hardware/illumina_nextseq.png',
     inputs: [
       WorkflowNodeInOut(
-        'Tumor biopsy - at least 35mg in tissue',
+        'Tumor biopsy sample - 35mg min (fresh or on dry ice)',
         'icon_tissue.png',
       ),
       WorkflowNodeInOut(
@@ -70,11 +71,11 @@ final List<WorkflowNodeData> initialNodes = [
     ],
     outputs: [
       WorkflowNodeInOut(
-        'baseline-normal.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)  - Normal blood Whole Exome Sequencing (~30X-50X)',
+        'baseline-normal.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)  - Normal blood Whole Exome Sequencing (~30X-50X) or Whole Genome Sequencing (WGS)',
         'icon_file.png',
       ),
       WorkflowNodeInOut(
-        'tumor-exome.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) - Tumor biopsy Whole Exome Sequencing (~100X-500X)',
+        'tumor-exome.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format) - Tumor biopsy Whole Exome Sequencing (~100X-500X) or Whole Genome Sequencing (WGS)',
         'icon_file.png',
       ),
       WorkflowNodeInOut(
@@ -117,13 +118,13 @@ final List<WorkflowNodeData> initialNodes = [
     title: 'Step 2: Spotting the Typos',
     goal: 'Compare healthy code against tumor code to isolate cancers.',
     description:
-        'Aligns reads and mathematically subtracts healthy DNA from tumor DNA to isolate somatic mutations.',
+        'Subtracts healthy DNA from tumor DNA to isolate somatic mutations.',
     shortDescription:
-        'Aligns genetic reads and identifies cancer-specific somatic mutations.',
+        'Subtracts healthy DNA from tumor DNA to isolate mutations.',
     hardware: 'None',
     software:
-        'Take the convergent results from multiple open-source genomic analysis tools:\n1.  [GATK Mutect2](https://github.com/broadinstitute/gatk)\n2. Google\'s [DeepSomatic](https://github.com/google/deepsomatic)\n3. Illumina\'s [Strelka](https://github.com/illumina/strelka)',
-    shortSoftware: 'GATK Mutect2',
+        '1. Map reads to the reference genome using [BWA-MEM](https://github.com/lh3/bwa)\n2. Take the convergent results from multiple open-source genomic analysis tools:\n    * [GATK Mutect2](https://github.com/broadinstitute/gatk)\n    * Google\'s [DeepSomatic](https://github.com/google/deepsomatic)\n    * Illumina\'s [Strelka](https://github.com/illumina/strelka)\n3. Annotate the results using [Ensembl VEP](https://github.com/Ensembl/ensembl-vep)',
+    shortSoftware: 'GATK Mutect2, Google\'s DeepSomatic, Illumina\'s Strelka',
     parentNode: 'Part1Group',
     color: 'rose',
     iconName: 'zap',
@@ -157,7 +158,7 @@ final List<WorkflowNodeData> initialNodes = [
   WorkflowNodeData(
     id: 'NodeIn3',
     type: NodeType.data,
-    title: '2 Condensed mutation lists (.VCF)',
+    title: 'Condensed mutation lists (.VCF)',
     iconName: 'file-text',
     description:
         'somatic-variants.[VCF](https://en.wikipedia.org/wiki/Variant_Call_Format)  \nfiltered-variants.[VCF](https://en.wikipedia.org/wiki/Variant_Call_Format)',
@@ -194,7 +195,7 @@ final List<WorkflowNodeData> initialNodes = [
         'AI predicts which mutations the immune system will recognize as a threat.',
     hardware: 'None',
     software:
-        'Run [nextNEOpi](https://github.com/icbi-lab/nextNEOpi) (open-source neoantigen prediction pipeline) with 1 or more peptide-MHC binding prediction tools:\n1. [MHCflurry](https://github.com/openvax/mhcflurry) (open-source)\n2. [NetMHCpan](https://services.healthtech.dtu.dk/services/NetMHCpan-4.1/) (commercial)',
+        'Run [nextNEOpi](https://github.com/icbi-lab/nextNEOpi) (open-source neoantigen prediction pipeline) with 1 or more peptide-MHC binding prediction tools:\n1. [MHCflurry](https://github.com/openvax/mhcflurry) (open-source)\n2. [NetMHCpan](https://services.healthtech.dtu.dk/services/NetMHCpan-4.1/) (commercial) with [pVACSeq](https://pvactools.readthedocs.io/en/latest/pvacseq.html) ',
     shortSoftware: 'nextNEOpi + MHCflurry',
     parentNode: 'Part1Group',
     color: 'rose',
@@ -244,8 +245,10 @@ final List<WorkflowNodeData> initialNodes = [
         'Organizes selected cancer markers, translate into a stable genetic blueprint.',
     hardware: 'None',
     software:
-        '1. Generate protein string: [NeoDesign](https://github.com/HuangLab-Fudan/neoDesign) or [pVACvector](https://github.com/griffithlab/pVACtools)\n2. Generate multiple candidate mRNA sequences: [mRNAfold](https://github.com/maxhwardg/mRNAfold)\n3. Select best mRNA sequence: [mRNABERT](https://github.com/yyly6/mRNABERT)',
+        '1. Generate protein string: [NeoDesign](https://github.com/HuangLab-Fudan/neoDesign), [pVACvector](https://github.com/griffithlab/pVACtools) or "manually" with LLM\n2. Generate multiple candidate mRNA sequences: [mRNAfold](https://github.com/maxhwardg/mRNAfold)\n3. Select best mRNA sequence: [mRNABERT](https://github.com/yyly6/mRNABERT)',
     shortSoftware: 'NeoDesign -> mRNAfold -> mRNABERT',
+    note:
+        '**AI Role:** Advanced LLMs are useful for sequence optimization, heuristic refinement, and minimizing junctional immunogenicity.',
     parentNode: 'Part1Group',
     color: 'rose',
     iconName: 'pen-tool',
@@ -316,10 +319,7 @@ final List<WorkflowNodeData> initialNodes = [
         '[vaccine-construct.fa](https://en.wikipedia.org/wiki/FASTA_format) blueprint',
         'icon_file.png',
       ),
-      WorkflowNodeInOut(
-        'Reagents - Oligonucleotides, BspQI restriction enzymes, AMPure XP purification beads (cell-free route) or competent *E. coli* cells, LB media, miniprep kit (plasmid route)',
-        'icon_12ml.png',
-      ),
+      WorkflowNodeInOut('Reagents', 'icon_12ml.png'),
     ],
     outputs: [
       WorkflowNodeInOut(
@@ -352,9 +352,9 @@ final List<WorkflowNodeData> initialNodes = [
     id: 'Step6',
     type: NodeType.step,
     title: 'Step 6: Creating the mRNA',
-    goal: 'Transcribe DNA into functional, immune-cloaked mRNA.',
+    goal: 'Transcribe DNA into immune-cloaked mRNA.',
     description:
-        'Automated In Vitro Transcription (IVT) systems synthesize the mRNA strand from the DNA template. The process includes:\n1. DNase I digestion to remove the template\n2. multi-stage purification (e.g., magnetic beads or HPLC) to isolate pure, functional mRNA.',
+        'Automated In Vitro Transcription (IVT) systems synthesize the mRNA strand from the DNA template. The process includes:\n1. DNase I digestion to remove the template\n2. Multi-stage purification (e.g., magnetic beads or HPLC) to isolate pure, functional mRNA.',
     shortDescription:
         'Automated IVT synthesizes mRNA from DNA, followed by integrated multi-stage purification.',
     hardware:
@@ -406,7 +406,7 @@ final List<WorkflowNodeData> initialNodes = [
     goal:
         'Wrap mRNA in a protective lipid nanoparticle to allow human cell entry.',
     note:
-        '⚠️ **The Delivery System:** Calibrate microfluidic flow rates and lipid-to-mRNA ratios to ensure LNP sizes remain between 60-100nm, preventing degradation in the bloodstream.',
+        '⚠️ **The Delivery System:** Ensure LNP sizes remain between 60-100nm to prevent degradation in the bloodstream.',
     description:
         'Precise microfluidic collisions force the negatively charged mRNA and positively charged lipids to self-assemble into nanoparticles.',
     shortDescription:
@@ -451,8 +451,6 @@ final List<WorkflowNodeData> initialNodes = [
     title: 'Step 8: Quality Check and Bottling',
     goal:
         'Validate integrity, size, and concentration before finalizing for injection.',
-    note:
-        '⚠️ **Sterility and Purity:** Manufacture the final product in an ISO-certified "Clean Room" to minimize the risk of bacterial endotoxins and other contaminants.',
     description:
         'DLS verifies particles are exactly 60-100nm. TFF washes out ethanol.',
     shortDescription:
@@ -476,6 +474,8 @@ final List<WorkflowNodeData> initialNodes = [
       ),
     ],
     fileFormat: 'Final Vaccine Product',
+    note:
+        '⚠️ **Sterility and Purity:** Manufacture in an ISO-certified "Clean Room" to minimize endotoxin risk.',
   ),
   WorkflowNodeData(
     id: 'NodeEnd',

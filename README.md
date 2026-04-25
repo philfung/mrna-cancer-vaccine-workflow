@@ -24,12 +24,16 @@ Focuses on open-source, state-of-the-art software tools paired with "best-tool-f
 - [Workflow, Part 1: Upstream Digital Pipeline ("Data to Blueprint")](#workflow-part-1-upstream-digital-pipeline-data-to-blueprint)
 - [Workflow, Part 2: Downstream Physical Pipeline ("Blueprint to Vial")](#workflow-part-2-downstream-physical-pipeline-blueprint-to-vial)
 - [Web App](#web-app)
+- [Acknowledgements](#acknowledgements)
 
 # System Architecture
 
 This pipeline is divided into two continuous halves:
 1. **Data to Blueprint:** Ingests raw sequencing data, utilizes neural networks to identify immunogenic targets, and compiles a stabilized digital mRNA sequence.
 2. **Blueprint to Vial:** Converts the digital `.FASTA` sequence into physical DNA, automates In Vitro Transcription (IVT), and formulates the final LNP drug product.
+
+> [!NOTE]
+> **The Role of AI:** An advanced LLM can be useful for orchestrating the bioinformatics workflow, debugging dependency conflicts, designing multimodal treatment protocols, and navigating ethics approvals.
 
 ---
 
@@ -41,12 +45,12 @@ This pipeline is divided into two continuous halves:
 * **Alt. (Outsourced):** Tempus, Personalis, CeGaT, Novogene
 * **Est. Cost:** ~$300k fixed + ~$1k / pt (In-House) or ~$3k-$10k / pt (Outsourced Clinical)
 * **Inputs:**
-  * Tumor biopsy - at least 35mg in tissue
+  * Tumor biopsy - at least 35mg in tissue (from immediate dry ice storage)
   * Normal blood (healthy baseline) - standard 4ml EDTA tube
 * **Process:** The machine reads extracted DNA/RNA, turning biological chemistry into digital text.
 * **Outputs:**
-  1. `baseline-normal.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)` - Normal blood Whole Exome Sequencing (~30X-50X)
-  2. `tumor-exome.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)` - Tumor biopsy Whole Exome Sequencing (~100X-500X)
+  1. `baseline-normal.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)` - Normal blood Whole Exome Sequencing (~30X-50X) or Whole Genome Sequencing (WGS)
+  2. `tumor-exome.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)` - Tumor biopsy Whole Exome Sequencing (~100X-500X) or Whole Genome Sequencing (WGS)
   3. `tumor-rna.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)` - Tumor biopsy RNA-Seq (~50M-100M reads).
   4. `tumor-rna-quantification.tsv` - Tumor gene expression levels. Made using [Salmon / Kallisto](https://learn.gencore.bio.nyu.edu/rna-seq-analysis/salmon-kallisto-rapid-transcript-quantification-for-rna-seq-data/) on the FASTQ file.
   5. `[patient-hla.txt](https://support.illumina.com/content/dam/illumina-support/help/BaseSpace_App_WGS_v6_OLH_15050955_03/Content/Source/Informatics/Apps/HLATypingFormat_appISCWGS.htm#)` - Patient HLA profile (MHC Class I & II typing). Made using [OptiType](https://github.com/nf-core/hlatyping) or [HLA-HD](https://github.com/TRON-Bioinformatics/tronflow-hla-hd) on baseline-normal.FASTQ
@@ -55,15 +59,18 @@ This pipeline is divided into two continuous halves:
 ## Step 2: Spotting the Typos
 **Goal:** Compare healthy code against tumor code to isolate cancers.
 * **Hardware:** None
-* **Software:** Take the convergent results from multiple open-source genomic analysis tools:
-  1. [GATK Mutect2](https://github.com/broadinstitute/gatk)
-  2. Google's [DeepSomatic](https://github.com/google/deepsomatic)
-  3. Illumina's [Strelka](https://github.com/illumina/strelka)
+* **Software Pipeline:**
+  1. **Alignment:** Map raw reads to the reference genome using [BWA-MEM](https://github.com/lh3/BWA).
+  2. **Variant Calling (Ensemble):** Take the convergent results from multiple models to isolate somatic mutations:
+     * [GATK Mutect2](https://github.com/broadinstitute/gatk) (Bayesian somatic model)
+     * Google's [DeepSomatic](https://github.com/google/deepsomatic)
+     * Illumina's [Strelka](https://github.com/illumina/strelka)
+  3. **Annotation:** Add biological context to the identified mutations using [Ensembl VEP](https://github.com/Ensembl/ensembl-vep).
 * **Inputs:** `baseline-normal.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)`, `tumor-exome.[FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)`, `Human Reference Genome (.[FASTA](https://en.wikipedia.org/wiki/FASTA_format))`
-* **Process:** Aligns reads and mathematically subtracts healthy DNA from tumor DNA to isolate somatic mutations.
+* **Process:** Aligns reads, mathematically subtracts healthy DNA from tumor DNA to isolate somatic mutations, and annotates the results.
 * **Outputs:**
   1. `somatic-variants.[VCF](https://en.wikipedia.org/wiki/Variant_Call_Format)` - All raw mutation candidates
-  2. `filtered-variants.[VCF](https://en.wikipedia.org/wiki/Variant_Call_Format)` - High-confidence, tumor-only mutations
+  2. `filtered-variants.[VCF](https://en.wikipedia.org/wiki/Variant_Call_Format)` - High-confidence, tumor-only mutations (annotated)
 * **File Format:** `.[VCF](https://en.wikipedia.org/wiki/Variant_Call_Format)`
 
 ## Step 3: Picking the Targets
@@ -71,9 +78,9 @@ This pipeline is divided into two continuous halves:
 * **Hardware:** None
 * **Software:** Run [nextNEOpi](https://github.com/icbi-lab/nextNEOpi) (open-source neoantigen prediction pipeline) with 1 or more peptide-MHC binding prediction tools:
   1. [MHCflurry](https://github.com/openvax/mhcflurry) (open-source)
-  2. [NetMHCpan](https://services.healthtech.dtu.dk/services/NetMHCpan-4.1/) (commercial)
+  2. [NetMHCpan](https://services.healthtech.dtu.dk/services/NetMHCpan-4.1/) (commercial) with [pVACSeq](https://pvactools.readthedocs.io/en/latest/pvacseq.html) 
 * **Inputs:** `filtered-variants.[VCF](https://en.wikipedia.org/wiki/Variant_Call_Format)`, `[Patient HLA profile](https://support.illumina.com/content/dam/illumina-support/help/BaseSpace_App_WGS_v6_OLH_15050955_03/Content/Source/Informatics/Apps/HLATypingFormat_appISCWGS.htm#) (.txt)`, `tumor-rna-quantification.tsv` - Filter candidates by expression level
-* **Process:** Neural networks predict which mutations will most effectively trigger an immune response based on the patient HLA receptors.
+* **Process:** Neural networks predict which mutations will most effectively trigger an immune response based on the patient HLA receptors (or equivalent, such as DLA for dogs). Crucially, DNA-predicted targets must be validated against RNA sequencing data to confirm the mutations are actively being expressed by the tumor. Only epitopes with confirmed RNA expression are retained as candidates.
 * **Outputs:** `[ranked-predictions.tsv](https://pvactools.readthedocs.io/en/7.0.0_docs/pvacseq/output_files.html)` - Leaderboard of best targets
 * **File Format:** `.tsv`
 
@@ -81,11 +88,11 @@ This pipeline is divided into two continuous halves:
 **Goal:** Compile the top predicted targets into a printable digital blueprint.
 * **Hardware:** None
 * **Software:** 
-  1. Generate protein string: [NeoDesign](https://github.com/HuangLab-Fudan/neoDesign) or [pVACvector](https://github.com/griffithlab/pVACtools)
+  1. Generate protein string: [NeoDesign](https://github.com/HuangLab-Fudan/neoDesign), [pVACvector](https://github.com/griffithlab/pVACtools), or use an advanced LLM (e.g., Gemini / Grok)
   2. Generate multiple candidate mRNA sequences: [mRNAfold](https://github.com/maxhwardg/mRNAfold)
   3. Select best mRNA sequence: [mRNABERT](https://github.com/yyly6/mRNABERT)
 * **Inputs:** Top targets from `[ranked-predictions.tsv](https://pvactools.readthedocs.io/en/7.0.0_docs/pvacseq/output_files.html)`
-* **Process:** Organize the cancer markers into a safe, logical order and then translate those instructions into a highly stable genetic "recipe."
+* **Process:** Organize the cancer markers into a safe, logical order and then translate those instructions into a highly stable genetic "recipe." (Advanced LLMs can be utilized here for heuristic refinement, selecting optimized linkers, and minimizing junctional immunogenicity.)
 * **Outputs:** `[vaccine-construct.fa](https://en.wikipedia.org/wiki/FASTA_format)` - Master mRNA sequence
 * **File Format:** `.fa`
 
@@ -149,6 +156,17 @@ This pipeline is divided into two continuous halves:
 * **Outputs:** 10 x 1.0 mL sterile glass vials (approx. 10 doses)
 * **File Format:** Final Vaccine Product
 
+## Step 9: Administration & Multi-Modal Protocol
+**Goal:** Ensure the vaccine can successfully breach the tumor's defenses and train the immune system.
+
+> [!WARNING]
+> **The Tumor Microenvironment:** A tumor actively builds a suppressive microenvironment to hide from and disable the immune system. An mRNA vaccine alone may be ineffective if these "shields" remain up.
+
+* **Process:** The administration of a personalized mRNA vaccine is often part of a broader, multimodal treatment protocol designed to disable the cancer's defense mechanisms. For example, a treatment protocol with critical sequence and timing could include:
+  1. **Personalized mRNA Vaccine:** Trains T-cells to recognize and attack specific tumor neoantigens.
+  2. **Tyrosine Kinase Inhibitor (TKI):** Targets the tumor's supply infrastructure by blocking angiogenesis (blood vessel growth) and providing foundational anti-tumor pressure.
+  3. **PD-1 Checkpoint Inhibitor:** Prevents the tumor from sending a "stand down" signal to attacking T-cells. This removes the brakes from the immune system, unleashing their full killing potential against the cancer.
+
 ---
 
 # Web App
@@ -175,6 +193,25 @@ The interactive workflow is a Vite-based application. To run it:
     flutter build web --release --base-href "/open-mrna/" <--wasm>
     ```
     The website will be available in the build/web folder
+
+---
+
+# Acknowledgements
+
+This is heavily inspired by [Paul S Conyngham's](https://x.com/paul_conyngham/status/2036940410363535823) valiant effort in developing a personalized mRNA vaccine for his dog, Rosie.
+
+Thanks to the open-source and bioinformatics communities for these critical tools (ordered roughly by popularity):
+* **[BWA / BWA-MEM](https://github.com/lh3/BWA)**: The industry standard for sequence alignment.
+* **[GATK (Mutect2)](https://github.com/broadinstitute/gatk)**: The gold standard for variant calling and discovery.
+* **[Ensembl VEP](https://github.com/Ensembl/ensembl-vep)**: For comprehensive variant annotation.
+* **[Salmon / Kallisto](https://learn.gencore.bio.nyu.edu/rna-seq-analysis/salmon-kallisto-rapid-transcript-quantification-for-rna-seq-data/)**: For rapid transcript quantification.
+* **[NetMHCpan](https://services.healthtech.dtu.dk/services/NetMHCpan-4.1/)**: For state-of-the-art peptide-MHC binding prediction.
+* **[Strelka](https://github.com/illumina/strelka) / [DeepSomatic](https://github.com/google/deepsomatic)**: For high-accuracy somatic variant calling.
+* **[pVACseq / pVACtools](https://pvactools.readthedocs.io/en/latest/pvacseq.html)**: For streamlining neoantigen identification.
+* **[OptiType](https://github.com/nf-core/hlatyping) / [HLA-HD](https://github.com/TRON-Bioinformatics/tronflow-hla-hd)**: For precision HLA typing.
+* **[MHCflurry](https://github.com/openvax/mhcflurry)**: For open-source MHC class I binding predictions.
+* **[nextNEOpi](https://github.com/icbi-lab/nextNEOpi)**: For an integrated neoantigen prediction pipeline.
+* **[NeoDesign](https://github.com/HuangLab-Fudan/neoDesign) / [mRNAfold](https://github.com/maxhwardg/mRNAfold) / [mRNABERT](https://github.com/yyly6/mRNABERT)**: For downstream mRNA sequence optimization and modeling.
 
 ---
 
