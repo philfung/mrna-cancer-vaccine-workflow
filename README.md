@@ -33,11 +33,6 @@ This pipeline is divided into two continuous halves:
 1. **Data to Blueprint:** Ingests raw sequencing data, utilizes neural networks to identify immunogenic targets, and compiles a stabilized digital mRNA sequence.
 2. **Blueprint to Vial:** Converts the digital `.FASTA` sequence into physical DNA, automates In Vitro Transcription (IVT), and formulates the final LNP drug product.
 
-> [!NOTE]
-> **The Role of AI:** An advanced LLM can be useful for orchestrating the bioinformatics workflow, debugging dependency conflicts, designing multimodal treatment protocols, and navigating ethics approvals.
-> [!NOTE]
-> **The Role of the Tumor Microenvironment (TME):** In order to overcome the tumor microenvironment, other strategies may need to be considered in parallel with vaccine therapy, such as use of Tyrosine Kinase Inhibitors (TKIs) and PD-1 inhibitors.
-
 ---
 
 # Workflow, Part 1: Upstream Digital Pipeline ("Data to Blueprint")
