@@ -73,12 +73,12 @@ class WorkflowDetailView extends ConsumerWidget {
                       stepNode.description ?? '',
                       scale,
                     ),
-                    SizedBox(height: 10 * scale),
+                    SizedBox(height: 8 * scale),
 
                     if (stepNode.note != null) ...[
                       _buildSectionTitle('NOTE', scale),
                       _buildDescription(context, stepNode.note!, scale),
-                      SizedBox(height: 10 * scale),
+                      SizedBox(height: 8 * scale),
                     ],
 
                     LayoutBuilder(
@@ -142,7 +142,7 @@ class WorkflowDetailView extends ConsumerWidget {
                                   child: Image.asset(
                                     stepNode.image!,
                                     width: double.infinity,
-                                    height: 200 * scale,
+                                    height: 150 * scale,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -156,13 +156,13 @@ class WorkflowDetailView extends ConsumerWidget {
                           children: [
                             Expanded(child: textColumn),
                             if (stepNode.image != null) ...[
-                              SizedBox(width: 16 * scale),
+                              SizedBox(width: 12 * scale),
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(8 * scale),
                                 child: Image.asset(
                                   stepNode.image!,
-                                  width: 120 * scale,
-                                  height: 120 * scale,
+                                  width: 80 * scale,
+                                  height: 80 * scale,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -240,13 +240,6 @@ class WorkflowDetailView extends ConsumerWidget {
                       context,
                       'lib/assets/icons/icon_vaccine.png',
                       'Finished Vaccine: 10 doses of sterile, personalized mRNA-LNP formulation.',
-                      scale,
-                    ),
-                    SizedBox(height: 16 * scale),
-                    _buildSectionTitle('NOTE', scale),
-                    _buildDescription(
-                      context,
-                      'In order to overcome the tumor microenvironment, other strategies may need to be considered in parallel, such as use of Tyrosine Kinase Inhibitors (TKIs) and PD-1 inhibitors.',
                       scale,
                     ),
                   ] else ...[
@@ -526,7 +519,7 @@ class WorkflowDetailView extends ConsumerWidget {
     double scale,
   ) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 16 * scale),
+      padding: EdgeInsets.only(bottom: 12 * scale),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -538,7 +531,7 @@ class WorkflowDetailView extends ConsumerWidget {
             ),
             child: Icon(icon, size: 16 * scale, color: Colors.grey[400]),
           ),
-          SizedBox(width: 16 * scale),
+          SizedBox(width: 12 * scale),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

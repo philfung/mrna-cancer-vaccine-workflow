@@ -24,6 +24,7 @@ Focuses on open-source, state-of-the-art software tools paired with "best-tool-f
 - [Workflow, Part 1: Upstream Digital Pipeline ("Data to Blueprint")](#workflow-part-1-upstream-digital-pipeline-data-to-blueprint)
 - [Workflow, Part 2: Downstream Physical Pipeline ("Blueprint to Vial")](#workflow-part-2-downstream-physical-pipeline-blueprint-to-vial)
 - [Web App](#web-app)
+- [Tips and Considerations](#tips-and-considerations)
 - [Acknowledgements](#acknowledgements)
 
 # System Architecture
@@ -34,6 +35,8 @@ This pipeline is divided into two continuous halves:
 
 > [!NOTE]
 > **The Role of AI:** An advanced LLM can be useful for orchestrating the bioinformatics workflow, debugging dependency conflicts, designing multimodal treatment protocols, and navigating ethics approvals.
+> [!NOTE]
+> **The Role of the Tumor Microenvironment (TME):** In order to overcome the tumor microenvironment, other strategies may need to be considered in parallel with vaccine therapy, such as use of Tyrosine Kinase Inhibitors (TKIs) and PD-1 inhibitors.
 
 ---
 
@@ -195,6 +198,14 @@ The interactive workflow is a Vite-based application. To run it:
     The website will be available in the build/web folder
 
 ---
+
+# Tips and Considerations
+
+### The Role of AI
+An advanced LLM can be useful for orchestrating the bioinformatics workflow, debugging dependency conflicts, designing multimodal treatment protocols, and navigating ethics approvals.
+
+### Other Strategies
+In order to overcome the tumor microenvironment, other strategies may need to be considered in parallel with vaccine therapy, such as use of Tyrosine Kinase Inhibitors (TKIs) and PD-1 inhibitors.
 
 # Acknowledgements
 

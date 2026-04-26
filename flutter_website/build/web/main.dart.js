@@ -72437,48 +72437,49 @@ $0(){A.akG("understand_click",null)
 A.xM(this.a,!1).de()},
 $S:0}
 A.LB.prototype={
-BN(a1,a2){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e=this,d=null,c={},b=a2.SK($.uB(),t.VK),a=b.gabe(),a0=A.pl(a1)
-c.a=null
-try{s=c.a=B.b.lR(b.b,new A.abp(a))}catch(r){s=c.a=null}q=A.b([new A.f2(0,B.cu,A.am(5,B.k.v()>>>16&255,B.k.v()>>>8&255,B.k.v()&255),B.Hc,10)],t.sq)
-p=a
-o=24*a0
-n=5*a0
-m=2*a0
+BN(a2,a3){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d=this,c=null,b={},a=a3.SK($.uB(),t.VK),a0=a.gabe(),a1=A.pl(a2)
+b.a=null
+try{s=b.a=B.b.lR(a.b,new A.abp(a0))}catch(r){s=b.a=null}q=A.b([new A.f2(0,B.cu,A.am(5,B.k.v()>>>16&255,B.k.v()>>>8&255,B.k.v()&255),B.Hc,10)],t.sq)
+p=a0
+o=24*a1
+n=5*a1
+m=2*a1
 l=A.am(B.d.ag(25.5),B.ae.v()>>>16&255,B.ae.v()>>>8&255,B.ae.v()&255)
-k=6*a0
+k=6*a1
 j=A.dq(k)
-i=10*a0
+i=10*a1
 h=t.p
-p=A.cX(A.e8(A.b([A.cX(A.ei(p.c.toUpperCase(),d,A.e3().$4$color$fontSize$fontWeight$letterSpacing(B.ae,i,B.aj,1.2*a0),d),B.r,d,d,new A.cb(l,d,d,j,d,d,B.S),d,d,d,new A.ax(a0,m,a0,m),d),A.bT(d,k,d),A.alo(B.ej,A.ei(p.b,d,A.po().$4$color$fontSize$fontWeight$height(B.j,22*a0,B.aj,1.2),d),B.em)],h),B.M,B.P),B.r,d,d,B.y7,d,d,d,new A.ax(o,n,o,n),1/0)
-k=20*a0
+p=A.cX(A.e8(A.b([A.cX(A.ei(p.c.toUpperCase(),c,A.e3().$4$color$fontSize$fontWeight$letterSpacing(B.ae,i,B.aj,1.2*a1),c),B.r,c,c,new A.cb(l,c,c,j,c,c,B.S),c,c,c,new A.ax(a1,m,a1,m),c),A.bT(c,k,c),A.alo(B.ej,A.ei(p.b,c,A.po().$4$color$fontSize$fontWeight$height(B.j,22*a1,B.aj,1.2),c),B.em)],h),B.M,B.P),B.r,c,c,B.y7,c,c,c,new A.ax(o,n,o,n),1/0)
+k=20*a1
 m=A.b([],h)
-if(s!=null){l=e.ji("GOAL",a0)
+if(s!=null){l=d.ji("GOAL",a1)
 j=s.f
-j=e.tu(a1,j==null?"":j,a0)
-n=A.bT(d,n,d)
-g=e.ji("PROCESS",a0)
+j=d.tu(a2,j==null?"":j,a1)
+n=A.bT(c,n,c)
+g=d.ji("PROCESS",a1)
 f=s.d
-n=A.b([l,j,n,g,e.mM(a1,f==null?"":f,a0),A.bT(d,i,d)],h)
+e=8*a1
+f=A.b([l,j,n,g,d.mM(a2,f==null?"":f,a1),A.bT(c,e,c)],h)
 s=s.r
-if(s!=null)B.b.I(n,A.b([e.ji("NOTE",a0),e.mM(a1,s,a0),A.bT(d,i,d)],h))
-n.push(A.alP(new A.abq(c,e,a0)))
-n.push(A.bT(d,8*a0,d))
-s=c.a.dy
-if(s!=null&&s.length!==0){s=A.b([e.ji("INPUTS",a0)],h)
-l=c.a.dy
-l.toString
-B.b.I(s,new A.Z(l,new A.abr(e,a1,a0),A.U(l).h("Z<1,h>")))
-s.push(A.bT(d,i,d))
-B.b.I(n,s)}s=c.a.fr
-if(s!=null&&s.length!==0){s=A.b([e.ji("OUTPUTS",a0)],h)
-c=c.a.fr
-c.toString
-B.b.I(s,new A.Z(c,new A.abs(e,a1,a0),A.U(c).h("Z<1,h>")))
-s.push(A.bT(d,i,d))
-B.b.I(n,s)}B.b.I(m,n)}else if(a.a===1){c=16*a0
-B.b.I(m,A.b([e.tu(a1,"Obtain Biological Starting Material",a0),A.bT(d,c,d),e.mM(a1,"Two patient samples are required to initiate the vaccine manufacturing process:",a0),A.bT(d,c,d),e.ji("REQUIRED SAMPLES",a0),e.yu(a1,"lib/assets/icons/icon_tissue.png","Tumor Biopsy: Provides tumor DNA & RNA to identify cancer-specific somatic mutations (neoantigens) unique to the patient.",a0),e.yu(a1,"lib/assets/icons/icon_blood.png","Normal Blood: Serves as a healthy genetic reference to filter out inherited (germline) mutations and isolate immune cells for HLA typing.",a0)],h))}else{c=16*a0
-if(a.a===10)B.b.I(m,A.b([e.tu(a1,"Final Vaccine Formulation",a0),A.bT(d,c,d),e.mM(a1,"The personalized mRNA vaccine formulation encapsulated in lipid nanoparticles.",a0),A.bT(d,c,d),e.ji("FINAL PRODUCT",a0),e.yu(a1,"lib/assets/icons/icon_vaccine.png","Finished Vaccine: 10 doses of sterile, personalized mRNA-LNP formulation.",a0),A.bT(d,c,d),e.ji("NOTE",a0),e.mM(a1,"In order to overcome the tumor microenvironment, other strategies may need to be considered in parallel, such as use of Tyrosine Kinase Inhibitors (TKIs) and PD-1 inhibitors.",a0)],h))
-else B.b.I(m,A.b([e.tu(a1,"Overview of required inputs and baseline data.",a0),A.bT(d,c,d),e.mM(a1,"This stage prepares the necessary patient samples and reference data required for the digital pipeline.",a0)],h))}return A.cX(A.e8(A.b([p,A.l0(A.amn(A.e8(m,B.M,B.P),d,new A.ax(o,k,o,k),B.aW)),e.Z9(a1,a2,b,a0)],h),B.M,B.P),B.r,d,d,new A.cb(B.hB,d,new A.cF(B.q,new A.bp(B.hm,1,B.z,-1),B.q,B.q),d,q,d,B.S),d,d,d,d,1/0)},
+if(s!=null)B.b.I(f,A.b([d.ji("NOTE",a1),d.mM(a2,s,a1),A.bT(c,e,c)],h))
+f.push(A.alP(new A.abq(b,d,a1)))
+f.push(A.bT(c,e,c))
+s=b.a.dy
+if(s!=null&&s.length!==0){s=A.b([d.ji("INPUTS",a1)],h)
+n=b.a.dy
+n.toString
+B.b.I(s,new A.Z(n,new A.abr(d,a2,a1),A.U(n).h("Z<1,h>")))
+s.push(A.bT(c,i,c))
+B.b.I(f,s)}s=b.a.fr
+if(s!=null&&s.length!==0){s=A.b([d.ji("OUTPUTS",a1)],h)
+b=b.a.fr
+b.toString
+B.b.I(s,new A.Z(b,new A.abs(d,a2,a1),A.U(b).h("Z<1,h>")))
+s.push(A.bT(c,i,c))
+B.b.I(f,s)}B.b.I(m,f)}else if(a0.a===1){b=16*a1
+B.b.I(m,A.b([d.tu(a2,"Obtain Biological Starting Material",a1),A.bT(c,b,c),d.mM(a2,"Two patient samples are required to initiate the vaccine manufacturing process:",a1),A.bT(c,b,c),d.ji("REQUIRED SAMPLES",a1),d.yu(a2,"lib/assets/icons/icon_tissue.png","Tumor Biopsy: Provides tumor DNA & RNA to identify cancer-specific somatic mutations (neoantigens) unique to the patient.",a1),d.yu(a2,"lib/assets/icons/icon_blood.png","Normal Blood: Serves as a healthy genetic reference to filter out inherited (germline) mutations and isolate immune cells for HLA typing.",a1)],h))}else{b=16*a1
+if(a0.a===10)B.b.I(m,A.b([d.tu(a2,"Final Vaccine Formulation",a1),A.bT(c,b,c),d.mM(a2,"The personalized mRNA vaccine formulation encapsulated in lipid nanoparticles.",a1),A.bT(c,b,c),d.ji("FINAL PRODUCT",a1),d.yu(a2,"lib/assets/icons/icon_vaccine.png","Finished Vaccine: 10 doses of sterile, personalized mRNA-LNP formulation.",a1),A.bT(c,b,c),d.ji("NOTE",a1),d.mM(a2,"In order to overcome the tumor microenvironment, other strategies may need to be considered in parallel, such as use of Tyrosine Kinase Inhibitors (TKIs) and PD-1 inhibitors.",a1)],h))
+else B.b.I(m,A.b([d.tu(a2,"Overview of required inputs and baseline data.",a1),A.bT(c,b,c),d.mM(a2,"This stage prepares the necessary patient samples and reference data required for the digital pipeline.",a1)],h))}return A.cX(A.e8(A.b([p,A.l0(A.amn(A.e8(m,B.M,B.P),c,new A.ax(o,k,o,k),B.aW)),d.Z9(a2,a3,a,a1)],h),B.M,B.P),B.r,c,c,new A.cb(B.hB,c,new A.cF(B.q,new A.bp(B.hm,1,B.z,-1),B.q,B.q),c,q,c,B.S),c,c,c,c,1/0)},
 Z9(a,b,c,d){var s=null,r=24*d,q=20*d,p=A.b([],t.p),o=c.a
 if(o>1)p.push(new A.jw(B.ej,s,s,new A.xH(B.G2,new A.abm(c,b),!1,s,A.am(38,B.ae.v()>>>16&255,B.ae.v()>>>8&255,B.ae.v()&255),s),s))
 $.Em()
@@ -72491,8 +72492,8 @@ HQ(a,b,c,d){var s=null,r=32*c
 return new A.cP(new A.ax(0,0,0,10*c),A.fi(A.b([A.qm("lib/assets/icons/"+b.b,s,s,r,r),A.bT(s,s,12*c),A.l0(A.iR(b.a,new A.abo(),this.u3(a,A.e3().$3$color$fontSize$fontWeight(B.c0,13*c,B.B),c)))],t.p),B.M,B.ar,B.P,s),s)},
 yu(a,b,c,d){var s=null,r=12*d,q=48*d
 return new A.cP(new A.ax(0,0,0,r),A.fi(A.b([A.qm(b,s,s,q,q),A.bT(s,s,r),A.l0(A.iR(c,new A.abl(),this.u3(a,A.e3().$3$color$fontSize$fontWeight(B.c0,14*d,B.B),d)))],t.p),B.M,B.ar,B.P,s),s)},
-tt(a,b,c,d,e){var s=null,r=16*e,q=8*e,p=A.dq(q),o=t.p
-return new A.cP(new A.ax(0,0,0,r),A.fi(A.b([A.cX(A.He(b,B.c_,s,r),B.r,s,s,new A.cb(B.hm,s,s,p,s,s,B.S),s,s,s,new A.ax(q,q,q,q),s),A.bT(s,s,r),A.l0(A.e8(A.b([A.ei(c.toUpperCase(),s,A.e3().$3$color$fontSize$fontWeight(B.eB,11*e,B.B),s),A.iR(d,new A.abk(),this.u3(a,A.e3().$3$color$fontSize$fontWeight(B.j,12*e,B.B),e))],o),B.M,B.P))],o),B.M,B.ar,B.P,s),s)},
+tt(a,b,c,d,e){var s=null,r=12*e,q=8*e,p=A.dq(q),o=t.p
+return new A.cP(new A.ax(0,0,0,r),A.fi(A.b([A.cX(A.He(b,B.c_,s,16*e),B.r,s,s,new A.cb(B.hm,s,s,p,s,s,B.S),s,s,s,new A.ax(q,q,q,q),s),A.bT(s,s,r),A.l0(A.e8(A.b([A.ei(c.toUpperCase(),s,A.e3().$3$color$fontSize$fontWeight(B.eB,11*e,B.B),s),A.iR(d,new A.abk(),this.u3(a,A.e3().$3$color$fontSize$fontWeight(B.j,r,B.B),e))],o),B.M,B.P))],o),B.M,B.ar,B.P,s),s)},
 u3(a,b,c){return A.alV(A.aA(a)).ab2(b.OK(B.bL,B.e5,A.am(B.d.ag(127.5),B.bL.v()>>>16&255,B.bL.v()>>>8&255,B.bL.v()&255)),8*c,b,20*c,b,B.X)}}
 A.abp.prototype={
 $1(a){return a.b===B.bb&&B.b.u(this.a.d,a.a)},
@@ -72509,11 +72510,11 @@ if(l!=null)n.push(p.tt(a,B.G4,"Est. Cost",l,q))
 s=A.e8(n,B.M,B.P)
 if(b.b<340*q){p=A.b([s],o)
 n=m.a.ay
-if(n!=null)B.b.I(p,A.b([A.bT(r,10*q,r),A.Vx(A.dq(8*q),A.qm(n,r,B.hf,200*q,1/0))],o))
+if(n!=null)B.b.I(p,A.b([A.bT(r,10*q,r),A.Vx(A.dq(8*q),A.qm(n,r,B.hf,150*q,1/0))],o))
 return A.e8(p,B.M,B.P)}p=A.b([A.l0(s)],o)
 n=m.a.ay
-if(n!=null){m=120*q
-B.b.I(p,A.b([A.bT(r,r,16*q),A.Vx(A.dq(8*q),A.qm(n,r,B.hf,m,m))],o))}return A.fi(p,B.M,B.ar,B.P,r)},
+if(n!=null){m=80*q
+B.b.I(p,A.b([A.bT(r,r,12*q),A.Vx(A.dq(8*q),A.qm(n,r,B.hf,m,m))],o))}return A.fi(p,B.M,B.ar,B.P,r)},
 $S:473}
 A.abr.prototype={
 $1(a){return this.a.HQ(this.b,a,this.c,!1)},
