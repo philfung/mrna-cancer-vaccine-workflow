@@ -247,8 +247,6 @@ final List<WorkflowNodeData> initialNodes = [
     software:
         '1. Generate protein string: [NeoDesign](https://github.com/HuangLab-Fudan/neoDesign), [pVACvector](https://github.com/griffithlab/pVACtools) or "manually" with LLM\n2. Generate multiple candidate mRNA sequences: [mRNAfold](https://github.com/maxhwardg/mRNAfold)\n3. Select best mRNA sequence: [mRNABERT](https://github.com/yyly6/mRNABERT)',
     shortSoftware: 'NeoDesign -> mRNAfold -> mRNABERT',
-    note:
-        '**AI Role:** Advanced LLMs are useful for sequence optimization, heuristic refinement, and minimizing junctional immunogenicity.',
     parentNode: 'Part1Group',
     color: 'rose',
     iconName: 'pen-tool',
