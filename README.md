@@ -193,20 +193,20 @@ The administration of a personalized mRNA vaccine is often part of a broader, mu
 
 # Acknowledgements
 
-This is heavily inspired by [Paul S Conyngham's](https://x.com/paul_conyngham/status/2036940410363535823) valiant effort in developing a personalized mRNA vaccine for his dog, Rosie.
+1. This is **heavily inspired** by [Paul S Conyngham's](https://x.com/paul_conyngham/status/2036940410363535823) valiant effort in developing a personalized mRNA vaccine for his dog, Rosie.
 
-Thanks to the open-source and bioinformatics communities for these critical tools (ordered roughly by popularity):
+2. Thanks to the open-source and bioinformatics communities for these critical tools:
 * **[BWA / BWA-MEM](https://github.com/lh3/BWA)**: The industry standard for sequence alignment.
-* **[GATK (Mutect2)](https://github.com/broadinstitute/gatk)**: The gold standard for variant calling and discovery.
 * **[Ensembl VEP](https://github.com/Ensembl/ensembl-vep)**: For comprehensive variant annotation.
-* **[Salmon / Kallisto](https://learn.gencore.bio.nyu.edu/rna-seq-analysis/salmon-kallisto-rapid-transcript-quantification-for-rna-seq-data/)**: For rapid transcript quantification.
-* **[NetMHCpan](https://services.healthtech.dtu.dk/services/NetMHCpan-4.1/)**: For state-of-the-art peptide-MHC binding prediction.
-* **[Strelka](https://github.com/illumina/strelka) / [DeepSomatic](https://github.com/google/deepsomatic)**: For high-accuracy somatic variant calling.
-* **[pVACseq / pVACtools](https://pvactools.readthedocs.io/en/latest/pvacseq.html)**: For streamlining neoantigen identification.
-* **[OptiType](https://github.com/nf-core/hlatyping) / [HLA-HD](https://github.com/TRON-Bioinformatics/tronflow-hla-hd)**: For precision HLA typing.
+* **[GATK (Mutect2)](https://github.com/broadinstitute/gatk)**: The gold standard for variant calling and discovery.
 * **[MHCflurry](https://github.com/openvax/mhcflurry)**: For open-source MHC class I binding predictions.
-* **[nextNEOpi](https://github.com/icbi-lab/nextNEOpi)**: For an integrated neoantigen prediction pipeline.
 * **[NeoDesign](https://github.com/HuangLab-Fudan/neoDesign) / [mRNAfold](https://github.com/maxhwardg/mRNAfold) / [mRNABERT](https://github.com/yyly6/mRNABERT)**: For downstream mRNA sequence optimization and modeling.
+* **[NetMHCpan](https://services.healthtech.dtu.dk/services/NetMHCpan-4.1/)**: For state-of-the-art peptide-MHC binding prediction.
+* **[nextNEOpi](https://github.com/icbi-lab/nextNEOpi)**: For an integrated neoantigen prediction pipeline.
+* **[OptiType](https://github.com/nf-core/hlatyping) / [HLA-HD](https://github.com/TRON-Bioinformatics/tronflow-hla-hd)**: For precision HLA typing.
+* **[pVACseq / pVACtools](https://pvactools.readthedocs.io/en/latest/pvacseq.html)**: For streamlining neoantigen identification.
+* **[Salmon / Kallisto](https://learn.gencore.bio.nyu.edu/rna-seq-analysis/salmon-kallisto-rapid-transcript-quantification-for-rna-seq-data/)**: For rapid transcript quantification.
+* **[Strelka](https://github.com/illumina/strelka) / [DeepSomatic](https://github.com/google/deepsomatic)**: For high-accuracy somatic variant calling.
 
 ---
 
